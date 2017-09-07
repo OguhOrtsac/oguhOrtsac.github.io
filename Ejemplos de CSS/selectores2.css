@@ -1,0 +1,27 @@
+/* Selector universal */
+
+*{
+  font-family: Arial;  
+}
+
+.subtitulo{
+    color: blue;
+}
+
+#intro{
+    font-weight: bold;
+}
+
+ div > p{        /* solo el  se le aplica a todos los parrafos   */
+    color: blue;
+}
+
+article{
+    border: 1px solid green;
+    margin: 30px 20px 10px 5px;
+    padding: 50px;
+}
+
+
+/* Si es un article > p se le aplica a los 2 primeros porque estan dentro de un articulo */
+/* si esta en un div p se le aplica a los dentro del div pero con > no se le aplica a nadie porque no es hijo directo */

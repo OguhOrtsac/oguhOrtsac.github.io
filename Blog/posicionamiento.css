@@ -1,0 +1,31 @@
+
+*{
+    color: blue;
+    margin: 0;
+}
+
+#relativo{
+    position: relative;
+    top: 20px;
+    left: 30px;
+}
+
+
+body{
+    background-color: lightsalmon;
+}
+
+#p1, #p2{
+    float: left;
+    width: 100px;
+}
+
+#p3{
+    clear: left;
+}
+
+#contenedor{
+background: white;
+margin: 20px;
+width: 600px;
+}

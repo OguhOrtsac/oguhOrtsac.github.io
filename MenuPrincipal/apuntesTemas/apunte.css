@@ -1,0 +1,32 @@
+h1{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    align-self: auto;
+    color: #00B128;
+
+}
+
+ #titulo{
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
+    color: #590047;
+
+}
+
+div{
+
+    margin: 100px 60px;
+}
+
+body{
+    background-color: #BFBFBF;
+}
+
+#modelo{  
+    margin-left: auto;
+    margin-right: auto;
+}
+

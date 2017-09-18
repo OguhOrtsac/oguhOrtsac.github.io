@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Formularios
+        </title>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <h2>  Ejemplos de formularios     </h2>
+       
+       
+       <!-- <form action="https://www.w3schools.com/action_page.php"
+              method="GET"> 
+     
+    
+   
+       <form  method="POST">
+         -->
+    <form action="https://tecweb-acominf.c9users.io/envio.php"
+         method="POST">
+       <fieldset>
+            <legend>  Datos personales </legend><br>
+                <label>
+                Nombre:<input type="text" name="nombreUsuario" placeholder="Nombre y Apellidos">                 <!-- Cuando le haces clic a la etiqueta te posiciona en el texbox-->
+                </label>  <br> <br>
+                <label for="idContraseña">                                                                                   <!--asocia con ayuda de una etiqueta-->
+                Contraseña:</label > <input type="password" name="Contraseña" id="idContraseña" required> <br><br>                <!--required significa que es el campo obligatorio-->
+                Edad: <input type="number" name="edadDelUsuario" value="22">   <br><br>
+                Foto de perfil:  <input type="file" name="foto">   <br><br>                                         <!--subir foto, solo aparecia el nombre en la pag-->
+                Fecha de nacimiento: <input type="date" name="fecha"><br><br>     
+
+                Estado de origen: 
+                <select name="Estado"> <!-- combobox-->
+                    <option value="SLP"> San Luis Potosi</option>
+                    <option value="Qto"> Queretaro</option>
+                    <option value="MTY"> Monterrey</option>
+                    <option> Houston </option>
+                 </select>  <br><br> 
+                 Materias cursadas:<br>
+                 <select name="Materias[]" multiple> <!-- Multiple es un atributo que deja elegir varios con la tecla ctrl-->
+                     <option> pensamiento computacional</option>
+                     <option> Graficacion</option>
+                     <option> Compiladores</option>
+                     <option> Base de datos</option>
+                 </select>
+                 <br><br> 
+
+                 Comentarios: <br>
+                 <textarea placeholder="Ecribe tus comentarios"></textarea>
+
+        </fieldset>
+
+        <br><br>
+        
+        <fieldset>
+                <legend>  Datos personales    </legend><br>
+                    Sistema operativo: <br>
+                    windows:<input type="checkbox" name="Sistema[]" value="Windows" > 
+                    linux: <input type="checkbox" name="Sistema[]" value="Linux"> 
+                    osx: <input type="checkbox" name="Sistema[]" value="osx">     <br><br>
+                    
+                    Telefono: <br>
+                    Android:<input type="radio" name="Telefono"  value="Android"> 
+                    IOS: <input type="radio" name="Telefono"value="IOS"> 
+        </fieldset>
+
+            <input type="reset">
+
+            
+        <input type="submit" value="Registrar">
+
+        </form>
+ 
+        
+        <footer>  <p>
+                <a href="https://validator.w3.org/check?uri=referer"><img
+                    src="http://www.w3.org/Icons/valid-xhtml10"
+                    alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+              </p>
+
+              <p> 
+                    <a href="https://raw.githubusercontent.com/OguhOrtsac/oguhOrtsac.github.io/master/Ejemplos%20de%20HTML/formularios.html" 
+                    target="_blank"> Ver codigo....: </a>.                 
+                </p>
+
+
+       </footer>
+    </body>
+</html>

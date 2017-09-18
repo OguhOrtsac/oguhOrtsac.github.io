@@ -1,0 +1,37 @@
+
+
+
+
+body > h1{
+    text-align: center;
+    left: 40%;
+    color:blue;
+
+}
+table, td, th {
+    -moz-text-size-adjust: 290px;
+     border: 1px solid gray;
+    text-align: center;
+    }
+    
+    
+    table{
+     position: relative;
+        left: 40%;
+        WIDTH: 700;
+    }
+
+
+    tr{
+    height:100 ;
+    WIDTH: 100;
+    }
+
+
+    td{
+        WIDTH:200 ;
+    }
+
+
+      
+   

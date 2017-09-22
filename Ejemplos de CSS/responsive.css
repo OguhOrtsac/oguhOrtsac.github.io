@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img{
+    /* ocupa el 100 % de donde esta insertada (este caso en el contenedor) */
+    width: 100%;         
+}
+
+.contenedor{
+    background-color: gray;
+    width: 80%;
+    margin:0 auto;
+}
+
+
+main{
+    background-color: pink;
+    width: 60%;
+    /* para que vayan los dos juntos en un lado */
+    display: inline-block;
+    margin-right: -4px;
+    vertical-align: top;
+}
+
+aside{
+    background-color: yellow;
+    width: 40%;
+    display: inline-block;
+    margin-right: -4px;
+}

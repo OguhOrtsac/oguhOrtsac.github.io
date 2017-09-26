@@ -5,5 +5,28 @@
 
 .contenedor{
     width: 100%;
-    background-color: blue;
+    background-color:red;
+}
+
+@media print {
+    .contenedor
+    {
+    color: blue;
+    width: 75%;
+    font-size: 20px;
+    }
+}
+
+@media screen and(min-width:600px)
+{
+    .contenedor{
+        background-color: #aaa;
+    }
+}
+
+@media screen and(max-width:600px)
+{
+    .contenedor{
+        background-color: Yellow;
+    }
 }

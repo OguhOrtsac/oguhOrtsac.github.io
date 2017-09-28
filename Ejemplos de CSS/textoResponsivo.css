@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: yellow;
+}
+@media screen and (max-width:400px){
+    body{
+        background-color: green;
+    }
+  }
+  
+  @media screen and (min-width: 400px  ) and( max-width:800px) {
+      body{
+          background-color: blue;
+      }
+    }
+  
+    @media screen and (min-width: 400px)  and( max-width:160px) {
+      body{
+          background-color: red;
+      }
+    }

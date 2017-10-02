@@ -1,0 +1,64 @@
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.contenedor{
+    width: 80%;
+    background: gray;
+    margin: 0 auto;         /*      centrar */
+}
+
+header{
+    background: #1b3357;
+}
+
+nav ul li a{
+    color: white;
+    text-decoration: none;       /* Quitar lo subrayado */
+    padding: 1rem 1.25rem;               /* Darles un margen para que no esten tan juntos los elementos----> 20px/16px = rem */  
+    margin: 0.625rem;  /*10px*/
+    border-radius: 0.625rem; 
+    display: block;               /* Esto genera el espacion necesario alrededor */
+ 
+}
+
+nav ul li{
+    display: inline-block;   /* Acomoda los elementos de la lista horizontalmente */
+}
+
+nav ul{
+    list-style: none;  /* Quitar las viñetas */
+}
+
+.logo, nav{
+    display: inline-block;
+    vertical-align: middle;      /*Acomodar de manera vertical al centro*/
+}
+
+.logo{
+    max-width: 25%;
+    padding: 0.625rem;
+}
+
+.logo img{
+    width: 100%;
+}
+
+nav ul li:hover{
+    background-color: #E5EBEA;
+    color: #747572;              /* Color de texto   */
+}
+
+@media screen and (max-width: 48.75rem){
+    .logo{
+        display: block; 
+        /* max-width: 100%; */
+        margin: 0 auto;
+    }
+}

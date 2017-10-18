@@ -18,7 +18,7 @@ h1{
 	position: relative;
 	/* top: 45px; */
 	width: 80%;
-    background-color: #aaaa;
+    background-color: rgba(214, 199, 199, 0.67);
 	margin: 0 auto;
 	/* vertical-align: middle; */
 }

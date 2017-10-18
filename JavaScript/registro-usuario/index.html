@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Registro de usuario</h1>
+    <form id ="registro" name="registro">
+        <label >Nombre usuario: <input type="text" name="usuario" value="" id="usuario"><span id="MsjUsuario"></span></label> 
+        <label>Contraseña: <input type="password" name="contraseña" value="" id="contraseña"></label>
+        <label>Introduzca nuevamente la contraseña: 
+            <input type="password" name="contraseñaB" value="" id="contraseñaB">
+        </label>
+   
+        <label>
+            <input type="checkbox" name="terminos" value="si" id="terminos">Acepto terminos y condiciones
+        </label>
+
+        <input type="submit" value="Registrar" id="btRegistrar">
+    </form>
+
+    <div id="mensaje">
+    </div>
+    <script src="script.js"> </script>
+</body>
+</html>

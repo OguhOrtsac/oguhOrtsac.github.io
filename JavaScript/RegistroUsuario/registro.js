@@ -2,7 +2,7 @@ var formulario = document.getElementById('registro');
 var notificacion = document.getElementById('notificacion');
 var comContraA = document.getElementById('compruebaContraA');
 var comContraB = document.getElementById('compruebaContraB');
-var contra= document.getElementsByClassName('contra');
+//var contra= document.getElementsByClassName('contra');
 
 var longContra= 6;
 var longUsuario= 8;
@@ -57,13 +57,15 @@ function verificaNomUsuario(){
               else
                  {
                     comContraA.innerHTML = 'Es muy corta, debe tener minimo 6 caracteres';
-                    comContraA.style.color= 'RED';
+                    comContraA.className= 'debil';
+                    // comContraA.style.color= 'RED';
                      return false;
                  }
         }
         else
             {
                 comContraB.innerHTML = 'No coinciden las contraseñas';
+               // comContraA.style.color= 'RED';
                 comContraB.className = 'contraseñasDesiguales';
                 return false;
             }
@@ -107,22 +109,26 @@ formulario.contra.addEventListener('keyup', function(){
     if(simbolos && digitos && letras)
         {
            comContraA.innerHTML = 'Segura';
-           comContraA.style.color= 'GREEN';
+           comContraA.className= 'segura';
+         //  comContraA.style.color= 'GREEN';
         }
         else if((letras && digitos) || (letras && simbolos) || (simbolos && digitos))
         {
             comContraA.innerHTML = 'Mediana';
-            comContraA.style.color= 'YELLOW';
+            comContraA.className= 'media';
+          //  comContraA.style.color= 'YELLOW';
         }
         else if(letras  || simbolos || digitos)
         {
             comContraA.innerHTML = 'Debil';
-            comContraA.style.color= 'RED';
+            comContraA.className= 'debil';
+          //  comContraA.style.color= 'RED';
         }
         else
         {
-            comContraA.innerHTML = 'Ingresa una contraseña';    
-            comContraA.style.color= 'BLACK';       
+            comContraA.innerHTML = 'Ingresa una contraseña';
+            comContraA.className= 'noHaycontra';    
+          //  comContraA.style.color= 'BLACK';       
         }
 
 });

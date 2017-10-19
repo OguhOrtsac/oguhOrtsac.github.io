@@ -6,6 +6,9 @@
     box-sizing: border-box;
 }
 
+body{
+    background-color: rgba(49, 102, 121, 0.88);
+}
 
 label{
         display: block;
@@ -20,15 +23,29 @@ label{
     color: #14CD14;
 }
 
-.contraA, .contraB
+/*#compruebaContraA, #compruebaContraA */
+
+.contraA, .contraB, .noHayContra, #compruebaContraA, #compruebaContraB 
 {
     color: black;
     font-size: 0.5rem ;
 }
     
- .usuarioInvalido, .contraseñasDesiguales
+ .usuarioInvalido, .contraseñasDesiguales, .debil
     {
         font-size: 0.5rem ;
         color : red;  
     }
+
+    .media
+    {
+        color: yellow;
+    }
+
+    .segura
+    {
+        color: green;
+    }
+
+
     

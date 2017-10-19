@@ -18,7 +18,7 @@ label{
 
     
 .usuarioCorrecto,.contraseñasIguales{    
-    font-size: 0.5rem ;
+    font-size: 1rem ;
     color: #14CD14;
 }
 
@@ -27,7 +27,7 @@ label{
 .contraA, .contraB, .noHaycontra, .media, .segura, .debil, .usuarioInvalido, .contraseñasDesiguales
 {
     color: black;
-    font-size: 0.5rem ;
+    font-size: 1rem ;
 }
     
  .usuarioInvalido, .contraseñasDesiguales, .debil

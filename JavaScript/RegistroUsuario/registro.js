@@ -46,10 +46,8 @@ function verificaNomUsuario(){
     }
     
     function verificaContraseña(){
-
-
-        if(formulario.contra.value == formulario.contraB.value)
-            {
+        // if(formulario.contra.value == formulario.contraB.value)
+        //     {
             if(formulario.contra.value.length >= longContra)
                  {
                      return true;
@@ -58,17 +56,18 @@ function verificaNomUsuario(){
                  {
                     comContraA.innerHTML = 'Es muy corta, debe tener minimo 6 caracteres';
                     comContraA.className= 'debil';
+                    alert('La contraseña no cumplio su longitud minima');
                     // comContraA.style.color= 'RED';
                      return false;
                  }
-        }
-        else
-            {
-                comContraB.innerHTML = 'No coinciden las contraseñas';
-               // comContraA.style.color= 'RED';
-                comContraB.className = 'contraseñasDesiguales';
-                return false;
-            }
+        // }
+        // else
+        //     {
+        //         comContraB.innerHTML = 'No coinciden las contraseñas';
+        //        // comContraA.style.color= 'RED';
+        //         comContraB.className = 'contraseñasDesiguales';
+        //         return false;
+        //     }
     }
 
    // formulario.usuario.addEventListener('blur',verificaNomUsuario());
@@ -115,6 +114,7 @@ formulario.contra.addEventListener('keyup', function(){
         else if((letras && digitos) || (letras && simbolos) || (simbolos && digitos))
         {
             comContraA.innerHTML = 'Mediana';
+          
             comContraA.className= 'media';
           //  comContraA.style.color= 'YELLOW';
         }

@@ -1,5 +1,4 @@
 
-
 *{
     margin: 0;
     padding: 0;
@@ -25,26 +24,26 @@ label{
 
 /*#compruebaContraA, #compruebaContraA */
 
-.contraA, .contraB, .noHayContra, #compruebaContraA, #compruebaContraB 
+.contraA, .contraB, .noHaycontra, .media, .segura, .debil, .usuarioInvalido, .contraseñasDesiguales
 {
     color: black;
     font-size: 0.5rem ;
 }
     
  .usuarioInvalido, .contraseñasDesiguales, .debil
-    {
-        font-size: 0.5rem ;
+    {     
         color : red;  
     }
 
     .media
-    {
+    {        
         color: yellow;
     }
 
     .segura
-    {
-        color: green;
+    {   
+        color: #14CD14;
+        /* color: #1A3D1A; */
     }
 
 

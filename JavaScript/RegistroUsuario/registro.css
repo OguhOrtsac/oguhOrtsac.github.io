@@ -1,0 +1,34 @@
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+label{
+        display: block;
+        margin: 1rem;
+        font-size: 1.5rem ;
+    }
+
+
+    
+.usuarioCorrecto,.contraseñasIguales{    
+    font-size: 0.5rem ;
+    color: #14CD14;
+}
+
+.contraA, .contraB
+{
+    color: black;
+    font-size: 0.5rem ;
+}
+    
+ .usuarioInvalido, .contraseñasDesiguales
+    {
+        font-size: 0.5rem ;
+        color : red;  
+    }
+    

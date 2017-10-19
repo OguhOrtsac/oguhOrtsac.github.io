@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title> Registro de usuarios </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="registro.css">   
+</head>
+
+<body>
+    <h1>Registro de usuario</h1>
+     <form id="registro">
+            <label>Nombre Usuario: <input type="text" name="usuario" value="" id="usuario">  <span id="notificacion"></span>  </label>
+            <label> Contraseña: <input type="password" name="contra" value="" id="contra"> <span id="compruebaContraA"></span> </label>
+            <label> Repite la contraseña: <input type="password" name="contraB" value="" id="contraB"> <span id="compruebaContraB"></span> </label>
+            <label>  <input id="aceptar" type="checkbox" name="aceptar" value="1" >Aceptar terminos y condiciones </label>
+            <input type="submit" value="Registrar usuario" id="btRegistrar">
+    </form>
+    <div id="notificacion2"> </div>
+    <script src="registro.js">  </script>
+</body>
+
+</html>

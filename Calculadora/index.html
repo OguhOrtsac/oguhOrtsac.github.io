@@ -16,7 +16,7 @@
         <!-- <fieldset id="opcionesBase" name="opciones"> -->
         <!-- <legend> Elegir la base:</legend> -->
         <div id="radios">
-          Decimal <input type="radio" name="base" class="base" value="Decimal" checked> Hexadecimal <input type="radio" name="base"
+          Decimal <input type="radio" name="base" class="base" value="Decimal" id="base1" checked> Hexadecimal <input type="radio" name="base"
             class="base" value="Hexadecimal"> Binario <input type="radio" name="base" class="base" value="Binario"><br>
           <!-- </fieldset> -->
         </div> 
@@ -26,15 +26,15 @@
     <form id="formDecimal">
       <table>
         <tr>
-          <td colspan="5" > <input class="textoE-S" type="text" name="numsOperacion" id="numsOperacion"></td>
+          <td colspan="5" > <input class="textoE-S" type="text" name="NumES" id="numsOperacion0"  ></td>
         </tr>
 
         <tr>
           <td> <input class="ingNumero" type="button" value="7"> </td>
           <td> <input class="ingNumero" type="button" value="8"> </td>
           <td> <input class="ingNumero" type="button" value="9"> </td>
-          <td> <input class="ingOperacion" type="button" value="D"> </td>
-          <td> <input class="ingOperacion" type="button" value="C"> </td>
+          <td> <input class="ingOperacion" type="button" value="DEL"> </td>
+          <td> <input class="ingOperacion" type="button" value="CE"> </td>
         </tr>
 
         <tr>
@@ -68,7 +68,7 @@
 
       <table>
         <tr>
-          <td colspan="6"> <input type="text" class="textoE-SB" name="valores" id="valores"></td>
+          <td colspan="6"> <input type="text" class="textoE-SB" name="NumES" id="numsOperacion1"></td>
         </tr>
 
         <tr>
@@ -117,7 +117,7 @@
 
       <table>
         <tr>
-          <td colspan="4"> <input type="text" class="textoE-SC" name="textoE-SC" id="textoE-SC"></td>
+          <td colspan="4"> <input type="text" class="textoE-SC" name="NumES" id="numsOperacion2"></td>
         </tr>
 
         <tr>

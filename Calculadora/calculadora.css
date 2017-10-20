@@ -69,7 +69,7 @@ table{
 	width: 8rem;
 	height: 8rem;
 }
-#resultado, #resultado3{
+#resultado, #resultado3, #resultado2{
 	width: 16rem;
 	background: #1CAA54;
 }
@@ -79,10 +79,7 @@ table{
 	
 }
 
-#resultado2{
-	width: 8rem;
-	background: #1CAA54;
-}
+
 
 #binario0, #binario1{
 	background: #0E6898;

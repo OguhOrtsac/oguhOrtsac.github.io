@@ -16,8 +16,9 @@
         <!-- <fieldset id="opcionesBase" name="opciones"> -->
         <!-- <legend> Elegir la base:</legend> -->
         <div id="radios">
-          Decimal <input type="radio" name="base" class="base" value="Decimal" id="base1" checked> Hexadecimal <input type="radio" name="base"
-            class="base" value="Hexadecimal"> Binario <input type="radio" name="base" class="base" value="Binario"><br>
+          Decimal <input type="radio" name="base" class="base" value="Decimal" id="base0" checked> 
+          Hexadecimal <input type="radio" name="base" class="base" id="base1" value="Hexadecimal"> 
+            Binario <input type="radio" name="base" class="base" id="base2" value="Binario"><br>
           <!-- </fieldset> -->
         </div> 
     </form>
@@ -77,8 +78,8 @@
           <td> <input class="ingNumero" type="button" value="D"> </td>
           <td> <input class="ingNumero" type="button" value="E"> </td>
           <td> <input class="ingNumero" type="button" value="F"> </td>
-          <td> <input class="ingOperacion" type="button" value="Del" onclick="eliminar()"> </td>
-          <td> <input class="ingOperacion" type="button" value="CE" onclick="eliminar_todo()"> </td>
+          <td> <input class="ingOperacion" type="button" value="DEL" > </td>
+          <td> <input class="ingOperacion" type="button" value="CE"> </td>
         </tr>
 
         <tr>
@@ -105,7 +106,7 @@
           <td><input class="ingNumero" type="button" value="2"></td>
           <td><input class="ingNumero" type="button" value="3"></td>
           <td><input class="ingNumero" type="button" value="."></td>
-          <td> <input class="ingOperacion" id="resultado2" type="button" value="=" onclick="calcular()"></td>
+          <td> <input class="ingOperacion" id="resultado2" type="button" value="="></td>
         </tr>
 
       </table>
@@ -123,8 +124,8 @@
         <tr>
 
           <td rowspan="2" colspan="2"> <input id="binario0" class="ingNumero" type="button" value="0"> </td>
-          <td> <input class="ingOperacion" type="button" value="DEL" onclick="eliminar()"> </td>
-          <td> <input class="ingOperacion" type="button" value="CE" onclick="eliminar_todo()"> </td>
+          <td> <input class="ingOperacion" type="button" value="DEL" > </td>
+          <td> <input class="ingOperacion" type="button" value="CE" > </td>
         </tr>
 
         <tr>
@@ -140,7 +141,7 @@
         </tr>
 
         <tr>
-          <td colspan="2"> <input class="ingOperacion" id="resultado3" type="button" value="=" onclick="calcular()"></td>
+          <td colspan="2"> <input class="ingOperacion" id="resultado3" type="button" value="=" ></td>
         </tr>
 
       </table>

@@ -1,7 +1,7 @@
 
 
 var inicial = document.getElementById("inicial");
-var formularios = document.getElementById(formularios);
+var formularios = document.getElementById('formularios');
 var contenedor = document.getElementsByClassName("contenedor");
 var formDecimal = document.getElementById("formDecimal");
 
@@ -21,7 +21,7 @@ inicial.addEventListener('click', function (evento) {
             if (document.inicial.base[i].checked) {
 
                 document.getElementById(contenido).style.display = "block";
-                //      document.getElementById('numsOperacion' + i).focus();
+                document.getElementById('numsOperacion' + i).focus();
                 //console.log(i);
                 // break; 
             }
@@ -35,102 +35,187 @@ inicial.addEventListener('click', function (evento) {
     }
 });
 
-
-formDecimal.addEventListener('keyup', function (evento) {
+formularios.addEventListener('keyup', function (evento) {
     //var bs= evento.target.value;
-    var num = evento.keyCode;
-    if (num != 8) {
-        var bandera = document.getElementById("base1");
-        if (bandera.checked) {
-            verificaCaracterIntroducido();
+    var i;
+    for (i = 0; i < document.inicial.base.length; i++) {
+        if (document.inicial.base[i].checked) {
+            var num = evento.keyCode;
+            var bandera = document.getElementById("base" + i);
+            if (bandera.checked) {
+                if (num != 8) {
+
+                    verificaCaracterIntroducido(i);
+                }
+                else {
+                    quitarUno(i);
+                }
+            }
+            break;
         }
-    }
-    else {
-        quitarUno();
     }
 });
 
+formularios.addEventListener('click', function (evento) {
+    var i;
+    for (i = 0; i < document.inicial.base.length; i++) {
+        if (document.inicial.base[i].checked) {
+            var comp = evento.target.name;
+            if (comp != 'NumES') {       // es para cuando toque el display de entrada no se vuelva a escribir duplicado
+                var bandera = document.getElementById("base" + i);
+                var num = evento.target.value;
 
-formDecimal.addEventListener('click', function (evento) {
-
-    var bandera = document.getElementById("base1");
-    var num = evento.target.value;
-
-    if (num != 'DEL' && num != 'CE' && num != '=') {
-        document.getElementById("numsOperacion0").value += num;
-        //   var sn= evento.target.ge
-        if (bandera.checked) {
-            verificaCaracterIntroducido();
+                if (num != 'DEL' && num != 'CE' && num != '=') {
+                    document.getElementById("numsOperacion" + i).value += num;
+                    //   var sn= evento.target.ge
+                    if (bandera.checked) {
+                        verificaCaracterIntroducido(i);
+                    }
+                }
+                else if (num == 'DEL') {
+                    quitarUno(i);
+                }
+                else if (num == 'CE') {
+                    limpiarTodo(i);
+                }
+                else if (num == '=') {
+                    dameElResultado(i);
+                }
+            }
+            document.getElementById('numsOperacion' + i).focus();
         }
-    }
-    else if (num == 'DEL') {
-        quitarUno();
-    }
-    else if (num == 'CE') {
-        limpiarTodo();
-    }
-    else if (num == '=') {
-        dameElResultado();
     }
 });
 
-function verificaCaracterIntroducido() {
-    //teclado="";
-    var cadena = document.getElementById("numsOperacion0").value;
+function verificaCaracterIntroducido(num) {
+    var cadena = document.getElementById("numsOperacion" + num).value;
+
     var key = cadena.charAt(cadena.length - 1);
-    var teclado = String.fromCharCode(key);
-    var letras = (/[+*-/.]/).test(key);
+    var simbolos = (/[+*-/.]/).test(key);
     var numeros = (/[0-9]/).test(key);
+    var numBinarios = (/[0-1]/).test(key);
+    var letras = (/[A-F]/i).test(key);
     //if(key)
-    if (!numeros && !letras) {
-        var texto = document.getElementById("numsOperacion0").value;
-        texto = texto.substring(0, texto.length - 1);
-        document.getElementById("numsOperacion0").value = texto;
-    }
-    else if (letras) {
-        comprobarSintaxis();
-    }
 
-}
-
-function comprobarSintaxis() {
-
-    var TextoOperacion = document.getElementById("numsOperacion0").value;
-    TextoOperacion = TextoOperacion.substring(0, TextoOperacion.length - 1);
-    if (TextoOperacion == "") {
-        document.getElementById("numsOperacion0").value = "";
-    }
-    else {
-
-        var cadena = document.getElementById("numsOperacion0").value;
-        var key = cadena.charAt(cadena.length - 2);
-        var letras = (/[+*-/.]/).test(key);
-        if (letras) {
+    if (num == 0) {
+        if (!numeros && !simbolos) {
             var texto = document.getElementById("numsOperacion0").value;
             texto = texto.substring(0, texto.length - 1);
             document.getElementById("numsOperacion0").value = texto;
         }
+        else if (simbolos) {
+            comprobarSintaxis(0);
+        }
+    }
+    else if (num == 1) {
+        if (!numeros && !simbolos && !letras) {
+            var texto = document.getElementById("numsOperacion1").value;
+            texto = texto.substring(0, texto.length - 1);
+            document.getElementById("numsOperacion1").value = texto;
+        }
+        else if (simbolos) {
+            comprobarSintaxis(1);
+        }
+    }
+    else if (num == 2) {
+        if (!numBinarios && !simbolos) {
+            var texto = document.getElementById("numsOperacion2").value;
+            texto = texto.substring(0, texto.length - 1);
+            document.getElementById("numsOperacion2").value = texto;
+        }
+        else if (simbolos) {
+            comprobarSintaxis(2);
+        }
+    }
+
+
+
+}
+
+function comprobarSintaxis(num) {
+
+    var TextoOperacion = document.getElementById("numsOperacion" + num).value;
+    TextoOperacion = TextoOperacion.substring(0, TextoOperacion.length - 1);
+    if (TextoOperacion == "") {
+        document.getElementById("numsOperacion" + num).value = "";
+    }
+    else {
+
+        var cadena = document.getElementById("numsOperacion" + num).value;
+        var key = cadena.charAt(cadena.length - 2);
+        var letras = (/[+*-/.]/).test(key);
+        if (letras) {
+            var texto = document.getElementById("numsOperacion" + num).value;
+            texto = texto.substring(0, texto.length - 1);
+            document.getElementById("numsOperacion" + num).value = texto;
+        }
     }
 }
 
-function limpiarTodo() {
-    document.getElementById("numsOperacion0").value = "";
+function limpiarTodo(num) {
+    document.getElementById("numsOperacion" + num).value = "";
 }
 
-function quitarUno() {
-    var texto = document.getElementById("numsOperacion0").value;
+function quitarUno(num) {
+    var texto = document.getElementById("numsOperacion" + num).value;
     texto = texto.substring(0, texto.length - 1);
-    document.getElementById("numsOperacion0").value = texto;
+    document.getElementById("numsOperacion" + num).value = texto;
 }
 
-function dameElResultado() {
-    var resultado = eval(document.getElementById("numsOperacion0").value);
+function dameElResultado(num) {
+    // var resultado = 'Algo salio mal';
+    var simbolos = (/[+*-/]/);
+    var cadAuxiliar="";
+    var preResultado="";
+    var resultado = 0;
+   
+
+
+    if (num == 0) {
+        resultado = eval(document.getElementById("numsOperacion" + num).value);
+    }
+    else if (num == 1 || num ==2) {
+        var baseNum=0;
+        if(num==1) 
+            baseNum=16;
+        else
+            baseNum=2;
+            
+        var Numeros = document.getElementById("numsOperacion" + num).value;
+        var res = Numeros.split(simbolos);
+       for(var i=0; i<Numeros.length;i++)
+        {
+            var hs = Numeros.charAt(i);
+            if( hs== "-" || hs== "+" || hs== "/" ||hs== "*")
+                {
+                    cadAuxiliar+=hs;
+                }
+               
+               // console.log(cadAuxiliar);    
+        }
+        for (var x=0;x<res.length;x++){
+            
+            if(x+1 <res.length)
+            { 
+            preResultado += (parseInt(res[x], baseNum) + cadAuxiliar.charAt(x));
+            }
+            else preResultado += parseInt(res[x], baseNum);
+            }    
+            resultado = eval(preResultado);
+            resultado = resultado.toString(baseNum).toUpperCase();    
+    }
+
+
 
     if (resultado == "Infinity") {
-        document.getElementById("numsOperacion0").value = "No se puede dividir entre cero";
-
-    } else {
-        document.getElementById("numsOperacion0").value = resultado;
+        document.getElementById("numsOperacion" + num).value = "No se puede dividir entre cero";
+    } 
+    else {
+        document.getElementById("numsOperacion" + num).value = resultado;
     }
 
 }
+
+
+
+

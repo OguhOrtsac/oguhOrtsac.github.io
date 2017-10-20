@@ -36,28 +36,32 @@ inicial.addEventListener('click', function (evento) {
 });
 
 formularios.addEventListener('keyup', function (evento) {
-    //var bs= evento.target.value;
-    var i;
-    for (i = 0; i < document.inicial.base.length; i++) {
-        if (document.inicial.base[i].checked) {
-            var num = evento.keyCode;
-            var bandera = document.getElementById("base" + i);
-            if (bandera.checked) {
-                if (num != 8) {
+ 
+        var i;
+        for (i = 0; i < document.inicial.base.length; i++) {
+            if (document.inicial.base[i].checked) {
+                var num = evento.keyCode;
+                var bandera = document.getElementById("base" + i);
+                if (bandera.checked) {
+                    if (num != 8) {
 
-                    verificaCaracterIntroducido(i);
+                        verificaCaracterIntroducido(i);
+                    }
+                    else {
+                        quitarUno(i);
+                    }
                 }
-                else {
-                    quitarUno(i);
-                }
+                break;
             }
-            break;
         }
-    }
+    
 });
 
 formularios.addEventListener('click', function (evento) {
     var i;
+    var bs = evento.target.name;
+   // alert(bs);
+    if (bs != "formus") {
     for (i = 0; i < document.inicial.base.length; i++) {
         if (document.inicial.base[i].checked) {
             var comp = evento.target.name;
@@ -85,6 +89,7 @@ formularios.addEventListener('click', function (evento) {
             document.getElementById('numsOperacion' + i).focus();
         }
     }
+}
 });
 
 function verificaCaracterIntroducido(num) {
@@ -165,51 +170,48 @@ function quitarUno(num) {
 function dameElResultado(num) {
     // var resultado = 'Algo salio mal';
     var simbolos = (/[+*-/]/);
-    var cadAuxiliar="";
-    var preResultado="";
+    var cadAuxiliar = "";
+    var preResultado = "";
     var resultado = 0;
-   
+
 
 
     if (num == 0) {
         resultado = eval(document.getElementById("numsOperacion" + num).value);
     }
-    else if (num == 1 || num ==2) {
-        var baseNum=0;
-        if(num==1) 
-            baseNum=16;
+    else if (num == 1 || num == 2) {
+        var baseNum = 0;
+        if (num == 1)
+            baseNum = 16;
         else
-            baseNum=2;
-            
+            baseNum = 2;
+
         var Numeros = document.getElementById("numsOperacion" + num).value;
         var res = Numeros.split(simbolos);
-       for(var i=0; i<Numeros.length;i++)
-        {
+        for (var i = 0; i < Numeros.length; i++) {
             var hs = Numeros.charAt(i);
-            if( hs== "-" || hs== "+" || hs== "/" ||hs== "*")
-                {
-                    cadAuxiliar+=hs;
-                }
-               
-               // console.log(cadAuxiliar);    
+            if (hs == "-" || hs == "+" || hs == "/" || hs == "*") {
+                cadAuxiliar += hs;
+            }
+
+            // console.log(cadAuxiliar);    
         }
-        for (var x=0;x<res.length;x++){
-            
-            if(x+1 <res.length)
-            { 
-            preResultado += (parseInt(res[x], baseNum) + cadAuxiliar.charAt(x));
+        for (var x = 0; x < res.length; x++) {
+
+            if (x + 1 < res.length) {
+                preResultado += (parseInt(res[x], baseNum) + cadAuxiliar.charAt(x));
             }
             else preResultado += parseInt(res[x], baseNum);
-            }    
-            resultado = eval(preResultado);
-            resultado = resultado.toString(baseNum).toUpperCase();    
+        }
+        resultado = eval(preResultado);
+        resultado = resultado.toString(baseNum).toUpperCase();
     }
 
 
 
     if (resultado == "Infinity") {
         document.getElementById("numsOperacion" + num).value = "No se puede dividir entre cero";
-    } 
+    }
     else {
         document.getElementById("numsOperacion" + num).value = resultado;
     }

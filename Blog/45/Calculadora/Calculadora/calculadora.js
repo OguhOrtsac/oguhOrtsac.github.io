@@ -1,8 +1,6 @@
 
 
-
 var inicial = document.getElementById("inicial"); 
-
 
 inicial.addEventListener('click', function(evento) {
     var hijo = evento.target;
@@ -33,3 +31,5 @@ inicial.addEventListener('click', function(evento) {
    
 }
 });
+
+

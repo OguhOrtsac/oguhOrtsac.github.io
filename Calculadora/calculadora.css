@@ -1,0 +1,92 @@
+*{
+    margin: 0;
+	padding: 0;
+	border: 0;
+    box-sizing: border-box;
+}
+ 
+h1{
+	position: relative;
+	margin: 0 auto;
+	padding: 1.1rem 1.25rem;
+} 
+
+#radios input{
+	margin:1.25rem; ;
+	/* padding: 1.1rem 1.25rem; */
+	border-radius: 0.625rem;
+}
+html { font-size: 62.5%; }
+
+.contenedor{
+	top: 3rem;
+	position: relative;
+	/* top: 45px; */
+	width: 49.5rem;
+    background-color: rgba(14, 152, 187, 0.67);
+	margin: 0 auto;
+	text-align: center ;
+	
+	/* vertical-align: middle; */
+}
+table{
+	margin: 0 auto;
+}
+#formularios{
+	width: 100%;
+	background: #00387E;
+	position: relative;
+}
+.textoE-S, .textoE-SB,.textoE-SC{
+	font-size: 3rem;
+	font-family: Arial,Helvetica;
+	color: white;
+	background: #4C77C2;
+	width:40rem;
+	height: 6rem;
+}
+.textoE-SB{
+	width:48rem;
+}
+
+.textoE-SC{
+	width:33.2rem;
+}
+.ingNumero{
+	font-size: 3rem;
+    border: 0px;
+	border-color: #DC1616;
+	background: #0B11AE;
+	color: white;
+
+	width: 8rem;
+	height: 8rem;
+}
+.ingOperacion{
+	font-size: 3rem;
+	border: 0px;
+	background: #25500C;
+	width: 8rem;
+	height: 8rem;
+}
+#resultado, #resultado3{
+	width: 16rem;
+	background: #1CAA54;
+}
+#resultado2{
+	width: 8rem;
+	background: #1CAA54;
+}
+
+#binario0, #binario1{
+	background: #0E6898;
+	width: 16rem;
+	height: 16rem;
+}
+
+#formHexadecimal,#formBinario{
+	display:none;
+}
+
+
+

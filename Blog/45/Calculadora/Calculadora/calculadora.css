@@ -1,0 +1,74 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1{
+    margin:1.25rem; ;
+	padding: 1.1rem 1.25rem;
+}
+
+#radios input{
+	margin:1.25rem; ;
+	/* padding: 1.1rem 1.25rem; */
+	border-radius: 0.625rem;
+}
+.contenedor{
+	position: relative;
+	/* top: 45px; */
+	width: 80%;
+    background-color: rgba(214, 199, 199, 0.67);
+	margin: 0 auto;
+	/* vertical-align: middle; */
+}
+.textoE-S, .textoE-SB,.textoE-SC{
+	font-size: 30px;
+	font-family: Arial,Helvetica;
+	color: #000000;
+	border: 0px;
+	background: #4C77C2;
+	width:407px;
+	height: 60px;
+}
+.textoE-SB{
+	width:488px;
+}
+
+.textoE-SC{
+	width:338px;
+}
+.ingNumero{
+	font-size: 30px;
+    border: 0px;
+	border-color: #DC1616;
+	background: #0B11AE;
+	color: white;
+
+	width: 80px;
+	height: 80px;
+}
+.ingOperacion{
+	font-size: 30px;
+	border: 0px;
+	background: #25500C;
+	width: 80px;
+	height: 80px;
+}
+#resultado, #resultado3{
+	width: 160px;
+	background: #1CAA54;
+}
+#resultado2{
+	width: 80px;
+	background: #1CAA54;
+}
+
+#binario0, #binario1{
+	width: 160px;
+	height: 160px;
+}
+
+#formHexadecimal,#formBinario{
+	display:none;
+}

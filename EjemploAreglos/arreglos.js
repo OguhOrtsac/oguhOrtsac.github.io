@@ -1,4 +1,5 @@
 
+
 var materias = [
     {nombre: 'Tecnologias web', creditos: 8, optativa:true},
     {nombre: 'Pensamiento computacional', creditos: 10, optativa:false},
@@ -6,59 +7,48 @@ var materias = [
 ];
 
 muestraMaterias();
-// function muestraMaterias(){
-//     var tabla = document.createElement('tabla');
-//     tabla.appendChild(creaEncabezado());
-//     document.body.appendChild(tabla);
-//     console.log('for normalito');
-
-//     for(var i = 0; i <materias.length;i++)
-//         {
-//             console.log('Nombre' + materias[i].nombre)
-//             console.log('Creditos' + materias[i].creditos)
-//             console.log('Optativa' + materias[i].optativa)
-//         }
-
-//         console.log('foreach');
-//         materias.forEach(function(mat){
-//             console.log('Nombre:' + mat.nombre);
-//             console.log('Creditos:' + mat.creditos);
-//             console.log('Optativa:' + mat.optativa ? 'Si' : 'No');
-//         }); 
-// };
-
 
 
 function muestraMaterias(){
     var tabla = document.createElement('tabla');
     tabla.appendChild(creaEncabezado());
     document.body.appendChild(tabla);
-    console.log('for normalito');
+    console.log('forech normalito');
 
-    for(var i = 0; i <materias.length;i++)
-        {
-            document.getElementById('Nombre').appendChild(materias[i].nombre);
-            console.log('Nombre: ' + materias[i].nombre)
-            console.log('Creditos: ' + materias[i].creditos)
-            console.log('Optativa: ' + materias[i].optativa)
-        }
+    materias.forEach(function (mat){
 
-        console.log('foreach');
-        materias.forEach(function(mat){
-            console.log('Nombre:' + mat.nombre);
-            console.log('Creditos:' + mat.creditos);
-            console.log('Optativa:' + mat.optativa ? 'Si' : 'No');
-        }); 
-};
+        var dupla = document.createElement('tr');
 
+            for(var i= 0; i<3; i++)                         //Recorrer los atributos que tiene el areglo mat
+                {
+                    if(i==0)
+                        {
+                            var atributo = mat.nombre;
+                        }
+                        else if(i==1){
+                            var atributo = mat.creditos;
+                        }
+                        else if(i==2){
+                            var atributo = mat.optativa;
+                        }
 
+                    var dato = document.createElement('td');                 // Crear un td 
+                    var texto = document.createTextNode(atributo);           // Guardar un nombre
+                    dato.appendChild(texto);                                 // Agregar un nombre al campo td
+
+                    dupla.appendChild(dato);               //Agregar el td al tr
+                }
+        tabla.appendChild(dupla);           
+
+    });
+}
 
 function creaEncabezado(){
     var encabezado = document.createElement('tr');
     
       var nombre = document.createElement('th');
       var textoNombre = document.createTextNode('Nombre');
-      nombre.id= 'Nombre';
+      //nombre.id= 'Nombre';
       nombre.appendChild(textoNombre);
   
         

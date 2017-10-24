@@ -10,6 +10,7 @@ muestraMaterias();
 
 
 function muestraMaterias(){
+    
     var tabla = document.createElement('tabla');
     tabla.appendChild(creaEncabezado());
     document.body.appendChild(tabla);
@@ -39,8 +40,8 @@ function muestraMaterias(){
                     dupla.appendChild(dato);               //Agregar el td al tr
                 }
         tabla.appendChild(dupla);           
-
     });
+    tabla.setAttribute('id', 'tabla');
 }
 
 function creaEncabezado(){
@@ -68,3 +69,42 @@ function creaEncabezado(){
       
       return encabezado;
 };
+
+var tabla=  document.getElementById('tabla')
+
+
+tabla.addEventListener('click', function(evento){
+
+    var nomEvento = evento.target;
+    if(nomEvento.localName == "th")
+        {
+
+            var index = nomEvento.cellIndex; 
+            if(index==0)
+                {
+                    console.log('index = 0');
+                   materias.sort(function(a, b){return a.nombre.localeCompare(b.nombre)}); 
+                    // materias.sort(function(a, b){return a.nombre - b.nombre});   
+                    
+                    
+                }
+                else if(index==1){
+                    console.log('index = 1');
+                  materias.sort((a,b)=>a.creditos-b.creditos);
+                   // materias.sort(function(a, b){return a.creditos - b.creditos});
+                 
+                }
+                else if(index==2){
+                    console.log('index = 2');
+                    materias.sort((a,b)=>a.optativa-b.optativa).reverse();     //false va primero con el sort y con el reverse me devuelve las true primero
+                  
+                }
+               // document.body.removeChild(tabla);
+              // tabla.remove();
+              
+                muestraMaterias();
+        }
+});
+
+
+

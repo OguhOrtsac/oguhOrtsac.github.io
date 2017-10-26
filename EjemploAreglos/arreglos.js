@@ -1,4 +1,8 @@
 
+var clicko = 0;
+var clickoB = 0;
+var clickoC = 0;
+var arregloSelect;
 
 var materias = [
     { nombre: 'Tecnologias web', creditos: 8, optativa: true },
@@ -8,17 +12,17 @@ var materias = [
 ];
 
 var tabla;
-    muestraMaterias();
+    muestraMaterias(materias);
     buscaMateria();
+var txtBuscar = document.getElementById('cuadroBusqueda');
 
-
-function muestraMaterias() {
+function muestraMaterias(arreglo) {
     tabla = document.createElement('tabla');
     tabla.appendChild(creaEncabezado());
     document.body.appendChild(tabla);
     console.log('forech normalito');
-
-    materias.forEach(function (mat) {
+ 
+    arreglo.forEach(function (mat) {
         var dupla = document.createElement('tr');
         for (var i = 0; i < 3; i++)                         //Recorrer los atributos que tiene el areglo mat
         {
@@ -42,7 +46,18 @@ function muestraMaterias() {
     
 };
 
+txtBuscar.addEventListener('keyup', function(){
+     arregloSelect = buscaPorNombre(materias,txtBuscar);
+    var taB = document.getElementById('tabla');
+    document.body.removeChild(taB);  
+   muestraMaterias(arregloSelect);
+});
 
+function buscaPorNombre(materias, txtBuscar){
+    var nom = txtBuscar.value.toLowerCase();
+    return materias.filter(function(mat){
+        return mat.nombre.toLowerCase().includes(nom);})
+};
 
 function creaEncabezado() {
     var encabezado = document.createElement('tr');
@@ -72,55 +87,49 @@ document.addEventListener('click', function (evento) {
     if (nomEvento.localName == "th") {
         var index = nomEvento.cellIndex;
         if (index == 0) {
-            console.log('index = 0');
+           if(clicko==0){
             materias.sort(function (a, b) { return a.nombre.localeCompare(b.nombre) });
+          clicko+=1;
+        }
+           else{
+            materias.sort(function (a, b) { return a.nombre.localeCompare(b.nombre) }).reverse();
+            clicko-=1;
+           }
         }
         else if (index == 1) {
-            console.log('index = 1');
+            if(clickoB==0){
             materias.sort((a, b) => a.creditos - b.creditos);
             // materias.sort(function(a, b){return a.creditos - b.creditos});
+            clickoB+=1;
         }
+           else{
+            materias.sort((a, b) => a.creditos - b.creditos).reverse();
+            clickoB-=1;
+           }
+        }
+        
         else if (index == 2) {
-            console.log('index = 2');
-            materias.sort((a, b) => a.optativa - b.optativa).reverse();     //false va primero con el sort y con el reverse me devuelve las true primero
+            if(clickoC==0){
+            materias.sort((a, b) => a.optativa - b.optativa);     //false va primero con el sort y con el reverse me devuelve las true primero
+            clickoC+=1;
         }
+        else{
+            materias.sort((a, b) => a.optativa - b.optativa).reverse();
+            clickoC-=1;
+           }
+        }
+        
        eliminarTabla();
-     //  muestraMaterias();
+    
     }
 });
-
-/* tabla.addEventListener('click', function (evento) {
-    var nomEvento = evento.target;
-    if (nomEvento.localName == "th") {
-        var index = nomEvento.cellIndex;
-        if (index == 0) {
-            console.log('index = 0');
-            materias.sort(function (a, b) { return a.nombre.localeCompare(b.nombre) });
-        }
-        else if (index == 1) {
-            console.log('index = 1');
-            materias.sort((a, b) => a.creditos - b.creditos);
-            // materias.sort(function(a, b){return a.creditos - b.creditos});
-        }
-        else if (index == 2) {
-            console.log('index = 2');
-            materias.sort((a, b) => a.optativa - b.optativa).reverse();     //false va primero con el sort y con el reverse me devuelve las true primero
-        }
-       eliminarTabla();
-     //  muestraMaterias();
-    }
-}); */
 
 
 
 function eliminarTabla(){
     var taB = document.getElementById('tabla');
-   // taB.remove();
-  // taB.removeEventListener(); 
-  // taB.removeAttribut('id','tabla');
-   
     document.body.removeChild(taB);  
-    muestraMaterias();
+    muestraMaterias(materias);
 };
 
 function buscaMateria(){

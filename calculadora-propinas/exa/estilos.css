@@ -1,0 +1,84 @@
+*{
+    
+        margin: 0;
+    
+        padding: 0;
+    
+        box-sizing: border-box;
+    
+    }
+    
+    
+    
+    tr{
+    
+        padding: 1rem;
+    
+        text-transform: uppercase;
+    
+    
+    
+    }
+    
+    
+    
+    html { font-size: 100%; }   /* 62.5 para manejar los rems como base 10*/
+    
+    
+    
+    body{
+    
+     width: 50%;
+    
+     /* background: blanchedalmond; */
+    
+    }
+    
+    
+    
+    h1{
+    
+        padding: 1.1rem 1.25rem;  
+    
+        margin:  0 auto;
+    
+        position: relative;
+    
+        color: green;
+    
+        font-size: 3rem;
+    
+    }
+    
+    
+    
+    th{
+    
+        border-bottom: 1px solid black ;      /*Abajo */
+    
+    }
+    
+    
+    
+    td, th{
+    
+        text-align: center;
+    
+        margin:  0 auto;
+    
+        border: 1px solid #35AEE3;
+    
+    }
+    
+    
+    
+    td{
+    
+       
+    
+    }
+
+    table{    
+        margin:  0 auto;
+        position: relative; 
+    }

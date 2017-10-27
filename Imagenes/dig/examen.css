@@ -1,0 +1,97 @@
+*{
+    margin: 0;
+    padding: 0;  
+    box-sizing: border-box;
+}   
+
+tr{
+    padding: 1rem;
+   /* text-transform: uppercase; */ 
+}  
+
+
+#ini{
+    
+    width: 100%;
+    padding: 3% 2.5%;
+    vertical-align: middle;
+    margin: 0 auto;
+}
+
+div{
+    width: 100%;
+}
+
+.titulo{
+    width: 100%;
+}
+
+h1{
+    padding: .6% 1%;  
+    margin:  0 auto;   
+    color: #07768E;
+    font-size: 200%;
+    text-align: center;
+}
+th{
+    font-size: 20%;
+    border-bottom: 1px solid black ;      /*Abajo */
+    
+}
+
+td, th{
+    text-align: center;
+    margin:  0 auto;
+    border: 1px solid #35AEE3;
+    
+}
+
+body{
+    background-color: #9DABAA;
+}
+.tareaTerminada
+{
+    background-color: #70BB70;
+}
+
+.tareaFaltante{
+    background-color: #EF4C3E;
+}
+
+td{
+    padding: 1%;
+}
+
+
+table{    
+    width: 55%;
+    margin:  0 auto;
+    border: 3px solid #000000;
+}
+
+
+
+#datos{
+    width: 45%;
+    margin: 0 auto;
+    border: 1% solid #006480;
+    align-self:  auto;
+    text-align: left;
+}
+
+#btCargar
+{
+    margin-left: 35%;
+    font-size: 2%;
+    width: 35%;
+    height: 20%;
+
+}
+
+@media screen and (max-width: 500px) {
+    #datos {
+        width:80%;
+    }
+}
+
+

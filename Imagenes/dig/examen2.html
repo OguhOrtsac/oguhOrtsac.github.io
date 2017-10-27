@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="examen.css">
+</head>
+
+<body>
+    <div>
+        <h1>Segundo examen parcial <strong>Tecnologias Web </strong></h1>
+        <form id="ini">
+            <label>Buscar: <input type="text" value="" id="cuadroBusqueda" >
+            <br><br>
+        </form>
+    <table id="tabla">
+        <thead id="encabezado">
+        <tr>
+            <th>
+               <input type="button" value="Nombre" class="titulo">  
+            </th>
+
+            <th>
+                <input type="button" value="Descripcion" class="titulo"> 
+            </th>
+
+            <th>
+                    <input type="button" value="Prioridad" class="titulo">
+            </th>
+                  
+            <th>
+                    <input type="button" value="Status" class="titulo">
+            </th>
+            <th>
+                    <input type="button" value="Limpiar" class="titulo">
+            </th>
+
+        </tr>
+        </thead>
+
+        
+    </table>
+</div>
+
+    <script src="examen2.js"></script>
+    <fieldset id="datos" >
+            <legend>Agregar una nueva tarea</legend>
+    <form id="formAgregar">
+            
+                 
+                    <br>
+            <label>Nombre: <input type="text" value="" id="nombreNuevo" >  </label> <br> <br>
+            <label>Descripcion: <input type="text" value="" id="DescripcionNuevo" >  <span id="notprioridades"></span> </label><br> <br>
+            <label> Prioridad:  
+                    Alta <input type="radio" name="prioridad" class="prioridad" value="Alta" id="prioridad0">
+                    Media <input type="radio" name="prioridad" class="prioridad"  value="Media" id="prioridad1">   
+                    Baja <input type="radio" name="prioridad" class="prioridad"  value="Baja" id="prioridad2">
+                   <br> <br>
+                    </label>
+
+            <input type="button" value="Añadir" id="btCargar" onclick="agregarObjeto()"> <br> <br>
+        </form>
+        </fieldset>
+
+</body>
+
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Para Karla ❤️</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #ff69b4; /* Color rosa sólido */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            position: fixed;
+        }
+
+        .title-container {
+            text-align: center;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            position: absolute;
+            top: 15%;
+        }
+
+        .main-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5em;
+            color: #1E90FF; /* Azul lindo */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: glow 2s infinite;
+            margin-bottom: 10px;
+        }
+
+        .sub-message {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.5em;
+            color: #32CD32; /* Verde */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 60px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            user-select: none;
+            will-change: transform;
+        }
+
+        .heart:hover {
+            transform: scale(1.2);
+        }
+
+        .compliment {
+            position: absolute;
+            color: #ffffff;
+            font-family: 'Dancing Script', cursive;
+            font-size: 40px;
+            pointer-events: none;
+            animation: fadeUp 6s forwards;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="title-container">
+        <div class="main-message">Karla Preciosa</div>
+        <div class="sub-message">(Toca un corazón)</div>
+    </div>
+
+    <script>
+        let baseSpeed = 2;
+        let hearts = [];
+        let complimentsUsed = 0;
+
+        const compliments = [
+            "Preciosa 💖", "17 de diciembre 🎀", "Linda 🌟", "Péinate 😊", "Ya sonríe 😝",
+            "Cupón: pida aquí ___", "Te quiero ❤️", "Eres especial ✨", "Hermosa sonrisa 😊",
+            "Me encantan tus ojos 👀", "Eres un sol ☀️", "Me haces feliz 🌈", "Única 🌹",
+            "Increíble ⭐", "Radiante hoy ✨", "Maravillosa 💎", "Mi inspiración 🌸",
+            "Tu energía ilumina ✨", "Eres un sueño 💭", "Mágica 💫", "Inigualable 💕",
+            "Eres arte 🎨", "Mi alegría diaria 😍", "Resplandeces como el sol ☀️",
+            "Fascinante 🌟", "Dulce como miel 🍯", "Encantadora 🌺", "Mi razón de sonreír 😊"
+        ];
+
+        function getRandomCompliment() {
+            if (complimentsUsed >= compliments.length) return null;
+            return compliments[complimentsUsed++];
+        }
+
+        function createHeart() {
+            if (complimentsUsed >= compliments.length) return;
+
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            document.body.appendChild(heart);
+
+            heart.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            heart.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+
+            let dx = (Math.random() - 0.5) * baseSpeed * 3;
+            let dy = (Math.random() - 0.5) * baseSpeed * 3;
+
+            function moveHeart() {
+                let x = parseFloat(heart.style.left);
+                let y = parseFloat(heart.style.top);
+
+                x += dx;
+                y += dy;
+
+                if (x <= 0 || x >= window.innerWidth - 60) dx *= -1;
+                if (y <= 0 || y >= window.innerHeight - 60) dy *= -1;
+
+                heart.style.left = `${x}px`;
+                heart.style.top = `${y}px`;
+
+                requestAnimationFrame(moveHeart);
+            }
+            moveHeart();
+
+            heart.addEventListener('click', function(e) {
+                baseSpeed += 0.5;
+                const complimentText = getRandomCompliment();
+
+                if (!complimentText) {
+                    heart.remove();
+                    return;
+                }
+
+                const compliment = document.createElement('div');
+                compliment.className = 'compliment';
+                compliment.innerHTML = complimentText;
+                document.body.appendChild(compliment);
+
+                compliment.style.left = (e.clientX - 50) + 'px';
+                compliment.style.top = (e.clientY - 50) + 'px';
+
+                setTimeout(() => compliment.remove(), 6000);
+
+                heart.style.transform = 'scale(0)';
+                setTimeout(() => {
+                    heart.remove();
+                }, 300);
+            });
+
+            hearts.push(heart);
+        }
+
+        for(let i = 0; i < compliments.length; i++) {
+            createHeart();
+        }
+
+    </script>
+</body>
+</html>

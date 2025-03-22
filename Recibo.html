@@ -1,5 +1,5 @@
 
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -10,14 +10,12 @@
             background-color: #f9e8e8;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
-            text-align: center;
-            transition: background 1s ease-in-out;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         .container {
@@ -27,11 +25,12 @@
             justify-content: center;
             width: 100%;
             max-width: 1000px;
+            padding: 20px;
         }
 
         .envelope {
             width: 350px;
-            height: 250px;
+            height: 200px;
             background-color: #ffb6c1;
             position: relative;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -40,11 +39,9 @@
             cursor: pointer;
             border-radius: 10px;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             margin: 50px 0;
-            padding: 10px;
         }
 
         .envelope:hover {
@@ -62,20 +59,11 @@
             height: 100%;
             backface-visibility: hidden;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             border-radius: 10px;
             background: linear-gradient(135deg, #ff99cc, #ffb6c1);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        .envelope-front img {
-            width: 150px;
-            height: auto;
-            border-radius: 5px;
-            margin-bottom: 10px;
         }
 
         .envelope-front::after {
@@ -132,14 +120,51 @@
             font-style: italic;
             font-weight: bold;
         }
+
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            animation: float 3s ease-in forwards, explode 0.5s ease-in-out 2s forwards;
+            font-size: 20px;
+            color: #ff69b4;
+            will-change: transform, opacity;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(-10px) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(-100px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) scale(0.5);
+            }
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
-<body id="body">
+<body>
     <div class="container">
         <div class="envelope" onclick="abrirCarta()">
-            <div class="envelope-front">
-                <img src="ramo.png" alt="Ramo de Tulipanes y Girasoles">
-            </div>
+            <div class="envelope-front"></div>
         </div>
         
         <div class="carta-container" id="cartaContainer">
@@ -158,14 +183,36 @@
     </div>
 
     <script>
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤";
+
+            const size = Math.random() * 30 + 10 + "px";
+            heart.style.fontSize = size;
+
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.top = Math.random() * 100 + "vh";
+
+            const colors = ["#FF69B4", "#FF1493", "#DB7093", "#9400D3", "#800080", "#8A2BE2"];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+
+        setInterval(createHeart, 500);
+
         function abrirCarta() {
             document.querySelector(".envelope").classList.add("open");
             setTimeout(() => {
                 document.getElementById("cartaContainer").classList.add("visible");
-                document.getElementById("body").style.background = "url('ramo.png') no-repeat center center fixed";
-                document.getElementById("body").style.backgroundSize = "cover";
             }, 800);
         }
     </script>
 </body>
 </html>
+

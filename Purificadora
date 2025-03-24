@@ -207,47 +207,31 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Refresco</td>
+                        <td>Garrafones en sucursal</td>
                         <td>$15.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="15" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
                     <tr>
-                        <td>Agua</td>
-                        <td>$12.00</td>
+                        <td>Garrafones tienda</td>
+                        <td>$15.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="12" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
                     <tr>
-                        <td>Café</td>
+                        <td>Garrafones a domicilio</td>
                         <td>$18.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="18" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
                     <tr>
-                        <td>Hamburguesa</td>
-                        <td>$50.00</td>
+                        <td>Otros</td>
+                        <td>$0.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="50" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
-                    <tr>
-                        <td>Tacos</td>
-                        <td>$45.00</td>
-                        <td><input type="number" class="cantidad-input" data-precio="45" onchange="calcularFila(this)" min="0"></td>
-                        <td class="total-cell green-text">$0.00</td>
-                    </tr>
-                    <tr>
-                        <td>Quesadilla</td>
-                        <td>$35.00</td>
-                        <td><input type="number" class="cantidad-input" data-precio="35" onchange="calcularFila(this)" min="0"></td>
-                        <td class="total-cell green-text">$0.00</td>
-                    </tr>
-                    <tr>
-                        <td>Torta</td>
-                        <td>$40.00</td>
-                        <td><input type="number" class="cantidad-input" data-precio="40" onchange="calcularFila(this)" min="0"></td>
-                        <td class="total-cell green-text">$0.00</td>
-                    </tr>
+                    
+                    
                     <tr class="total-row">
                         <td colspan="3">Total de Ingresos:</td>
                         <td id="total-ingresos" class="green-text">$0.00</td>

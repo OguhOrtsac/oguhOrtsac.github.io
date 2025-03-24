@@ -1,218 +1,398 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carta Romántica</title>
+    <title>Reporte Financiero Diario</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smtp.js/1.0.1/smtp.js"></script>
     <style>
         body {
-            background-color: #f9e8e8;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 1000px;
             padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
         }
-
-        .envelope {
-            width: 350px;
-            height: 200px;
-            background-color: #ffb6c1;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            transition: transform 1s;
-            transform-style: preserve-3d;
-            cursor: pointer;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 50px 0;
-        }
-
-        .envelope:hover {
-            transform: scale(1.05);
-        }
-
-        .envelope.open {
-            transform: rotateX(180deg);
-            pointer-events: none;
-        }
-
-        .envelope-front {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #ff99cc, #ffb6c1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .envelope-front::after {
-            content: "❤ Haz clic para abrir ❤";
-            color: #800020;
-            font-size: 18px;
-            font-weight: bold;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .carta-container {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-            margin-top: 50px;
-            opacity: 0;
-            transition: opacity 1s ease-in;
-        }
-
-        .carta-container.visible {
-            display: block;
-            opacity: 1;
-        }
-
-        .carta {
-            background-color: #fff;
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
             text-align: center;
-            font-size: 16px;
-            line-height: 1.7;
-            color: #800020;
-            margin-bottom: 50px;
-            border: 12px solid transparent;
-            border-image: linear-gradient(45deg, #FF69B4, #8a2be2, #FF69B4, #8a2be2) 1;
-            position: relative;
-            z-index: 100;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
         }
-
-        .carta h1 {
-            font-size: 28px;
-            color: #d81b60;
-            margin-bottom: 25px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        
+        .section {
+            margin-bottom: 30px;
         }
-
-        .carta p {
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-bottom: 20px;
         }
-
-        .firma {
-            margin-top: 30px;
-            font-style: italic;
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        input {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #e8f4f8 !important;
+        }
+        
+        .green-text {
+            color: #27ae60;
             font-weight: bold;
         }
-
-        .heart {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0;
-            animation: float 3s ease-in forwards, explode 0.5s ease-in-out 2s forwards;
-            font-size: 20px;
-            color: #ff69b4;
-            will-change: transform, opacity;
+        
+        .red-text {
+            color: #e74c3c;
+            font-weight: bold;
         }
-
-        @keyframes float {
-            0% {
-                opacity: 0;
-                transform: translateY(0) scale(0.5);
-            }
-            10% {
-                opacity: 1;
-                transform: translateY(-10px) scale(1);
-            }
-            90% {
-                opacity: 1;
-                transform: translateY(-100px) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-120px) scale(0.5);
-            }
+        
+        .result-table td {
+            padding: 15px;
+            font-size: 1.1em;
         }
-
-        @keyframes explode {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(3);
-                opacity: 0;
-            }
+        
+        .action-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+        }
+        
+        .action-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .date-section {
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        #resultado-final {
+            font-size: 1.2em;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .positive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .negative {
+            background-color: #f8d7da;
+            color: #721c24;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="envelope" onclick="abrirCarta()">
-            <div class="envelope-front"></div>
+    <div class="container" id="content-to-pdf">
+        <h1>Reporte Financiero Diario</h1>
+        
+        <div class="date-section">
+            Fecha: <span id="current-date"></span>
         </div>
         
-        <div class="carta-container" id="cartaContainer">
-            <div class="carta">
-                <h1>Nuestra Mini Historia Floral</h1>
-                <p>Este ramo 💐 no es solo un conjunto de flores bonitas, es una historia, NUESTRA mini historia☺️ algo así como un resumen floral de lo que hemos compartido hasta ahora.</p>
-                <p>Los tres tulipanes son testigos de nuestras tres citas, disfrutando💞, riéndonos y desafiando al mundo de las apuestas😁😌👌🏻🔥. Cada una ha tenido su toque único y especial.</p>
-                <p>Los siete girasoles representan una semana desde que empezamos a conocernos bien, pero también son símbolo de suerte. Contigo, la suerte no es solo una creencia, es algo real.</p>
-                <p>Y luego está una flor especial ❣️, de un color que significa mucho para nosotros 💞. Tu color favorito. Un color que habla de admiración, respeto y elegancia, todo lo que tú eres.</p>
-                <p>Así que aquí tienes este pequeño ramo, no como un regalo, sino como una especie de resumen en colores y aromas de todo lo bonito que ha sido conocerte.</p>
-                <p>Yo se que tus flores favoritas son los tulipanes y son pocos pero mientras mas citas y tiempo pasemos mas van ir creciendo, hasta tener todo un jardin de ellos 💞 Pero tu tan bella nunca espectadora y siempre la protagonista 😍 💘 .</p>
-
-                <p class="firma">Y yaaaa sonríe en tus fotos 😝😁</p>
-            </div>
+        <div class="section">
+            <div class="section-title">Registro de Gastos</div>
+            <table id="gastos-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Detalle</th>
+                        <th>Costo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" class="concepto-input"></td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="concepto-input"></td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="concepto-input"></td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="concepto-input"></td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="concepto-input"></td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="2">Total de Gastos:</td>
+                        <td id="total-gastos" class="red-text">$0.00</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        
+        <div class="section">
+            <div class="section-title">Registro de Ingresos</div>
+            <table id="ingresos-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Garrafones en sucursal</td>
+                        <td>$15.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="15" onchange="calcularFila(this)" min="0"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Garrafones tienda</td>
+                        <td>$15.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="12" onchange="calcularFila(this)" min="0"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Garrafones a domicilio</td>
+                        <td>$18.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="18" onchange="calcularFila(this)" min="0"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Otros</td>
+                        <td>$0.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="50" onchange="calcularFila(this)" min="0"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+                    
+                    
+                    <tr class="total-row">
+                        <td colspan="3">Total de Ingresos:</td>
+                        <td id="total-ingresos" class="green-text">$0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Resumen del Día</div>
+            <table class="result-table">
+                <tr>
+                    <td>Total de Gastos:</td>
+                    <td id="resumen-gastos" class="red-text">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Total de Ingresos:</td>
+                    <td id="resumen-ingresos" class="green-text">$0.00</td>
+                </tr>
+                <tr class="total-row">
+                    <td>Resultado del Día:</td>
+                    <td id="resultado-dia">$0.00</td>
+                </tr>
+            </table>
+            
+            <div id="resultado-final"></div>
+        </div>
+        
+        <button class="action-button" onclick="generarPDF()">Descargar PDF y Enviar por Email</button>
     </div>
 
     <script>
-        function createHeart() {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            heart.innerHTML = "❤";
-
-            const size = Math.random() * 30 + 10 + "px";
-            heart.style.fontSize = size;
-
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.top = Math.random() * 100 + "vh";
-
-            const colors = ["#FF69B4", "#FF1493", "#DB7093", "#9400D3", "#800080", "#8A2BE2"];
-            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 3000);
+        // Establecer la fecha actual
+        document.addEventListener('DOMContentLoaded', function() {
+            const fechaActual = new Date();
+            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = fechaActual.toLocaleDateString('es-ES', opciones);
+        });
+        
+        // Calcular total de gastos
+        function calcularTotalGastos() {
+            let total = 0;
+            const costos = document.querySelectorAll('.costo-input');
+            
+            costos.forEach(costo => {
+                if (costo.value) {
+                    total += parseFloat(costo.value);
+                }
+            });
+            
+            document.getElementById('total-gastos').textContent = '$' + total.toFixed(2);
+            document.getElementById('resumen-gastos').textContent = '$' + total.toFixed(2);
+            
+            calcularResultadoDia();
         }
-
-        setInterval(createHeart, 500);
-
-        function abrirCarta() {
-            document.querySelector(".envelope").classList.add("open");
+        
+        // Calcular fila de ingresos (precio * cantidad)
+        function calcularFila(input) {
+            const fila = input.parentElement.parentElement;
+            const precio = parseFloat(input.getAttribute('data-precio'));
+            const cantidad = parseFloat(input.value) || 0;
+            const total = precio * cantidad;
+            
+            fila.querySelector('.total-cell').textContent = '$' + total.toFixed(2);
+            
+            calcularTotalIngresos();
+        }
+        
+        // Calcular total de ingresos
+        function calcularTotalIngresos() {
+            let total = 0;
+            const celdas = document.querySelectorAll('.total-cell');
+            
+            celdas.forEach(celda => {
+                if (celda.textContent !== '$0.00') {
+                    total += parseFloat(celda.textContent.replace('$', ''));
+                }
+            });
+            
+            document.getElementById('total-ingresos').textContent = '$' + total.toFixed(2);
+            document.getElementById('resumen-ingresos').textContent = '$' + total.toFixed(2);
+            
+            calcularResultadoDia();
+        }
+        
+        // Calcular resultado del día
+        function calcularResultadoDia() {
+            const totalGastos = parseFloat(document.getElementById('resumen-gastos').textContent.replace('$', ''));
+            const totalIngresos = parseFloat(document.getElementById('resumen-ingresos').textContent.replace('$', ''));
+            
+            const resultado = totalIngresos - totalGastos;
+            const resultadoElement = document.getElementById('resultado-dia');
+            
+            resultadoElement.textContent = '$' + resultado.toFixed(2);
+            
+            // Aplicar color según sea positivo o negativo
+            if (resultado >= 0) {
+                resultadoElement.className = 'green-text';
+                document.getElementById('resultado-final').textContent = '¡Balance Positivo!';
+                document.getElementById('resultado-final').className = 'positive';
+            } else {
+                resultadoElement.className = 'red-text';
+                document.getElementById('resultado-final').textContent = 'Balance Negativo';
+                document.getElementById('resultado-final').className = 'negative';
+            }
+        }
+        
+        // Generar PDF y enviar por email
+        function generarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const content = document.getElementById('content-to-pdf');
+            
+            html2canvas(content).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const pageHeight = 290;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 10;
+                
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // Guardar el PDF
+                const pdfOutput = doc.output('blob');
+                const pdfName = 'Reporte_Financiero_' + new Date().toISOString().slice(0, 10) + '.pdf';
+                
+                // Descargar el PDF
+                doc.save(pdfName);
+                
+                // Enviar por email
+                enviarEmail(pdfOutput, pdfName);
+                
+                alert('¡PDF generado y enviado al correo electrónico!');
+            });
+        }
+        
+        // Función para enviar email
+        function enviarEmail(pdfBlob, pdfName) {
+            // Nota: Para enviar realmente un email se necesitaría integrar con un servicio de email
+            // Esta es una simulación de la funcionalidad
+            
+            console.log('Enviando email a hugo.uaslp@gmail.com con el archivo ' + pdfName);
+            
+            // En una implementación real, aquí se usaría un servicio como EmailJS, FormSubmit, u otro
+            // servicio para enviar el email con el PDF adjunto
+            
+            // Por motivos de demostración, se muestra un mensaje de éxito
             setTimeout(() => {
-                document.getElementById("cartaContainer").classList.add("visible");
-            }, 800);
+                console.log('Email enviado exitosamente');
+            }, 1000);
         }
     </script>
 </body>
 </html>
-

@@ -1,6 +1,6 @@
 // Constantes y configuración global
 const CONFIG = {
-    WHATSAPP_PHONE: '+4446533078', // Número de WhatsApp
+    WHATSAPP_PHONE: '+XXXXXXXXXX', // Número de WhatsApp
     BALLOON_ANIMATION_INTERVAL: 5000, // Intervalo de explosión de globos
     MAX_FLOATING_BALLOONS: 15 // Máximo de globos flotantes
 };

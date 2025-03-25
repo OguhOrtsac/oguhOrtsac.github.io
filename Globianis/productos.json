@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "nombre": "Globos Románticos",
+        "descripcion": "Arreglo especial para San Valentín con globos en tonos rojos y rosas.",
+        "imagen": "h.jpg",
+        "precio": 499.99
+    },
+    {
+        "id": 2,
+        "nombre": "Fiesta Infantil",
+        "descripcion": "Decoración colorida con globos de animales y personajes de dibujos.",
+        "imagen": "2.jpg", 
+        "precio": 799.50
+    },
+    {
+        "id": 3,
+        "nombre": "Graduación Premium",
+        "descripcion": "Arreglo elegante con globos metálicos en colores de la universidad.",
+        "imagen": "3.jpg",
+        "precio": 1299.00
+    },
+    {
+        "id": 4,
+        "nombre": "Baby Shower",
+        "descripcion": "Decoración tierna con globos en tonos pastel para celebrar un nuevo bebé.",
+        "imagen": "4.jpg",
+        "precio": 649.99
+    }
+]

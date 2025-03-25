@@ -1,0 +1,22 @@
+[
+    {
+        "id": "letras",
+        "nombre": "Letras personalizadas",
+        "precio": 100.00
+    },
+    {
+        "id": "numeros",
+        "nombre": "Números decorativos",
+        "precio": 75.50
+    },
+    {
+        "id": "globos-personalizados",
+        "nombre": "Globos impresos con mensaje",
+        "precio": 150.00
+    },
+    {
+        "id": "base-decorativa",
+        "nombre": "Base decorativa para arreglo",
+        "precio": 200.00
+    }
+]

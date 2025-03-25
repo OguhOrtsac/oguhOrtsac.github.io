@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Arreglos con Globos</title>
+    
+    <!-- Librerías externas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="./Globianis/styles.css">
+</head>
+<body>
+    <!-- Globos flotantes animados -->
+    <div id="background-balloons"></div>
+
+    <!-- Encabezado -->
+    <header>
+        <h1>🎈 Arreglos de Globos</h1>
+        
+        <!-- Barra de búsqueda y filtros -->
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Buscar arreglos...">
+            <select id="price-filter">
+                <option value="">Todos los precios</option>
+                <option value="low">Económicos</option>
+                <option value="medium">Intermedios</option>
+                <option value="high">Premium</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- Galería de productos -->
+    <main>
+        <section id="gallery" class="gallery"></section>
+    </main>
+
+    <!-- Calculadora de presupuesto -->
+    <section id="budget-calculator" class="budget-calculator">
+        <h2>Calcula tu Presupuesto</h2>
+        <div id="budget-options"></div>
+        <div id="budget-result"></div>
+    </section>
+
+    <!-- Preguntas Frecuentes -->
+    <section id="faq" class="faq">
+        <h2>Preguntas Frecuentes</h2>
+        <div id="faq-container"></div>
+    </section>
+
+    <!-- Modal para detalles de producto -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-details"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./Globianis/productos.js"></script>
+    <script src="./Globianis/script.js"></script>
+</body>
+</html>

@@ -18,29 +18,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Función para cargar las fechas que tienen registros
 function cargarFechasDisponibles() {
-    // En un entorno real, aquí se haría una llamada al backend para obtener las fechas
-    // Como es una simulación, usaremos algunas fechas de ejemplo
-    
-    // Esta función simularía la lectura de la carpeta "registro_de_ventas"
-    const hoy = new Date();
-    const fechas = [];
-    
-    // Simular que tenemos registros en los últimos 5 días y algunos días aleatorios
-    for (let i = 1; i <= 5; i++) {
-        const fecha = new Date(hoy);
-        fecha.setDate(hoy.getDate() - i);
-        fechas.push(fecha.toISOString().slice(0, 10));
+    // Usamos la API del sistema de archivos para listar los archivos en la carpeta
+    try {
+        // Verificar si la carpeta existe primero
+        const fs = require('fs');
+        const path = require('path');
+        const carpeta = path.join(__dirname, 'registro_de_ventas');
+        
+        if (!fs.existsSync(carpeta)) {
+            // Si la carpeta no existe, la creamos
+            fs.mkdirSync(carpeta, { recursive: true });
+            console.log('Carpeta de registros creada.');
+            // No hay archivos todavía
+            fechasDisponibles = [];
+            actualizarCalendario();
+            return;
+        }
+        
+        // Leer todos los archivos en la carpeta
+        const archivos = fs.readdirSync(carpeta);
+        
+        // Filtrar solo archivos PDF
+        const pdfFiles = archivos.filter(archivo => archivo.endsWith('.pdf') && archivo.startsWith('Reporte_Financiero_'));
+        
+        // Extraer fechas de los nombres de archivo
+        const fechas = pdfFiles.map(archivo => {
+            // Formato esperado: Reporte_Financiero_YYYY-MM-DD.pdf
+            const match = archivo.match(/Reporte_Financiero_(\d{4}-\d{2}-\d{2})\.pdf/);
+            return match ? match[1] : null;
+        }).filter(fecha => fecha !== null);
+        
+        // Actualizar la variable global
+        fechasDisponibles = fechas;
+        
+        console.log('Fechas disponibles cargadas:', fechasDisponibles);
+    } catch (error) {
+        console.error('Error al cargar fechas disponibles:', error);
+        // Si hay error, usar un array vacío
+        fechasDisponibles = [];
     }
-    
-    // Añadir algunas fechas aleatorias en el último mes
-    for (let i = 0; i < 10; i++) {
-        const fecha = new Date(hoy);
-        fecha.setDate(hoy.getDate() - Math.floor(Math.random() * 30) - 1);
-        fechas.push(fecha.toISOString().slice(0, 10));
-    }
-    
-    // Eliminar duplicados
-    fechasDisponibles = [...new Set(fechas)];
     
     // Actualizar el calendario con las fechas disponibles
     actualizarCalendario();
@@ -103,44 +119,82 @@ function visualizarPDF(fecha) {
     const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
     document.getElementById('pdf-date').textContent = fechaObj.toLocaleDateString('es-ES', opciones);
     
-    // En un entorno real, aquí cargaríamos el PDF de la carpeta
-    // Como es una simulación, mostraremos un mensaje
+    // Cargar el PDF desde la carpeta
     const iframe = document.getElementById('pdf-iframe');
     
-    // Crear un contenido HTML simulado para el iframe
-    // En una implementación real, cargaríamos el archivo PDF así:
-    // iframe.src = `registro_de_ventas/Reporte_Financiero_${fecha}.pdf`;
+    // Cargar el archivo PDF directamente desde la carpeta de registros
+    const rutaPDF = `registro_de_ventas/Reporte_Financiero_${fecha}.pdf`;
     
-    // Como no podemos cargar archivos locales, mostraremos un mensaje
-    const htmlContent = `
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: 'Segoe UI', sans-serif;
-                    text-align: center;
-                    padding: 50px;
-                    background-color: #f8f9fa;
-                }
-                h1 {
-                    color: #3498db;
-                }
-                p {
-                    font-size: 18px;
-                    line-height: 1.6;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>Reporte del ${fechaObj.toLocaleDateString('es-ES', opciones)}</h1>
-            <p>En una implementación real, aquí se mostraría el PDF guardado para esta fecha.</p>
-            <p>Archivo: <strong>Reporte_Financiero_${fecha}.pdf</strong></p>
-        </body>
-        </html>
-    `;
-    
-    // Establecer el contenido del iframe
-    iframe.srcdoc = htmlContent;
+    try {
+        // Verificar si el archivo existe antes de cargarlo
+        const fs = require('fs');
+        const path = require('path');
+        const rutaCompleta = path.join(__dirname, rutaPDF);
+        
+        if (fs.existsSync(rutaCompleta)) {
+            // Si el archivo existe, cargar en el iframe
+            iframe.src = rutaPDF;
+        } else {
+            // Si no existe, mostrar mensaje de error
+            const htmlContent = `
+                <html>
+                <head>
+                    <style>
+                        body {
+                            font-family: 'Segoe UI', sans-serif;
+                            text-align: center;
+                            padding: 50px;
+                            background-color: #f8f9fa;
+                        }
+                        h1 {
+                            color: #e74c3c;
+                        }
+                        p {
+                            font-size: 18px;
+                            line-height: 1.6;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Error: Archivo no encontrado</h1>
+                    <p>No se pudo encontrar el reporte para la fecha ${fechaObj.toLocaleDateString('es-ES', opciones)}.</p>
+                    <p>Ruta buscada: <strong>${rutaPDF}</strong></p>
+                </body>
+                </html>
+            `;
+            iframe.srcdoc = htmlContent;
+        }
+    } catch (error) {
+        console.error('Error al cargar el PDF:', error);
+        // Mostrar mensaje de error en el iframe
+        const htmlContent = `
+            <html>
+            <head>
+                <style>
+                    body {
+                        font-family: 'Segoe UI', sans-serif;
+                        text-align: center;
+                        padding: 50px;
+                        background-color: #f8f9fa;
+                    }
+                    h1 {
+                        color: #e74c3c;
+                    }
+                    p {
+                        font-size: 18px;
+                        line-height: 1.6;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Error al cargar el PDF</h1>
+                <p>Ocurrió un error al intentar cargar el reporte.</p>
+                <p>Detalles: ${error.message}</p>
+            </body>
+            </html>
+        `;
+        iframe.srcdoc = htmlContent;
+    }
 }
 
 // Cerrar el visualizador de PDF
@@ -351,30 +405,77 @@ function cerrarModal() {
 function confirmarGuardado() {
     cerrarModal();
     
-    // En un entorno real, aquí se guardaría el PDF en una carpeta del servidor
-    // Como es una simulación en el navegador, mostraremos un mensaje
+    // Verificar que tenemos un PDF generado
+    if (!pdfGenerado) {
+        alert('Error: No hay PDF para guardar.');
+        return;
+    }
     
-    // Crear la carpeta si no existe (esto es simulado)
-    crearCarpetaRegistros();
+    // Crear la carpeta si no existe
+    if (!crearCarpetaRegistros()) {
+        return; // Si hay error al crear la carpeta, abortar
+    }
     
-    // Simular guardado
-    setTimeout(() => {
-        alert(`El reporte se ha guardado exitosamente en la carpeta "registro_de_ventas" con el nombre "${pdfFileName}"`);
+    try {
+        // Guardar el PDF en el sistema de archivos
+        const fs = require('fs');
+        const path = require('path');
         
-        // Actualizar las fechas disponibles
-        const fechaActual = new Date().toISOString().slice(0, 10);
-        if (!fechasDisponibles.includes(fechaActual)) {
-            fechasDisponibles.push(fechaActual);
-            actualizarCalendario();
-        }
-    }, 1000);
+        // Convertir el Blob a un Buffer para escribirlo en el sistema de archivos
+        const reader = new FileReader();
+        reader.onload = function() {
+            const buffer = Buffer.from(new Uint8Array(reader.result));
+            
+            // Ruta donde se guardará el archivo
+            const rutaArchivo = path.join(__dirname, 'registro_de_ventas', pdfFileName);
+            
+            // Escribir el archivo
+            fs.writeFile(rutaArchivo, buffer, (err) => {
+                if (err) {
+                    console.error('Error al guardar el PDF:', err);
+                    alert('Error al guardar el PDF: ' + err.message);
+                } else {
+                    console.log('PDF guardado exitosamente en:', rutaArchivo);
+                    alert(`El reporte se ha guardado exitosamente en la carpeta "registro_de_ventas" con el nombre "${pdfFileName}"`);
+                    
+                    // Actualizar las fechas disponibles
+                    const fechaActual = new Date().toISOString().slice(0, 10);
+                    if (!fechasDisponibles.includes(fechaActual)) {
+                        fechasDisponibles.push(fechaActual);
+                        actualizarCalendario();
+                    }
+                }
+            });
+        };
+        
+        // Leer el Blob como ArrayBuffer
+        reader.readAsArrayBuffer(pdfGenerado);
+        
+    } catch (error) {
+        console.error('Error al procesar el guardado del PDF:', error);
+        alert('Error al guardar el PDF: ' + error.message);
+    }
 }
 
-// Función para simular la creación de la carpeta
+// Función para crear la carpeta de registros si no existe
 function crearCarpetaRegistros() {
-    console.log('Creando carpeta "registro_de_ventas" si no existe');
-    // En un entorno real, aquí se crearía la carpeta en el servidor si no existe
-    // Como estamos en el navegador, esto es solo una simulación
+    try {
+        const fs = require('fs');
+        const path = require('path');
+        const carpeta = path.join(__dirname, 'registro_de_ventas');
+        
+        if (!fs.existsSync(carpeta)) {
+            fs.mkdirSync(carpeta, { recursive: true });
+            console.log('Carpeta "registro_de_ventas" creada exitosamente.');
+        } else {
+            console.log('La carpeta "registro_de_ventas" ya existe.');
+        }
+        return true;
+    } catch (error) {
+        console.error('Error al crear la carpeta de registros:', error);
+        alert('Error al crear la carpeta de registros: ' + error.message);
+        return false;
+    }
 }
 
 // Función para enviar email (dejada como referencia del código original)

@@ -140,6 +140,21 @@
             background-color: #f8d7da;
             color: #721c24;
         }
+        
+        .add-row-button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+
+        .add-row-button:hover {
+            background-color: #27ae60;
+        }
     </style>
 </head>
 <body>
@@ -191,6 +206,11 @@
                         <td><input type="text" class="detalle-input"></td>
                         <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
                     </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: center; padding: 10px;">
+                            <button type="button" class="add-row-button" onclick="agregarFilaGastos()">+ Agregar gasto</button>
+                        </td>
+                    </tr>
                     <tr class="total-row">
                         <td colspan="2">Total de Gastos:</td>
                         <td id="total-gastos" class="red-text">$0.00</td>
@@ -223,27 +243,29 @@
                         <td><input type="number" class="cantidad-input" data-precio="15" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
-<tr>
+                    <tr>
                         <td>Garrafones Nuevos vendidos</td>
                         <td>$90.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="90" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
-</tr>
+                    </tr>
                     <tr>
                         <td>Garrafones a domicilio</td>
                         <td>$18.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="18" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
-
-
                     <tr>
-    <td><input type="text" class="concepto-input" value="Otros"></td>
-    <td><input type="number" class="precio-input" min="0" step="0.01" onchange="calcularFila(this)"></td>
-    <td><input type="number" class="cantidad-input" value="1" min="0" onchange="calcularFila(this)"></td>
-    <td class="total-cell green-text">$0.00</td>
-</tr>
-                    
+                        <td><input type="text" class="concepto-input" value="Otros"></td>
+                        <td><input type="number" class="precio-input" min="0" step="0.01" onchange="calcularFilaPersonalizada(this)"></td>
+                        <td><input type="number" class="cantidad-input" min="0" onchange="calcularFilaPersonalizada(this)"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 10px;">
+                            <button type="button" class="add-row-button" onclick="agregarFilaIngresos()">+ Agregar ingreso</button>
+                        </td>
+                    </tr>
                     <tr class="total-row">
                         <td colspan="3">Total de Ingresos:</td>
                         <td id="total-ingresos" class="green-text">$0.00</td>
@@ -312,6 +334,21 @@
             calcularTotalIngresos();
         }
         
+        // Calcular fila personalizada (para filas con precio editable)
+        function calcularFilaPersonalizada(input) {
+            const fila = input.parentElement.parentElement;
+            const precioInput = fila.querySelector('.precio-input');
+            const cantidadInput = fila.querySelector('.cantidad-input');
+            
+            const precio = parseFloat(precioInput.value) || 0;
+            const cantidad = parseFloat(cantidadInput.value) || 0;
+            const total = precio * cantidad;
+            
+            fila.querySelector('.total-cell').textContent = '$' + total.toFixed(2);
+            
+            calcularTotalIngresos();
+        }
+        
         // Calcular total de ingresos
         function calcularTotalIngresos() {
             let total = 0;
@@ -349,6 +386,37 @@
                 document.getElementById('resultado-final').textContent = 'Balance Negativo';
                 document.getElementById('resultado-final').className = 'negative';
             }
+        }
+        
+        // Función para agregar una nueva fila a la tabla de gastos
+        function agregarFilaGastos() {
+            const tabla = document.querySelector('#gastos-table tbody');
+            const ultimaFila = document.querySelector('#gastos-table .add-row-button').parentElement.parentElement;
+            
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="concepto-input"></td>
+                <td><input type="text" class="detalle-input"></td>
+                <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
+            `;
+            
+            tabla.insertBefore(nuevaFila, ultimaFila);
+        }
+
+        // Función para agregar una nueva fila a la tabla de ingresos
+        function agregarFilaIngresos() {
+            const tabla = document.querySelector('#ingresos-table tbody');
+            const ultimaFila = document.querySelector('#ingresos-table .add-row-button').parentElement.parentElement;
+            
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="concepto-input"></td>
+                <td><input type="number" class="precio-input" min="0" step="0.01" onchange="calcularFilaPersonalizada(this)"></td>
+                <td><input type="number" class="cantidad-input" min="0" onchange="calcularFilaPersonalizada(this)"></td>
+                <td class="total-cell green-text">$0.00</td>
+            `;
+            
+            tabla.insertBefore(nuevaFila, ultimaFila);
         }
         
         // Generar PDF y enviar por email

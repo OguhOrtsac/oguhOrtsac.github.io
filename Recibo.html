@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte Financiero Diario</title>
+    <title>Purificadora La Esmeralda</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/smtp.js/1.0.1/smtp.js"></script>
+    <!-- Añadimos librería para calendario -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -155,11 +158,117 @@
         .add-row-button:hover {
             background-color: #27ae60;
         }
+        
+        /* Estilos para botones adicionales */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .save-button {
+            background-color: #27ae60;
+            flex: 1;
+        }
+        
+        .save-button:hover {
+            background-color: #219653;
+        }
+        
+        .view-button {
+            background-color: #f39c12;
+            flex: 1;
+        }
+        
+        .view-button:hover {
+            background-color: #d35400;
+        }
+        
+        /* Estilos para modales */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            max-width: 700px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: black;
+        }
+        
+        /* Estilos para el calendario */
+        .calendar-container {
+            margin-bottom: 20px;
+        }
+        
+        /* Estilos para la vista previa del PDF */
+        .pdf-viewer {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        
+        /* Estilos para los botones del modal */
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .modal-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .confirm-button {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .cancel-button {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        /* Estilos para fechas con registros en el calendario */
+        .has-record {
+            background-color: #3498db !important;
+            color: white !important;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
     <div class="container" id="content-to-pdf">
-        <h1>Reporte Financiero Diario</h1>
+        <h1>Reporte de ventas Diario</h1>
         
         <div class="date-section">
             Fecha: <span id="current-date"></span>
@@ -202,11 +311,6 @@
                         <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="concepto-input"></td>
-                        <td><input type="text" class="detalle-input"></td>
-                        <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
-                    </tr>
-                    <tr>
                         <td colspan="3" style="text-align: center; padding: 10px;">
                             <button type="button" class="add-row-button" onclick="agregarFilaGastos()">+ Agregar gasto</button>
                         </td>
@@ -232,7 +336,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Garrafones en sucursal T</td>
+                        <td>Garrafones en sucursal</td>
                         <td>$15.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="15" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
@@ -243,22 +347,18 @@
                         <td><input type="number" class="cantidad-input" data-precio="15" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
-                    <tr>
-                        <td>Garrafones Nuevos vendidos</td>
-                        <td>$90.00</td>
-                        <td><input type="number" class="cantidad-input" data-precio="90" onchange="calcularFila(this)" min="0"></td>
-                        <td class="total-cell green-text">$0.00</td>
-                    </tr>
+                    
                     <tr>
                         <td>Garrafones a domicilio</td>
                         <td>$18.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="18" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
+
                     <tr>
-                        <td><input type="text" class="concepto-input" value="Otros"></td>
-                        <td><input type="number" class="precio-input" min="0" step="0.01" onchange="calcularFilaPersonalizada(this)"></td>
-                        <td><input type="number" class="cantidad-input" min="0" onchange="calcularFilaPersonalizada(this)"></td>
+                        <td>Garrafones Nuevos vendidos</td>
+                        <td>$100.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="100" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
                     </tr>
                     <tr>
@@ -293,16 +393,59 @@
             
             <div id="resultado-final"></div>
         </div>
+    </div>
+    
+    <!-- Botones de acción -->
+    <div class="container">
+        <button class="action-button" onclick="generarPDF()">Descargar PDF</button>
         
-        <button class="action-button" onclick="generarPDF()">Compartir pdf</button>
+        <div class="button-group">
+            <button class="action-button save-button" onclick="confirmarGuardarPDF()">Guardar en Carpeta</button>
+            <button class="action-button view-button" onclick="abrirCalendario()">Ver Registros</button>
+        </div>
+    </div>
+    
+    <!-- Modal para confirmar guardado -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('confirm-modal')">&times;</span>
+            <h2>Confirmar Guardado</h2>
+            <p>¿Estás seguro que deseas guardar este reporte en la carpeta "registro_de_ventas"?</p>
+            <div class="modal-buttons">
+                <button class="modal-button cancel-button" onclick="cerrarModal('confirm-modal')">Cancelar</button>
+                <button class="modal-button confirm-button" onclick="guardarPDFEnCarpeta()">Guardar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para ver registros -->
+    <div id="calendar-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('calendar-modal')">&times;</span>
+            <h2>Registros Guardados</h2>
+            <p>Selecciona una fecha para ver el reporte:</p>
+            <div class="calendar-container">
+                <input type="text" id="date-picker" placeholder="Seleccionar fecha">
+            </div>
+            <div id="pdf-container" style="display: none;">
+                <h3>Reporte del día: <span id="report-date"></span></h3>
+                <iframe id="pdf-viewer" class="pdf-viewer"></iframe>
+            </div>
+        </div>
     </div>
 
     <script>
+        // Variable para almacenar el calendario
+        let datePickerInstance;
+        
         // Establecer la fecha actual
         document.addEventListener('DOMContentLoaded', function() {
             const fechaActual = new Date();
             const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('current-date').textContent = fechaActual.toLocaleDateString('es-ES', opciones);
+            
+            // Inicializar el calendario
+            inicializarCalendario();
         });
         
         // Calcular total de gastos
@@ -419,92 +562,196 @@
             tabla.insertBefore(nuevaFila, ultimaFila);
         }
         
-        // Generar PDF y compartir por WhatsApp
-function generarPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    const content = document.getElementById('content-to-pdf');
-    
-    html2canvas(content).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const imgWidth = 190;
-        const pageHeight = 290;
-        const imgHeight = canvas.height * imgWidth / canvas.width;
-        let heightLeft = imgHeight;
-        let position = 10;
-        
-        doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-        
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            doc.addPage();
-            doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-        }
-        
-        // Generar el blob del PDF
-        const pdfOutput = doc.output('blob');
-        const pdfName = 'Reporte_Financiero_' + new Date().toISOString().slice(0, 10) + '.pdf';
-        
-        // Crear un objeto File desde el blob para compartir
-        const pdfFile = new File([pdfOutput], pdfName, { type: 'application/pdf' });
-        
-        // Intentar usar la API Web Share si está disponible (móviles modernos)
-        if (navigator.share && navigator.canShare({ files: [pdfFile] })) {
-            navigator.share({
-                files: [pdfFile],
-                title: 'Reporte Financiero',
-                text: 'Aquí está el reporte financiero del día'
-            })
-            .then(() => console.log('Compartido exitosamente'))
-            .catch((error) => {
-                console.error('Error al compartir:', error);
-                // Fallback: descargar archivo si falla compartir
-                let url = URL.createObjectURL(pdfOutput);
-                let a = document.createElement('a');
-                a.href = url;
-                a.download = pdfName;
-                a.click();
-            });
-        } else {
-            // Fallback para dispositivos o navegadores que no soportan Web Share API
-            alert('Para compartir por WhatsApp: El PDF se descargará ahora. Luego puede adjuntarlo en WhatsApp Web o en su aplicación de WhatsApp.');
+        // Generar PDF para descarga
+        function generarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
             
-            // Descargar el PDF
-            let url = URL.createObjectURL(pdfOutput);
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = pdfName;
-            a.click();
+            const content = document.getElementById('content-to-pdf');
             
-            // Opcionalmente, abrir WhatsApp Web
-            setTimeout(() => {
-                const confirmOpen = confirm('¿Desea abrir WhatsApp Web para compartir el archivo?');
-                if (confirmOpen) {
-                    window.open('https://web.whatsapp.com/', '_blank');
+            html2canvas(content).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const pageHeight = 290;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 10;
+                
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
                 }
-            }, 1000);
+                
+                // Guardar el PDF
+                const pdfName = 'Reporte_Financiero_' + new Date().toISOString().slice(0, 10) + '.pdf';
+                doc.save(pdfName);
+            });
         }
-    });
-}
         
-        // Función para enviar email
-        function enviarEmail(pdfBlob, pdfName) {
-            // Nota: Para enviar realmente un email se necesitaría integrar con un servicio de email
-            // Esta es una simulación de la funcionalidad
-            
-            console.log('Enviando email a hugo.uaslp@gmail.com con el archivo ' + pdfName);
-            
-            // En una implementación real, aquí se usaría un servicio como EmailJS, FormSubmit, u otro
-            // servicio para enviar el email con el PDF adjunto
-            
-            // Por motivos de demostración, se muestra un mensaje de éxito
-            setTimeout(() => {
-                console.log('Email enviado exitosamente');
-            }, 1000);
+        // Mostrar modal de confirmación para guardar PDF
+        function confirmarGuardarPDF() {
+            document.getElementById('confirm-modal').style.display = 'block';
         }
-    </script>
-</body>
-</html>
+        
+        // Guardar PDF en carpeta
+        function guardarPDFEnCarpeta() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const content = document.getElementById('content-to-pdf');
+            
+            html2canvas(content).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const pageHeight = 290;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 10;
+                
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // Fecha actual para el nombre del archivo
+                const fechaActual = new Date();
+                const nombreArchivo = fechaActual.toISOString().slice(0, 10); // Formato YYYY-MM-DD
+                
+                // Guardar PDF localmente usando la API File System Access
+                guardarPDFEnSistema(doc.output('blob'), nombreArchivo);
+                
+                // Cerrar el modal
+                cerrarModal('confirm-modal');
+            });
+        }
+        
+        // Función para guardar PDF usando la API File System Access
+        async function guardarPDFEnSistema(blob, nombreArchivo) {
+            try {
+                // Verificar si el navegador soporta la API
+                if ('showDirectoryPicker' in window) {
+                    // Pedir al usuario que seleccione una carpeta
+                    const directoryHandle = await window.showDirectoryPicker({
+                        id: 'reportes-esmeralda',
+                        mode: 'readwrite',
+                        startIn: 'documents'
+                    });
+                    
+                    // Intentar obtener o crear la carpeta 'registro_de_ventas'
+                    let registroHandle;
+                    try {
+                        registroHandle = await directoryHandle.getDirectoryHandle('registro_de_ventas', { create: true });
+                    } catch (err) {
+                        alert('No se pudo crear la carpeta "registro_de_ventas". ' + err.message);
+                        return;
+                    }
+                    
+                    // Crear o sobrescribir el archivo
+                    const fileHandle = await registroHandle.getFileHandle(nombreArchivo + '.pdf', { create: true });
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(blob);
+                    await writable.close();
+                    
+                    alert('El reporte se ha guardado correctamente en la carpeta "registro_de_ventas".');
+                    
+                    // Actualizar el calendario para reflejar el nuevo archivo
+                    inicializarCalendario();
+                } else {
+                    // Fallback para navegadores que no soportan la API
+                    alert('Tu navegador no soporta guardar archivos directamente en carpetas. El reporte se descargará normalmente.');
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = nombreArchivo + '.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }
+            } catch (err) {
+                console.error('Error al guardar el archivo:', err);
+                alert('Error al guardar el archivo: ' + err.message);
+            }
+        }
+        
+        // Inicializar el calendario
+        function inicializarCalendario() {
+            // Inicializar el calendario con Flatpickr
+            datePickerInstance = flatpickr("#date-picker", {
+                dateFormat: "Y-m-d",
+                onChange: function(selectedDates, dateStr) {
+                    mostrarPDFSeleccionado(dateStr);
+                }
+            });
+            
+            // Cargar fechas disponibles (aquí simularemos esto)
+            cargarFechasDisponibles();
+        }
+        
+        // Simular la carga de fechas disponibles
+        // En una implementación real, aquí se leería la carpeta
+        async function cargarFechasDisponibles() {
+            try {
+                if ('showDirectoryPicker' in window) {
+                    // Intentar abrir el directorio guardado anteriormente o pedir al usuario que lo seleccione
+                    let directoryHandle;
+                    try {
+                        // Si ya hay un identificador guardado, abrirlo
+                        directoryHandle = await window.showDirectoryPicker({
+                            id: 'reportes-esmeralda',
+                            mode: 'read',
+                            startIn: 'documents'
+                        });
+                    } catch (err) {
+                        console.log('No se pudo acceder al directorio:', err);
+                        return;
+                    }
+                    
+                    // Verificar si existe la carpeta 'registro_de_ventas'
+                    try {
+                        const registroHandle = await directoryHandle.getDirectoryHandle('registro_de_ventas');
+                        
+                        // Leer los archivos en la carpeta
+                        const fechasDisponibles = [];
+                        for await (const entry of registroHandle.values()) {
+                            if (entry.kind === 'file' && entry.name.endsWith('.pdf')) {
+                                // Extraer la fecha del nombre del archivo (asumiendo formato YYYY-MM-DD.pdf)
+                                const fecha = entry.name.replace('.pdf', '');
+                                if (/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+                                    fechasDisponibles.push(fecha);
+                                }
+                            }
+                        }
+                        
+                        // Actualizar el calendario con las fechas disponibles
+                        if (datePickerInstance) {
+                            datePickerInstance.set('enable', fechasDisponibles);
+                            
+                            // Marcar visualmente las fechas con registros
+                            const marcarFechasConRegistros = () => {
+                                const calendarDays = document.querySelectorAll('.flatpickr-day');
+                                calendarDays.forEach(day => {
+                                    const dateStr = day.getAttribute('aria-label');
+                                    if (dateStr && fechasDisponibles.includes(dateStr)) {
+                                        day.classList.add('has-record');
+                                    }
+                                });
+                            };
+                            
+                            // Aplicar marcado después de que el calendario se renderice
+                            setTimeout(marcarFechasConRegistros, 100);
+                        }
+                    } catch (err) {
+                        console.log('La carpeta "registro_de_ventas" no existe todavía:', err);
+                    }
+                }

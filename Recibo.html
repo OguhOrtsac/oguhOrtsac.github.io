@@ -264,6 +264,20 @@
             color: white !important;
             border-radius: 50%;
         }
+
+        /* Estilos para mensaje de notificación */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1100;
+        }
     </style>
 </head>
 <body>
@@ -434,15 +448,24 @@
         </div>
     </div>
 
+    <!-- Notificación -->
+    <div id="notification" class="notification"></div>
+
     <script>
         // Variable para almacenar el calendario
         let datePickerInstance;
+        // Variable para almacenar el manejador de directorios
+        let directorioRegistros = null;
         
         // Establecer la fecha actual
         document.addEventListener('DOMContentLoaded', function() {
             const fechaActual = new Date();
             const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('current-date').textContent = fechaActual.toLocaleDateString('es-ES', opciones);
+            
+            // Inicializar cálculos
+            calcularTotalGastos();
+            calcularTotalIngresos();
             
             // Inicializar el calendario
             inicializarCalendario();
@@ -562,6 +585,33 @@
             tabla.insertBefore(nuevaFila, ultimaFila);
         }
         
+        // Cerrar modales
+        function cerrarModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        
+        // Abrir calendario
+        function abrirCalendario() {
+            document.getElementById('calendar-modal').style.display = 'block';
+            document.getElementById('pdf-container').style.display = 'none';
+            
+            // Actualizar las fechas disponibles en el calendario
+            cargarFechasDisponibles();
+        }
+        
+        // Mostrar notificación
+        function mostrarNotificacion(mensaje, tipo = 'success') {
+            const notificacion = document.getElementById('notification');
+            notificacion.textContent = mensaje;
+            notificacion.style.backgroundColor = tipo === 'success' ? '#27ae60' : '#e74c3c';
+            notificacion.style.display = 'block';
+            
+            // Ocultar después de 3 segundos
+            setTimeout(() => {
+                notificacion.style.display = 'none';
+            }, 3000);
+        }
+        
         // Generar PDF para descarga
         function generarPDF() {
             const { jsPDF } = window.jspdf;
@@ -590,6 +640,7 @@
                 // Guardar el PDF
                 const pdfName = 'Reporte_Financiero_' + new Date().toISOString().slice(0, 10) + '.pdf';
                 doc.save(pdfName);
+                mostrarNotificacion('PDF descargado correctamente');
             });
         }
         
@@ -638,120 +689,86 @@
         // Función para guardar PDF usando la API File System Access
         async function guardarPDFEnSistema(blob, nombreArchivo) {
             try {
-                // Verificar si el navegador soporta la API
-                if ('showDirectoryPicker' in window) {
-                    // Pedir al usuario que seleccione una carpeta
-                    const directoryHandle = await window.showDirectoryPicker({
-                        id: 'reportes-esmeralda',
-                        mode: 'readwrite',
-                        startIn: 'documents'
-                    });
-                    
-                    // Intentar obtener o crear la carpeta 'registro_de_ventas'
-                    let registroHandle;
+                // Crear un objeto URL para el blob
+                const url = URL.createObjectURL(blob);
+                
+                // Crear un enlace para descargar
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = nombreArchivo + '.pdf';
+                
+                // Implementación alternativa ya que File System Access API puede no estar disponible en todos los navegadores
+                // Verificar si podemos utilizar showSaveFilePicker
+                if ('showSaveFilePicker' in window) {
                     try {
-                        registroHandle = await directoryHandle.getDirectoryHandle('registro_de_ventas', { create: true });
+                        // Usar File System Access API
+                        const handle = await window.showSaveFilePicker({
+                            suggestedName: nombreArchivo + '.pdf',
+                            types: [{
+                                description: 'PDF Files',
+                                accept: {'application/pdf': ['.pdf']}
+                            }]
+                        });
+                        
+                        const writable = await handle.createWritable();
+                        await writable.write(blob);
+                        await writable.close();
+                        
+                        // Crear o verificar carpeta de registros
+                        try {
+                            const directoryHandle = await getDirectorioRegistros();
+                            if (directoryHandle) {
+                                // Guardar una copia en nuestra carpeta de registros
+                                const fileHandle = await directoryHandle.getFileHandle(nombreArchivo + '.pdf', { create: true });
+                                const fileWritable = await fileHandle.createWritable();
+                                await fileWritable.write(blob);
+                                await fileWritable.close();
+                            }
+                        } catch (err) {
+                            console.error('Error al guardar en carpeta de registros:', err);
+                        }
+                        
+                        mostrarNotificacion('Reporte guardado correctamente');
                     } catch (err) {
-                        alert('No se pudo crear la carpeta "registro_de_ventas". ' + err.message);
-                        return;
+                        console.error('Error al guardar con File System Access API:', err);
+                        // Fallback a método tradicional
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        mostrarNotificacion('Reporte descargado correctamente (modo clásico)');
                     }
-                    
-                    // Crear o sobrescribir el archivo
-                    const fileHandle = await registroHandle.getFileHandle(nombreArchivo + '.pdf', { create: true });
-                    const writable = await fileHandle.createWritable();
-                    await writable.write(blob);
-                    await writable.close();
-                    
-                    alert('El reporte se ha guardado correctamente en la carpeta "registro_de_ventas".');
-                    
-                    // Actualizar el calendario para reflejar el nuevo archivo
-                    inicializarCalendario();
                 } else {
-                    // Fallback para navegadores que no soportan la API
-                    alert('Tu navegador no soporta guardar archivos directamente en carpetas. El reporte se descargará normalmente.');
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = nombreArchivo + '.pdf';
+                    // Método tradicional
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
+                    mostrarNotificacion('Reporte descargado correctamente (modo clásico)');
                 }
+                
+                // Liberar el objeto URL
+                URL.revokeObjectURL(url);
+                
             } catch (err) {
                 console.error('Error al guardar el archivo:', err);
-                alert('Error al guardar el archivo: ' + err.message);
+                mostrarNotificacion('Error al guardar el archivo: ' + err.message, 'error');
             }
         }
         
-        // Inicializar el calendario
-        function inicializarCalendario() {
-            // Inicializar el calendario con Flatpickr
-            datePickerInstance = flatpickr("#date-picker", {
-                dateFormat: "Y-m-d",
-                onChange: function(selectedDates, dateStr) {
-                    mostrarPDFSeleccionado(dateStr);
-                }
-            });
+        // Obtener o crear directorio de registros
+        async function getDirectorioRegistros() {
+            // Si ya tenemos el directorio, lo devolvemos
+            if (directorioRegistros) return directorioRegistros;
             
-            // Cargar fechas disponibles (aquí simularemos esto)
-            cargarFechasDisponibles();
-        }
-        
-        // Simular la carga de fechas disponibles
-        // En una implementación real, aquí se leería la carpeta
-        async function cargarFechasDisponibles() {
             try {
-                if ('showDirectoryPicker' in window) {
-                    // Intentar abrir el directorio guardado anteriormente o pedir al usuario que lo seleccione
-                    let directoryHandle;
-                    try {
-                        // Si ya hay un identificador guardado, abrirlo
-                        directoryHandle = await window.showDirectoryPicker({
-                            id: 'reportes-esmeralda',
-                            mode: 'read',
-                            startIn: 'documents'
-                        });
-                    } catch (err) {
-                        console.log('No se pudo acceder al directorio:', err);
-                        return;
-                    }
-                    
-                    // Verificar si existe la carpeta 'registro_de_ventas'
-                    try {
-                        const registroHandle = await directoryHandle.getDirectoryHandle('registro_de_ventas');
-                        
-                        // Leer los archivos en la carpeta
-                        const fechasDisponibles = [];
-                        for await (const entry of registroHandle.values()) {
-                            if (entry.kind === 'file' && entry.name.endsWith('.pdf')) {
-                                // Extraer la fecha del nombre del archivo (asumiendo formato YYYY-MM-DD.pdf)
-                                const fecha = entry.name.replace('.pdf', '');
-                                if (/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
-                                    fechasDisponibles.push(fecha);
-                                }
-                            }
-                        }
-                        
-                        // Actualizar el calendario con las fechas disponibles
-                        if (datePickerInstance) {
-                            datePickerInstance.set('enable', fechasDisponibles);
-                            
-                            // Marcar visualmente las fechas con registros
-                            const marcarFechasConRegistros = () => {
-                                const calendarDays = document.querySelectorAll('.flatpickr-day');
-                                calendarDays.forEach(day => {
-                                    const dateStr = day.getAttribute('aria-label');
-                                    if (dateStr && fechasDisponibles.includes(dateStr)) {
-                                        day.classList.add('has-record');
-                                    }
-                                });
-                            };
-                            
-                            // Aplicar marcado después de que el calendario se renderice
-                            setTimeout(marcarFechasConRegistros, 100);
-                        }
-                    } catch (err) {
-                        console.log('La carpeta "registro_de_ventas" no existe todavía:', err);
-                    }
+                // Verificar si el navegador soporta la API
+                if (!('showDirectoryPicker' in window)) {
+                    console.log('File System Access API no soportada');
+                    return null;
                 }
+                
+                // Pedir al usuario que seleccione una carpeta base
+                const dirHandle = await window.showDirectoryPicker();
+                
+                // Intentar obtener o crear la carpeta 'registro_de_ventas'
+                try {
+                    directorioRegistros = await dirHandle.get

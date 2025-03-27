@@ -238,12 +238,11 @@
 
 
                     <tr>
-                        <td>Otros</td>
-                        <td><input type="text" class="cantidad-input"></td>
-                        <td><input type="number" class="cantidad-input" onchange="calcularFila(this)" min="0"></td>
-                        <td class="total-cell green-text">$0.00</td>
-                    </tr>
-                    
+    <td>Otros</td>
+    <td><input type="number" class="precio-input" id="otros-precio" min="0" step="0.01" onchange="calcularFila(this)"></td>
+    <td><input type="number" class="cantidad-input" id="otros-cantidad" min="0" onchange="calcularFila(this)"></td>
+    <td class="total-cell green-text">$0.00</td>
+</tr>
                     
                     <tr class="total-row">
                         <td colspan="3">Total de Ingresos:</td>

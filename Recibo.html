@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💧 Purificadora La Esmeralda 💧</title>
+    <title>Purificadora La Esmeralda</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/smtp.js/1.0.1/smtp.js"></script>
-    <!-- Añadimos librería para calendario -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+    <!-- Añadimos librería para el calendario -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.2/pikaday.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.2/css/pikaday.min.css">
+    <!-- Incluimos el script externo -->
+    <script src="script.js" defer></script>
+    <!-- Estilos CSS -->
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -118,6 +121,24 @@
         .action-button:hover {
             background-color: #2980b9;
         }
+
+        .action-button.save {
+            background-color: #27ae60;
+            margin-top: 10px;
+        }
+        
+        .action-button.save:hover {
+            background-color: #219653;
+        }
+
+        .action-button.view {
+            background-color: #f39c12;
+            margin-top: 10px;
+        }
+        
+        .action-button.view:hover {
+            background-color: #d35400;
+        }
         
         .date-section {
             text-align: right;
@@ -158,33 +179,8 @@
         .add-row-button:hover {
             background-color: #27ae60;
         }
-        
-        /* Estilos para botones adicionales */
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .save-button {
-            background-color: #27ae60;
-            flex: 1;
-        }
-        
-        .save-button:hover {
-            background-color: #219653;
-        }
-        
-        .view-button {
-            background-color: #f39c12;
-            flex: 1;
-        }
-        
-        .view-button:hover {
-            background-color: #d35400;
-        }
-        
-        /* Estilos para modales */
+
+        /* Estilos para el modal */
         .modal {
             display: none;
             position: fixed;
@@ -193,90 +189,99 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
         }
-        
+
         .modal-content {
             background-color: #fefefe;
             margin: 10% auto;
             padding: 20px;
-            border-radius: 10px;
-            width: 60%;
-            max-width: 700px;
+            border-radius: 8px;
+            width: 50%;
+            max-width: 500px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
         }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
+
+        .modal-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
-        
-        .close:hover {
-            color: black;
-        }
-        
-        /* Estilos para el calendario */
-        .calendar-container {
-            margin-bottom: 20px;
-        }
-        
-        /* Estilos para la vista previa del PDF */
-        .pdf-viewer {
-            width: 100%;
-            height: 600px;
-            border: 1px solid #ddd;
-            margin-top: 20px;
-        }
-        
-        /* Estilos para los botones del modal */
+
         .modal-buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             margin-top: 20px;
         }
-        
+
         .modal-button {
-            padding: 10px 20px;
+            padding: 8px 16px;
+            margin-left: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
         }
-        
-        .confirm-button {
+
+        .modal-button.confirm {
             background-color: #27ae60;
             color: white;
         }
-        
-        .cancel-button {
+
+        .modal-button.cancel {
             background-color: #e74c3c;
             color: white;
         }
-        
-        /* Estilos para fechas con registros en el calendario */
-        .has-record {
-            background-color: #3498db !important;
-            color: white !important;
-            border-radius: 50%;
+
+        /* Estilos para el calendario y visualizador de PDF */
+        #calendar-container {
+            display: none;
+            margin-top: 20px;
         }
 
-        /* Estilos para mensaje de notificación */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #27ae60;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        #calendar-container.active {
+            display: block;
+        }
+
+        #pdf-viewer {
             display: none;
-            z-index: 1100;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #pdf-viewer.active {
+            display: block;
+        }
+
+        #pdf-viewer iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        .calendar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .highlighted-date {
+            background-color: #3498db !important;
+            color: white !important;
+        }
+
+        .back-button {
+            background-color: #7f8c8d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -320,7 +325,7 @@
                         <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
                     </tr>
                     <tr>
-                        <td>Gasolina 🔥</td>
+                        <td>Gasolina</td>
                         <td><input type="text" class="detalle-input"></td>
                         <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
                     </tr>
@@ -407,368 +412,42 @@
             
             <div id="resultado-final"></div>
         </div>
-    </div>
-    
-    <!-- Botones de acción -->
-    <div class="container">
-        <button class="action-button" onclick="generarPDF()">Descargar PDF</button>
         
-        <div class="button-group">
-            <button class="action-button save-button" onclick="confirmarGuardarPDF()">Guardar en Carpeta</button>
-            <button class="action-button view-button" onclick="abrirCalendario()">Ver Registros</button>
-        </div>
+        <button class="action-button" onclick="generarPDF()">Descargar PDF</button>
     </div>
-    
-    <!-- Modal para confirmar guardado -->
+
+    <!-- Botones adicionales fuera del contenido a imprimir -->
+    <div class="container" style="margin-top: 20px;">
+        <button class="action-button save" onclick="guardarEnCarpeta()">Guardar en Carpeta</button>
+        <button class="action-button view" onclick="mostrarCalendario()">Ver Registro de Otro Día</button>
+    </div>
+
+    <!-- Modal de confirmación -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="cerrarModal('confirm-modal')">&times;</span>
-            <h2>Confirmar Guardado</h2>
-            <p>¿Estás seguro que deseas guardar este reporte en la carpeta "registro_de_ventas"?</p>
+            <div class="modal-title">Confirmar guardado</div>
+            <p>¿Está seguro que desea guardar este reporte en la carpeta de registros?</p>
             <div class="modal-buttons">
-                <button class="modal-button cancel-button" onclick="cerrarModal('confirm-modal')">Cancelar</button>
-                <button class="modal-button confirm-button" onclick="guardarPDFEnCarpeta()">Guardar</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal para ver registros -->
-    <div id="calendar-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="cerrarModal('calendar-modal')">&times;</span>
-            <h2>Registros Guardados</h2>
-            <p>Selecciona una fecha para ver el reporte:</p>
-            <div class="calendar-container">
-                <input type="text" id="date-picker" placeholder="Seleccionar fecha">
-            </div>
-            <div id="pdf-container" style="display: none;">
-                <h3>Reporte del día: <span id="report-date"></span></h3>
-                <iframe id="pdf-viewer" class="pdf-viewer"></iframe>
+                <button class="modal-button cancel" onclick="cerrarModal()">Cancelar</button>
+                <button class="modal-button confirm" onclick="confirmarGuardado()">Guardar</button>
             </div>
         </div>
     </div>
 
-    <!-- Notificación -->
-    <div id="notification" class="notification"></div>
+    <!-- Contenedor para el calendario y visualizador de PDF -->
+    <div id="calendar-container" class="container">
+        <h2>Seleccione una fecha para ver el registro</h2>
+        <div class="calendar-wrapper">
+            <div id="fecha-picker"></div>
+            <button class="back-button" onclick="ocultarCalendario()">Volver</button>
+        </div>
+    </div>
 
-    <script>
-        // Variable para almacenar el calendario
-        let datePickerInstance;
-        // Variable para almacenar el manejador de directorios
-        let directorioRegistros = null;
-        
-        // Establecer la fecha actual
-        document.addEventListener('DOMContentLoaded', function() {
-            const fechaActual = new Date();
-            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').textContent = fechaActual.toLocaleDateString('es-ES', opciones);
-            
-            // Inicializar cálculos
-            calcularTotalGastos();
-            calcularTotalIngresos();
-            
-            // Inicializar el calendario
-            inicializarCalendario();
-        });
-        
-        // Calcular total de gastos
-        function calcularTotalGastos() {
-            let total = 0;
-            const costos = document.querySelectorAll('.costo-input');
-            
-            costos.forEach(costo => {
-                if (costo.value) {
-                    total += parseFloat(costo.value);
-                }
-            });
-            
-            document.getElementById('total-gastos').textContent = '$' + total.toFixed(2);
-            document.getElementById('resumen-gastos').textContent = '$' + total.toFixed(2);
-            
-            calcularResultadoDia();
-        }
-        
-        // Calcular fila de ingresos (precio * cantidad)
-        function calcularFila(input) {
-            const fila = input.parentElement.parentElement;
-            const precio = parseFloat(input.getAttribute('data-precio'));
-            const cantidad = parseFloat(input.value) || 0;
-            const total = precio * cantidad;
-            
-            fila.querySelector('.total-cell').textContent = '$' + total.toFixed(2);
-            
-            calcularTotalIngresos();
-        }
-        
-        // Calcular fila personalizada (para filas con precio editable)
-        function calcularFilaPersonalizada(input) {
-            const fila = input.parentElement.parentElement;
-            const precioInput = fila.querySelector('.precio-input');
-            const cantidadInput = fila.querySelector('.cantidad-input');
-            
-            const precio = parseFloat(precioInput.value) || 0;
-            const cantidad = parseFloat(cantidadInput.value) || 0;
-            const total = precio * cantidad;
-            
-            fila.querySelector('.total-cell').textContent = '$' + total.toFixed(2);
-            
-            calcularTotalIngresos();
-        }
-        
-        // Calcular total de ingresos
-        function calcularTotalIngresos() {
-            let total = 0;
-            const celdas = document.querySelectorAll('.total-cell');
-            
-            celdas.forEach(celda => {
-                if (celda.textContent !== '$0.00') {
-                    total += parseFloat(celda.textContent.replace('$', ''));
-                }
-            });
-            
-            document.getElementById('total-ingresos').textContent = '$' + total.toFixed(2);
-            document.getElementById('resumen-ingresos').textContent = '$' + total.toFixed(2);
-            
-            calcularResultadoDia();
-        }
-        
-        // Calcular resultado del día
-        function calcularResultadoDia() {
-            const totalGastos = parseFloat(document.getElementById('resumen-gastos').textContent.replace('$', ''));
-            const totalIngresos = parseFloat(document.getElementById('resumen-ingresos').textContent.replace('$', ''));
-            
-            const resultado = totalIngresos - totalGastos;
-            const resultadoElement = document.getElementById('resultado-dia');
-            
-            resultadoElement.textContent = '$' + resultado.toFixed(2);
-            
-            // Aplicar color según sea positivo o negativo
-            if (resultado >= 0) {
-                resultadoElement.className = 'green-text';
-                document.getElementById('resultado-final').textContent = '¡Balance Positivo!';
-                document.getElementById('resultado-final').className = 'positive';
-            } else {
-                resultadoElement.className = 'red-text';
-                document.getElementById('resultado-final').textContent = 'Balance Negativo';
-                document.getElementById('resultado-final').className = 'negative';
-            }
-        }
-        
-        // Función para agregar una nueva fila a la tabla de gastos
-        function agregarFilaGastos() {
-            const tabla = document.querySelector('#gastos-table tbody');
-            const ultimaFila = document.querySelector('#gastos-table .add-row-button').parentElement.parentElement;
-            
-            const nuevaFila = document.createElement('tr');
-            nuevaFila.innerHTML = `
-                <td><input type="text" class="concepto-input"></td>
-                <td><input type="text" class="detalle-input"></td>
-                <td><input type="number" class="costo-input" onchange="calcularTotalGastos()" min="0"></td>
-            `;
-            
-            tabla.insertBefore(nuevaFila, ultimaFila);
-        }
-
-        // Función para agregar una nueva fila a la tabla de ingresos
-        function agregarFilaIngresos() {
-            const tabla = document.querySelector('#ingresos-table tbody');
-            const ultimaFila = document.querySelector('#ingresos-table .add-row-button').parentElement.parentElement;
-            
-            const nuevaFila = document.createElement('tr');
-            nuevaFila.innerHTML = `
-                <td><input type="text" class="concepto-input"></td>
-                <td><input type="number" class="precio-input" min="0" step="0.01" onchange="calcularFilaPersonalizada(this)"></td>
-                <td><input type="number" class="cantidad-input" min="0" onchange="calcularFilaPersonalizada(this)"></td>
-                <td class="total-cell green-text">$0.00</td>
-            `;
-            
-            tabla.insertBefore(nuevaFila, ultimaFila);
-        }
-        
-        // Cerrar modales
-        function cerrarModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-        
-        // Abrir calendario
-        function abrirCalendario() {
-            document.getElementById('calendar-modal').style.display = 'block';
-            document.getElementById('pdf-container').style.display = 'none';
-            
-            // Actualizar las fechas disponibles en el calendario
-            cargarFechasDisponibles();
-        }
-        
-        // Mostrar notificación
-        function mostrarNotificacion(mensaje, tipo = 'success') {
-            const notificacion = document.getElementById('notification');
-            notificacion.textContent = mensaje;
-            notificacion.style.backgroundColor = tipo === 'success' ? '#27ae60' : '#e74c3c';
-            notificacion.style.display = 'block';
-            
-            // Ocultar después de 3 segundos
-            setTimeout(() => {
-                notificacion.style.display = 'none';
-            }, 3000);
-        }
-        
-        // Generar PDF para descarga
-        function generarPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            const content = document.getElementById('content-to-pdf');
-            
-            html2canvas(content).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 190;
-                const pageHeight = 290;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 10;
-                
-                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-                
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    doc.addPage();
-                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-                
-                // Guardar el PDF
-                const pdfName = 'Reporte_Financiero_' + new Date().toISOString().slice(0, 10) + '.pdf';
-                doc.save(pdfName);
-                mostrarNotificacion('PDF descargado correctamente');
-            });
-        }
-        
-        // Mostrar modal de confirmación para guardar PDF
-        function confirmarGuardarPDF() {
-            document.getElementById('confirm-modal').style.display = 'block';
-        }
-        
-        // Guardar PDF en carpeta
-        function guardarPDFEnCarpeta() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            const content = document.getElementById('content-to-pdf');
-            
-            html2canvas(content).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 190;
-                const pageHeight = 290;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 10;
-                
-                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-                
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    doc.addPage();
-                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-                
-                // Fecha actual para el nombre del archivo
-                const fechaActual = new Date();
-                const nombreArchivo = fechaActual.toISOString().slice(0, 10); // Formato YYYY-MM-DD
-                
-                // Guardar PDF localmente usando la API File System Access
-                guardarPDFEnSistema(doc.output('blob'), nombreArchivo);
-                
-                // Cerrar el modal
-                cerrarModal('confirm-modal');
-            });
-        }
-        
-        // Función para guardar PDF usando la API File System Access
-        async function guardarPDFEnSistema(blob, nombreArchivo) {
-            try {
-                // Crear un objeto URL para el blob
-                const url = URL.createObjectURL(blob);
-                
-                // Crear un enlace para descargar
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = nombreArchivo + '.pdf';
-                
-                // Implementación alternativa ya que File System Access API puede no estar disponible en todos los navegadores
-                // Verificar si podemos utilizar showSaveFilePicker
-                if ('showSaveFilePicker' in window) {
-                    try {
-                        // Usar File System Access API
-                        const handle = await window.showSaveFilePicker({
-                            suggestedName: nombreArchivo + '.pdf',
-                            types: [{
-                                description: 'PDF Files',
-                                accept: {'application/pdf': ['.pdf']}
-                            }]
-                        });
-                        
-                        const writable = await handle.createWritable();
-                        await writable.write(blob);
-                        await writable.close();
-                        
-                        // Crear o verificar carpeta de registros
-                        try {
-                            const directoryHandle = await getDirectorioRegistros();
-                            if (directoryHandle) {
-                                // Guardar una copia en nuestra carpeta de registros
-                                const fileHandle = await directoryHandle.getFileHandle(nombreArchivo + '.pdf', { create: true });
-                                const fileWritable = await fileHandle.createWritable();
-                                await fileWritable.write(blob);
-                                await fileWritable.close();
-                            }
-                        } catch (err) {
-                            console.error('Error al guardar en carpeta de registros:', err);
-                        }
-                        
-                        mostrarNotificacion('Reporte guardado correctamente');
-                    } catch (err) {
-                        console.error('Error al guardar con File System Access API:', err);
-                        // Fallback a método tradicional
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        mostrarNotificacion('Reporte descargado correctamente (modo clásico)');
-                    }
-                } else {
-                    // Método tradicional
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    mostrarNotificacion('Reporte descargado correctamente (modo clásico)');
-                }
-                
-                // Liberar el objeto URL
-                URL.revokeObjectURL(url);
-                
-            } catch (err) {
-                console.error('Error al guardar el archivo:', err);
-                mostrarNotificacion('Error al guardar el archivo: ' + err.message, 'error');
-            }
-        }
-        
-        // Obtener o crear directorio de registros
-        async function getDirectorioRegistros() {
-            // Si ya tenemos el directorio, lo devolvemos
-            if (directorioRegistros) return directorioRegistros;
-            
-            try {
-                // Verificar si el navegador soporta la API
-                if (!('showDirectoryPicker' in window)) {
-                    console.log('File System Access API no soportada');
-                    return null;
-                }
-                
-                // Pedir al usuario que seleccione una carpeta base
-                const dirHandle = await window.showDirectoryPicker();
-                
-                // Intentar obtener o crear la carpeta 'registro_de_ventas'
-                try {
-                    directorioRegistros = await dirHandle.get
+    <!-- Visualizador de PDF -->
+    <div id="pdf-viewer" class="container">
+        <h2>Visualizando registro del <span id="pdf-date"></span></h2>
+        <iframe id="pdf-iframe" src=""></iframe>
+        <button class="back-button" onclick="cerrarVisualizador()">Volver</button>
+    </div>
+</body>
+</html>

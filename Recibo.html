@@ -419,44 +419,76 @@
             tabla.insertBefore(nuevaFila, ultimaFila);
         }
         
-        // Generar PDF y enviar por email
-        function generarPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            const content = document.getElementById('content-to-pdf');
-            
-            html2canvas(content).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 190;
-                const pageHeight = 290;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 10;
-                
-                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-                
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    doc.addPage();
-                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-                
-                // Guardar el PDF
-                const pdfOutput = doc.output('blob');
-                const pdfName = 'Reporte_Financiero_' + new Date().toISOString().slice(0, 10) + '.pdf';
-                
-                // Descargar el PDF
-                doc.save(pdfName);
-                
-                // Enviar por email
-                enviarEmail(pdfOutput, pdfName);
-                
-                alert('¡PDF generado y enviado al correo electrónico!');
-            });
+        // Generar PDF y compartir por WhatsApp
+function generarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const content = document.getElementById('content-to-pdf');
+    
+    html2canvas(content).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 190;
+        const pageHeight = 290;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 10;
+        
+        doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
         }
+        
+        // Generar el blob del PDF
+        const pdfOutput = doc.output('blob');
+        const pdfName = 'Reporte_Financiero_' + new Date().toISOString().slice(0, 10) + '.pdf';
+        
+        // Crear un objeto File desde el blob para compartir
+        const pdfFile = new File([pdfOutput], pdfName, { type: 'application/pdf' });
+        
+        // Intentar usar la API Web Share si está disponible (móviles modernos)
+        if (navigator.share && navigator.canShare({ files: [pdfFile] })) {
+            navigator.share({
+                files: [pdfFile],
+                title: 'Reporte Financiero',
+                text: 'Aquí está el reporte financiero del día'
+            })
+            .then(() => console.log('Compartido exitosamente'))
+            .catch((error) => {
+                console.error('Error al compartir:', error);
+                // Fallback: descargar archivo si falla compartir
+                let url = URL.createObjectURL(pdfOutput);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = pdfName;
+                a.click();
+            });
+        } else {
+            // Fallback para dispositivos o navegadores que no soportan Web Share API
+            alert('Para compartir por WhatsApp: El PDF se descargará ahora. Luego puede adjuntarlo en WhatsApp Web o en su aplicación de WhatsApp.');
+            
+            // Descargar el PDF
+            let url = URL.createObjectURL(pdfOutput);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = pdfName;
+            a.click();
+            
+            // Opcionalmente, abrir WhatsApp Web
+            setTimeout(() => {
+                const confirmOpen = confirm('¿Desea abrir WhatsApp Web para compartir el archivo?');
+                if (confirmOpen) {
+                    window.open('https://web.whatsapp.com/', '_blank');
+                }
+            }, 1000);
+        }
+    });
+}
         
         // Función para enviar email
         function enviarEmail(pdfBlob, pdfName) {

@@ -299,7 +299,7 @@
             <div id="resultado-final"></div>
         </div>
         
-        <button class="action-button" onclick="generarPDF()">Descargar PDF y Enviar por Email</button>
+        <button class="action-button" onclick="generarPDF()">Descargar PDF</button>
     </div>
 
     <script>
@@ -457,9 +457,9 @@
                 doc.save(pdfName);
                 
                 // Enviar por email
-                enviarEmail(pdfOutput, pdfName);
+            //    enviarEmail(pdfOutput, pdfName);
                 
-                alert('¡PDF generado y enviado al correo electrónico!');
+               // alert('¡PDF generado y enviado al correo electrónico!');
             });
         }
         

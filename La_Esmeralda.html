@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purificadora La Esmeralda</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smtp.js/1.0.1/smtp.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        input {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #e8f4f8 !important;
+        }
+        
+        .green-text {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .red-text {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .result-table td {
+            padding: 15px;
+            font-size: 1.1em;
+        }
+        
+        .action-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+        }
+        
+        .action-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .date-section {
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        #resultado-final {
+            font-size: 1.2em;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .positive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .negative {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .add-row-button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+
+        .add-row-button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="content-to-pdf">
+        <h1>Reporte de ventas Diario</h1>
+        
+        <div class="date-section">
+            Fecha: <span id="current-date"></span>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Registro de Ingresos</div>
+            <table id="ingresos-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Garrafones en sucursal</td>
+                        <td>$15.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="15" onchange="calcularFila(this)" min="0"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Garrafones tienda</td>
+                        <td>$15.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="15" onchange="calcularFila(this)" min="0"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Garrafones a domicilio</td>
+                        <td>$18.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="18" onchange="calcularFila(this)" min="0"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+
+                    <tr>
+                        <td>Garrafones Nuevos vendidos</td>
+                        <td>$100.00</td>
+                        <td><input type="number" class="cantidad-input" data-precio="100" onchange="calcularFila(this)" min="0"></td>
+                        <td class="total-cell green-text">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 10px;">
+                            <button type="button" class="add-row-button" onclick="agregarFilaIngresos()">+ Agregar ingreso</button>
+                        </td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="2">Total de Ingresos:</td>
+                        <td id="total-cantidad-garrafones">0</td>
+                        <td id="total-ingresos" class="green-text">$0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Registro de Gastos</div>
+            <table id="gastos-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Detalle</th>
+                        <th>Pago por garrafón</th>
+                        <th>Costo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pago Anahi</td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="pago-garrafon-input" value="2" min="0" onchange="calcularCostosAutomaticos()"></td>
+                        <td><input type="number" class="costo-input" min="0" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Pago Yahir</td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="pago-garrafon-input" value="3" min="0" onchange="calcularCostosAutomaticos()"></td>
+                        <td><input type="number" class="costo-input" min="0" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Pago Zaira</td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="pago-garrafon-input" value="2" min="0" onchange="calcularCostosAutomaticos()"></td>
+                        <td><input type="number" class="costo-input" min="0" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Garrafones rotos</td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="pago-garrafon-input" value="0" min="0" onchange="calcularCostosAutomaticos()"></td>
+                        <td><input type="number" class="costo-input" min="0" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Gasolina</td>
+                        <td><input type="text" class="detalle-input"></td>
+                        <td><input type="number" class="pago-garrafon-input" value="0" min="0" onchange="calcularCostosAutomaticos()"></td>
+                        <td><input type="number" class="costo-input" min="0" readonly></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 10px;">
+                            <button type="button" class="add-row-button" onclick="agregarFilaGastos()">+ Agregar gasto</button>
+                        </td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3">Total de Gastos:</td>
+                        <td id="total-gastos" class="red-text">$0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Resumen del Día</div>
+            <table class="result-table">
+                <tr>
+                    <td>Total de Ingresos:</td>
+                    <td id="resumen-ingresos" class="green-text">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Total de Gastos:</td>
+                    <td id="resumen-gastos" class="red-text">$0.00</td>
+                </tr>
+                <tr class="total-row">
+                    <td>Resultado del Día:</td>
+                    <td id="resultado-dia">$0.00</td>
+                </tr>
+            </table>
+            
+            <div id="resultado-final"></div>
+        </div>
+        
+        <button class="action-button" onclick="generarPDF()">Descargar PDF</button>
+    </div>
+
+    <script>
+        // Establecer la fecha actual
+        document.addEventListener('DOMContentLoaded', function() {
+            const fechaActual = new Date();
+            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = fechaActual.toLocaleDateString('es-ES', opciones);
+            
+            // Inicializar los cálculos automáticos
+            calcularCostosAutomaticos();
+        });
+        
+        // Calcular total de gastos
+        function calcularTotalGastos() {
+            let total = 0;
+            const costos = document.querySelectorAll('.costo-input');
+            
+            costos.forEach(costo => {
+                if (costo.value) {
+                    total += parseFloat(costo.value);
+                }
+            });
+            
+            document.getElementById('total-gastos').textContent = '$' + total.toFixed(2);
+            document.getElementById('resumen-gastos').textContent = '$' + total.toFixed(2);
+            
+            calcularResultadoDia();
+        }
+        
+        // Calcular fila de ingresos (precio * cantidad)
+        function calcularFila(input) {
+            const fila = input.parentElement.parentElement;
+            const precio = parseFloat(input.getAttribute('data-precio'));
+            const cantidad = parseFloat(input.value) || 0;
+            const total = precio * cantidad;
+            
+            fila.querySelector('.total-cell').textContent = '$' + total.toFixed(2);
+            
+            calcularTotalIngresos();
+            calcularCostosAutomaticos(); // Actualizar los costos automáticamente
+        }
+        
+        // Calcular fila personalizada (para filas con precio editable)
+        function calcularFilaPersonalizada(input) {
+            const fila = input.parentElement.parentElement;
+            const precioInput = fila.querySelector('.precio-input');
+            const cantidadInput = fila.querySelector('.cantidad-input');
+            
+            const precio = parseFloat(precioInput.value) || 0;
+            const cantidad = parseFloat(cantidadInput.value) || 0;
+            const total = precio * cantidad;
+            
+            fila.querySelector('.total-cell').textContent = '$' + total.toFixed(2);
+            
+            calcularTotalIngresos();
+            calcularCostosAutomaticos(); // Actualizar los costos automáticamente
+        }
+        
+        // Calcular total de ingresos y total de cantidad de garrafones
+        function calcularTotalIngresos() {
+            let totalIngresos = 0;
+            let totalCantidad = 0;
+            const celdas = document.querySelectorAll('.total-cell');
+            const cantidades = document.querySelectorAll('.cantidad-input');
+            
+            celdas.forEach(celda => {
+                if (celda.textContent !== '$0.00') {
+                    totalIngresos += parseFloat(celda.textContent.replace('$', ''));
+                }
+            });
+            
+            cantidades.forEach(cantidad => {
+                if (cantidad.value) {
+                    totalCantidad += parseFloat(cantidad.value);
+                }
+            });
+            
+            document.getElementById('total-ingresos').textContent = '$' + totalIngresos.toFixed(2);
+            document.getElementById('total-cantidad-garrafones').textContent = totalCantidad;
+            document.getElementById('resumen-ingresos').textContent = '$' + totalIngresos.toFixed(2);
+            
+            calcularResultadoDia();
+        }
+        
+        // Calcular los costos automáticamente basados en el total de garrafones
+        function calcularCostosAutomaticos() {
+            const totalGarrafones = parseInt(document.getElementById('total-cantidad-garrafones').textContent) || 0;
+            const pagosGarrafon = document.querySelectorAll('.pago-garrafon-input');
+            const costosInputs = document.querySelectorAll('.costo-input');
+            
+            pagosGarrafon.forEach((pagoInput, index) => {
+                const pagoPorGarrafon = parseFloat(pagoInput.value) || 0;
+                const costo = pagoPorGarrafon * totalGarrafones;
+                
+                if (costosInputs[index]) {
+                    costosInputs[index].value = costo;
+                }
+            });
+            
+            calcularTotalGastos();
+        }
+        
+        // Calcular resultado del día
+        function calcularResultadoDia() {
+            const totalGastos = parseFloat(document.getElementById('resumen-gastos').textContent.replace('$', ''));
+            const totalIngresos = parseFloat(document.getElementById('resumen-ingresos').textContent.replace('$', ''));
+            
+            const resultado = totalIngresos - totalGastos;
+            const resultadoElement = document.getElementById('resultado-dia');
+            
+            resultadoElement.textContent = '$' + resultado.toFixed(2);
+            
+            // Aplicar color según sea positivo o negativo
+            if (resultado >= 0) {
+                resultadoElement.className = 'green-text';
+                document.getElementById('resultado-final').textContent = '¡Balance Positivo!';
+                document.getElementById('resultado-final').className = 'positive';
+            } else {
+                resultadoElement.className = 'red-text';
+                document.getElementById('resultado-final').textContent = 'Balance Negativo';
+                document.getElementById('resultado-final').className = 'negative';
+            }
+        }
+        
+        // Función para agregar una nueva fila a la tabla de gastos
+        function agregarFilaGastos() {
+            const tabla = document.querySelector('#gastos-table tbody');
+            const ultimaFila = document.querySelector('#gastos-table .add-row-button').parentElement.parentElement;
+            
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="concepto-input"></td>
+                <td><input type="text" class="detalle-input"></td>
+                <td><input type="number" class="pago-garrafon-input" value="0" min="0" onchange="calcularCostosAutomaticos()"></td>
+                <td><input type="number" class="costo-input" min="0"></td>
+            `;
+            
+            tabla.insertBefore(nuevaFila, ultimaFila);
+            
+            // Hacer que el campo de costo sea editable para gastos personalizados
+            const costoInput = nuevaFila.querySelector('.costo-input');
+            costoInput.readOnly = false;
+            costoInput.addEventListener('change', calcularTotalGastos);
+        }
+
+        // Función para agregar una nueva fila a la tabla de ingresos
+        function agregarFilaIngresos() {
+            const tabla = document.querySelector('#ingresos-table tbody');
+            const ultimaFila = document.querySelector('#ingresos-table .add-row-button').parentElement.parentElement;
+            
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="concepto-input"></td>
+                <td><input type="number" class="precio-input" min="0" step="0.01" onchange="calcularFilaPersonalizada(this)"></td>
+                <td><input type="number" class="cantidad-input" min="0" onchange="calcularFilaPersonalizada(this)"></td>
+                <td class="total-cell green-text">$0.00</td>
+            `;
+            
+            tabla.insertBefore(nuevaFila, ultimaFila);
+        }
+        
+        // Generar PDF y enviar por email
+        function generarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const content = document.getElementById('content-to-pdf');
+            
+            html2canvas(content).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const pageHeight = 290;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 10;
+                
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // Guardar el PDF
+                const pdfOutput = doc.output('blob');
+                const pdfName = 'Reporte_Financiero_' + new Date().toISOString().slice(0, 10) + '.pdf';
+                
+                // Descargar el PDF
+                doc.save(pdfName);
+            });
+        }
+    </script>
+</body>
+</html>

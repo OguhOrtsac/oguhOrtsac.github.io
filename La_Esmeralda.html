@@ -155,6 +155,80 @@
         .add-row-button:hover {
             background-color: #27ae60;
         }
+        
+        .info-button {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+        
+        .info-button:hover {
+            background-color: #e67e22;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #888;
+        }
+        
+        .close-modal:hover {
+            color: #333;
+        }
+        
+        .modal-title {
+            color: #3498db;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .costo-info-table {
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .costo-info-table th {
+            background-color: #f39c12;
+        }
+        
+        .costo-info-table .total-concept {
+            font-weight: bold;
+            background-color: #f8f4e5;
+        }
     </style>
 </head>
 <body>
@@ -287,12 +361,65 @@
                     <td>Resultado del Día:</td>
                     <td id="resultado-dia">$0.00</td>
                 </tr>
+                <tr>
+                    <td>
+                        Costo por producción de garrafón:
+                        <button type="button" class="info-button" onclick="mostrarCostoGarrafon()">Ver desglose</button>
+                    </td>
+                    <td id="costo-produccion" class="red-text">$0.00</td>
+                </tr>
             </table>
             
             <div id="resultado-final"></div>
         </div>
         
         <button class="action-button" onclick="generarPDF()">Descargar PDF</button>
+    </div>
+    
+    <!-- Modal para el desglose de costos -->
+    <div id="costo-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+            <h2 class="modal-title">Desglose del Costo de Producción por Garrafón</h2>
+            <p>A continuación se muestra el desglose de los $7 que cuesta producir cada garrafón:</p>
+            
+            <table class="costo-info-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Costo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tapas, sellos</td>
+                        <td>$1.50</td>
+                    </tr>
+                    <tr>
+                        <td>Insumos (cloro, sal, desinfectante, resina)</td>
+                        <td>$0.50</td>
+                    </tr>
+                    <tr>
+                        <td>Agua, luz y productos de limpieza</td>
+                        <td>$2.00</td>
+                    </tr>
+                    <tr>
+                        <td>Mantenimiento de filtros y camioneta ($10K cada 3 meses de filtros)</td>
+                        <td>$3.00</td>
+                    </tr>
+                    <tr>
+                        <td>Para el dueño</td>
+                        <td>$1.00</td>
+                    </tr>
+                    <tr class="total-concept">
+                        <td>Costo total por garrafón:</td>
+                        <td>$7.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div id="total-calculo-costo" style="margin-top: 20px; font-weight: bold;"></div>
+        </div>
     </div>
 
     <script>
@@ -334,6 +461,7 @@
             
             calcularTotalIngresos();
             calcularCostosAutomaticos(); // Actualizar los costos automáticamente
+            calcularCostoProduccion(); // Actualizar el costo de producción
         }
         
         // Calcular fila personalizada (para filas con precio editable)
@@ -350,6 +478,7 @@
             
             calcularTotalIngresos();
             calcularCostosAutomaticos(); // Actualizar los costos automáticamente
+            calcularCostoProduccion(); // Actualizar el costo de producción
         }
         
         // Calcular total de ingresos y total de cantidad de garrafones
@@ -376,6 +505,7 @@
             document.getElementById('resumen-ingresos').textContent = '$' + totalIngresos.toFixed(2);
             
             calcularResultadoDia();
+            calcularCostoProduccion(); // Actualizar el costo de producción
         }
         
         // Calcular los costos automáticamente basados en el total de garrafones
@@ -418,6 +548,20 @@
             }
         }
         
+        // Calcular el costo de producción basado en la cantidad de garrafones
+        function calcularCostoProduccion() {
+            const totalGarrafones = parseInt(document.getElementById('total-cantidad-garrafones').textContent) || 0;
+            const costoPorGarrafon = 7; // Costo fijo de $7 por garrafón
+            const costoTotal = totalGarrafones * costoPorGarrafon;
+            
+            document.getElementById('costo-produccion').textContent = '$' + costoTotal.toFixed(2) + ' ($7 × ' + totalGarrafones + ')';
+            
+            // Actualizar también el texto en el modal
+            document.getElementById('total-calculo-costo').textContent = 
+                'Total de garrafones vendidos: ' + totalGarrafones + 
+                ' × $7 = $' + costoTotal.toFixed(2);
+        }
+        
         // Función para agregar una nueva fila a la tabla de gastos
         function agregarFilaGastos() {
             const tabla = document.querySelector('#gastos-table tbody');
@@ -455,7 +599,26 @@
             tabla.insertBefore(nuevaFila, ultimaFila);
         }
         
-        // Generar PDF y enviar por email
+        // Mostrar el modal con el desglose del costo de producción
+        function mostrarCostoGarrafon() {
+            document.getElementById('costo-modal').style.display = 'block';
+            calcularCostoProduccion(); // Actualizar el cálculo
+        }
+        
+        // Cerrar el modal
+        function cerrarModal() {
+            document.getElementById('costo-modal').style.display = 'none';
+        }
+        
+        // Cerrar el modal si se hace clic fuera de él
+        window.onclick = function(event) {
+            const modal = document.getElementById('costo-modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Generar PDF
         function generarPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();

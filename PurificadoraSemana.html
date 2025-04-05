@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purificadora de Agua La Esmeralda - Control Financiero</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e7f4fd;
+            color: #333;
+            background-image: linear-gradient(to bottom, #e7f4fd, #d0e8f8);
+            min-height: 100vh;
+        }
+        header {
+            background-color: #0092ca;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 146, 202, 0.2);
+            background-image: linear-gradient(to right, #0092ca, #00b5e2);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 146, 202, 0.15);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #0092ca;
+        }
+        h1, h2, h3 {
+            margin-top: 0;
+            color: #0070a3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 14px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e8f0;
+        }
+        th {
+            background-color: #e0f2fc;
+            font-weight: bold;
+            color: #0070a3;
+        }
+        .btn {
+            background-color: #00a0cc;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 146, 202, 0.3);
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            background-color: #0084a8;
+            transform: translateY(-2px);
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f2f6fc;
+        }
+        .balance {
+            font-size: 24px;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        .positive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .negative {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .input-number {
+            width: 120px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .input-text {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .date {
+            text-align: right;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Purificadora de Agua La Esmeralda</h1>
+            <p>Sistema de Control Financiero</p>
+            <img src="/api/placeholder/80/80" alt="Logo de gota de agua" style="margin: 10px auto; filter: brightness(0) invert(1); opacity: 0.9;"/>
+        </header>
+        
+        <div class="date" id="fechaActual">Fecha: </div>
+        
+        <div class="card">
+            <h2>Ingresos Semanales</h2>
+            <table id="tablaIngresos">
+                <thead>
+                    <tr>
+                        <th>Día</th>
+                        <th>Monto ($)</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lunes</td>
+                        <td><input type="number" class="input-number ingresos" value="1770"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Martes</td>
+                        <td><input type="number" class="input-number ingresos" value="1655"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Miércoles</td>
+                        <td><input type="number" class="input-number ingresos" value="1786"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Jueves</td>
+                        <td><input type="number" class="input-number ingresos" value="1125"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Viernes</td>
+                        <td><input type="number" class="input-number ingresos" value="1169"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Sábado</td>
+                        <td><input type="number" class="input-number ingresos" value="2397"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Domingo</td>
+                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total Ingresos</td>
+                        <td id="totalIngresos">$9,902</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="btn" id="agregarFilaIngreso">Agregar Fila de Ingreso</button>
+        </div>
+        
+        <div class="card">
+            <h2>Gastos Fijos Semanales</h2>
+            <table id="tablaGastos">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Monto ($)</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pago Yahir</td>
+                        <td><input type="number" class="input-number gastos" value="0"></td>
+                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>Pago Zarai</td>
+                        <td><input type="number" class="input-number gastos" value="0"></td>
+                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>Pago Anahi</td>
+                        <td><input type="number" class="input-number gastos" value="0"></td>
+                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>Pago Conejo</td>
+                        <td><input type="number" class="input-number gastos" value="0"></td>
+                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>Gasolina</td>
+                        <td><input type="number" class="input-number gastos" value="0"></td>
+                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total Gastos</td>
+                        <td id="totalGastos">$0</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="btn" id="agregarFilaGasto">Agregar Fila de Gasto</button>
+        </div>
+        
+        <div class="card">
+            <h2>Balance Final</h2>
+            <table>
+                <tr>
+                    <td>Total Ingresos:</td>
+                    <td id="resumenIngresos">$9,902</td>
+                </tr>
+                <tr>
+                    <td>Total Gastos:</td>
+                    <td id="resumenGastos">$0</td>
+                </tr>
+            </table>
+            <div id="balanceFinal" class="balance positive">Balance: $9,902</div>
+        </div>
+    </div>
+
+    <script>
+        // Establecer la fecha actual
+        const ahora = new Date();
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('fechaActual').textContent = 'Fecha: ' + ahora.toLocaleDateString('es-ES', opciones);
+        
+        // Función para dar formato a cantidades monetarias
+        function formatearDinero(cantidad) {
+            return '$' + cantidad.toLocaleString('es-MX');
+        }
+        
+        // Función para calcular el total de ingresos
+        function calcularTotalIngresos() {
+            let total = 0;
+            document.querySelectorAll('.ingresos').forEach(input => {
+                total += parseInt(input.value) || 0;
+            });
+            
+            document.getElementById('totalIngresos').textContent = formatearDinero(total);
+            document.getElementById('resumenIngresos').textContent = formatearDinero(total);
+            actualizarBalance();
+            return total;
+        }
+        
+        // Función para calcular el total de gastos
+        function calcularTotalGastos() {
+            let total = 0;
+            document.querySelectorAll('.gastos').forEach(input => {
+                total += parseInt(input.value) || 0;
+            });
+            
+            document.getElementById('totalGastos').textContent = formatearDinero(total);
+            document.getElementById('resumenGastos').textContent = formatearDinero(total);
+            actualizarBalance();
+            return total;
+        }
+        
+        // Función para actualizar el balance
+        function actualizarBalance() {
+            const ingresos = calcularTotalReal('ingresos');
+            const gastos = calcularTotalReal('gastos');
+            const balance = ingresos - gastos;
+            
+            const balanceElement = document.getElementById('balanceFinal');
+            balanceElement.textContent = 'Balance: ' + formatearDinero(balance);
+            
+            if (balance >= 0) {
+                balanceElement.classList.remove('negative');
+                balanceElement.classList.add('positive');
+            } else {
+                balanceElement.classList.remove('positive');
+                balanceElement.classList.add('negative');
+            }
+        }
+        
+        // Función auxiliar para calcular totales
+        function calcularTotalReal(clase) {
+            let total = 0;
+            document.querySelectorAll('.' + clase).forEach(input => {
+                total += parseInt(input.value) || 0;
+            });
+            return total;
+        }
+        
+        // Agregar evento para los inputs de ingresos
+        document.querySelectorAll('.ingresos').forEach(input => {
+            input.addEventListener('input', calcularTotalIngresos);
+        });
+        
+        // Agregar evento para los inputs de gastos
+        document.querySelectorAll('.gastos').forEach(input => {
+            input.addEventListener('input', calcularTotalGastos);
+        });
+        
+        // Función para agregar filas de ingresos
+        document.getElementById('agregarFilaIngreso').addEventListener('click', function() {
+            const tabla = document.querySelector('#tablaIngresos tbody');
+            const nuevaFila = document.createElement('tr');
+            
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="input-text" placeholder="Concepto"></td>
+                <td><input type="number" class="input-number ingresos" value="0"></td>
+                <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+            `;
+            
+            tabla.appendChild(nuevaFila);
+            nuevaFila.querySelector('.ingresos').addEventListener('input', calcularTotalIngresos);
+        });
+        
+        // Función para agregar filas de gastos
+        document.getElementById('agregarFilaGasto').addEventListener('click', function() {
+            const tabla = document.querySelector('#tablaGastos tbody');
+            const nuevaFila = document.createElement('tr');
+            
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="input-text" placeholder="Concepto"></td>
+                <td><input type="number" class="input-number gastos" value="0"></td>
+                <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+            `;
+            
+            tabla.appendChild(nuevaFila);
+            nuevaFila.querySelector('.gastos').addEventListener('input', calcularTotalGastos);
+        });
+        
+        // Función para eliminar filas
+        function eliminarFila(boton) {
+            const fila = boton.parentNode.parentNode;
+            const tabla = fila.parentNode;
+            
+            tabla.removeChild(fila);
+            
+            // Recalcular totales
+            calcularTotalIngresos();
+            calcularTotalGastos();
+            actualizarBalance();
+        }
+        
+        // Calcular totales iniciales
+        calcularTotalIngresos();
+        calcularTotalGastos();
+        actualizarBalance();
+    </script>
+</body>
+</html>

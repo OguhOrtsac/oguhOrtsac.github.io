@@ -199,7 +199,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Pago yahir</td>
+                        <td>Pago Jair</td>
                         <td><input type="number" class="costo-input" value="250" onchange="calcularTotalGastos()" min="0"></td>
                         <td class="checkbox-label">
                             <input type="checkbox" class="checkbox-pagado" onchange="marcarComoPagado(this)">
@@ -302,8 +302,12 @@
                         </td>
                     </tr>
                     <tr class="total-row">
-                        <td colspan="3">Total de Ingresos:</td>
+                        <td>Total de Ingresos:</td>
                         <td id="total-ingresos" class="green-text">$0.00</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Total de Garrafones:</td>
+                        <td id="total-cantidad" colspan="3">0</td>
                     </tr>
                 </tbody>
             </table>
@@ -420,6 +424,10 @@
             document.getElementById('total-gastos').textContent = '$' + total.toFixed(2);
             document.getElementById('resumen-gastos').textContent = '$' + total.toFixed(2);
             
+            // Establecer valores iniciales en el resumen del día
+            document.getElementById('resumen-gastos').textContent = '$0.00';
+            document.getElementById('resultado-total').textContent = '$0.00';
+            
             // Actualizar tabla de gastos pagados
             actualizarTablaGastosPagados();
             calcularResultadoTotal();
@@ -455,7 +463,9 @@
         // Calcular total de ingresos
         function calcularTotalIngresos() {
             let total = 0;
+            let totalCantidad = 0;
             const celdas = document.querySelectorAll('.total-cell');
+            const cantidades = document.querySelectorAll('.cantidad-input');
             
             celdas.forEach(celda => {
                 if (celda.textContent !== '$0.00') {
@@ -463,7 +473,14 @@
                 }
             });
             
+            cantidades.forEach(cantidad => {
+                if (cantidad.value) {
+                    totalCantidad += parseInt(cantidad.value);
+                }
+            });
+            
             document.getElementById('total-ingresos').textContent = '$' + total.toFixed(2);
+            document.getElementById('total-cantidad').textContent = totalCantidad;
             document.getElementById('resumen-ingresos').textContent = '$' + total.toFixed(2);
             document.getElementById('resumen-ingresos-caja').textContent = '$' + total.toFixed(2);
             
@@ -541,7 +558,7 @@
                 <td class="total-cell green-text">$0.00</td>
             `;
             
-            tabla.insertBefore(nuevaFila, ultimaFila);
+            tabla.insertBefore(nuevaFila, ultimaFila.previousElementSibling.previousElementSibling);
         }
         
         // Generar PDF y enviar por email

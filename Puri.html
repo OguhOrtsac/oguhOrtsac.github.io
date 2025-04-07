@@ -411,27 +411,23 @@
         }
         
         // Calcular total de gastos
-        function calcularTotalGastos() {
-            let total = 0;
-            const costos = document.querySelectorAll('.costo-input');
-            
-            costos.forEach(costo => {
-                if (costo.value) {
-                    total += parseFloat(costo.value);
-                }
-            });
-            
-            document.getElementById('total-gastos').textContent = '$' + total.toFixed(2);
-            document.getElementById('resumen-gastos').textContent = '$' + total.toFixed(2);
-            
-            // Establecer valores iniciales en el resumen del día
-            document.getElementById('resumen-gastos').textContent = '$0.00';
-            document.getElementById('resultado-total').textContent = '$0.00';
-            
-            // Actualizar tabla de gastos pagados
-            actualizarTablaGastosPagados();
-            calcularResultadoTotal();
+function calcularTotalGastos() {
+    let total = 0;
+    const costos = document.querySelectorAll('.costo-input');
+    
+    costos.forEach(costo => {
+        if (costo.value) {
+            total += parseFloat(costo.value);
         }
+    });
+    
+    document.getElementById('total-gastos').textContent = '$' + total.toFixed(2);
+    document.getElementById('resumen-gastos').textContent = '$' + total.toFixed(2);
+    
+    // Actualizar tabla de gastos pagados
+    actualizarTablaGastosPagados();
+    calcularResultadoTotal();
+}
         
         // Calcular fila de ingresos (precio * cantidad)
         function calcularFila(input) {

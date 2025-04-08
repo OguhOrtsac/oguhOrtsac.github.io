@@ -156,6 +156,22 @@
             background-color: #27ae60;
         }
         
+        .delete-row-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background-color 0.3s;
+            margin-left: 5px;
+        }
+
+        .delete-row-button:hover {
+            background-color: #c0392b;
+        }
+        
         .checkbox-pagado {
             transform: scale(1.5);
             cursor: pointer;
@@ -166,6 +182,12 @@
         }
         
         .checkbox-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .actions-cell {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -188,6 +210,7 @@
                         <th>Concepto</th>
                         <th>Costo</th>
                         <th>Se pagó hoy</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -197,12 +220,18 @@
                         <td class="checkbox-label">
                             <input type="checkbox" class="checkbox-pagado" onchange="marcarComoPagado(this)">
                         </td>
+                        <td class="actions-cell">
+                            <button type="button" class="delete-row-button" onclick="eliminarFila(this)">Eliminar</button>
+                        </td>
                     </tr>
                     <tr>
                         <td>Pago Jair</td>
                         <td><input type="number" class="costo-input" value="250" onchange="calcularTotalGastos()" min="0"></td>
                         <td class="checkbox-label">
                             <input type="checkbox" class="checkbox-pagado" onchange="marcarComoPagado(this)">
+                        </td>
+                        <td class="actions-cell">
+                            <button type="button" class="delete-row-button" onclick="eliminarFila(this)">Eliminar</button>
                         </td>
                     </tr>
                     <tr>
@@ -211,12 +240,18 @@
                         <td class="checkbox-label">
                             <input type="checkbox" class="checkbox-pagado" onchange="marcarComoPagado(this)">
                         </td>
+                        <td class="actions-cell">
+                            <button type="button" class="delete-row-button" onclick="eliminarFila(this)">Eliminar</button>
+                        </td>
                     </tr>
                     <tr>
                         <td>Pago conejo</td>
                         <td><input type="number" class="costo-input" value="200" onchange="calcularTotalGastos()" min="0"></td>
                         <td class="checkbox-label">
                             <input type="checkbox" class="checkbox-pagado" onchange="marcarComoPagado(this)">
+                        </td>
+                        <td class="actions-cell">
+                            <button type="button" class="delete-row-button" onclick="eliminarFila(this)">Eliminar</button>
                         </td>
                     </tr>
                     <tr>
@@ -225,33 +260,21 @@
                         <td class="checkbox-label">
                             <input type="checkbox" class="checkbox-pagado" onchange="marcarComoPagado(this)">
                         </td>
+                        <td class="actions-cell">
+                            <button type="button" class="delete-row-button" onclick="eliminarFila(this)">Eliminar</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="text-align: center; padding: 10px;">
+                        <td colspan="4" style="text-align: center; padding: 10px;">
                             <button type="button" class="add-row-button" onclick="agregarFilaGastos()">+ Agregar gasto</button>
                         </td>
                     </tr>
                     <tr class="total-row">
-                        <td colspan="2">Total de Gastos:</td>
+                        <td colspan="3">Total de Gastos:</td>
                         <td id="total-gastos" class="red-text">$0.00</td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">Pagos realizados hoy</div>
-            <table id="pagos-realizados-table">
-                <thead>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Monto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Esta tabla se llenará dinámicamente con JavaScript -->
                     <tr class="total-row">
-                        <td>Total de pagos del día:</td>
+                        <td colspan="3">Total de pagos del día:</td>
                         <td id="total-pagos-dia" class="red-text">$0.00</td>
                     </tr>
                 </tbody>
@@ -302,12 +325,12 @@
                         </td>
                     </tr>
                     <tr class="total-row">
-                        <td>Total de Ingresos:</td>
+                        <td colspan="3">Total de Ingresos:</td>
                         <td id="total-ingresos" class="green-text">$0.00</td>
                     </tr>
                     <tr class="total-row">
-                        <td>Total de Garrafones:</td>
-                        <td id="total-cantidad" colspan="3">0</td>
+                        <td colspan="3">Total de Garrafones:</td>
+                        <td id="total-cantidad">0</td>
                     </tr>
                 </tbody>
             </table>
@@ -366,6 +389,13 @@
             calcularTotalIngresos();
         });
         
+        // Eliminar una fila
+        function eliminarFila(boton) {
+            const fila = boton.closest('tr');
+            fila.remove();
+            calcularTotalGastos();
+        }
+        
         // Marcar como pagado
         function marcarComoPagado(checkbox) {
             const fila = checkbox.closest('tr');
@@ -376,31 +406,16 @@
                 fila.classList.remove('fila-pagada');
             }
             
-            actualizarTablaGastosPagados();
+            actualizarTotalPagosDia();
         }
         
-        // Actualizar tabla de gastos pagados
-        function actualizarTablaGastosPagados() {
-            const tabla = document.querySelector('#pagos-realizados-table tbody');
-            // Limpiar tabla excepto la última fila (total)
-            while (tabla.children.length > 1) {
-                tabla.removeChild(tabla.firstChild);
-            }
-            
+        // Actualizar total de pagos del día
+        function actualizarTotalPagosDia() {
             let totalPagos = 0;
             const filasPagadas = document.querySelectorAll('#gastos-table .fila-pagada');
             
             filasPagadas.forEach(fila => {
-                const concepto = fila.querySelector('td:first-child').textContent;
                 const costo = parseFloat(fila.querySelector('.costo-input').value) || 0;
-                
-                const nuevaFila = document.createElement('tr');
-                nuevaFila.innerHTML = `
-                    <td>${concepto}</td>
-                    <td class="red-text">$${costo.toFixed(2)}</td>
-                `;
-                
-                tabla.insertBefore(nuevaFila, tabla.lastElementChild);
                 totalPagos += costo;
             });
             
@@ -411,23 +426,23 @@
         }
         
         // Calcular total de gastos
-function calcularTotalGastos() {
-    let total = 0;
-    const costos = document.querySelectorAll('.costo-input');
-    
-    costos.forEach(costo => {
-        if (costo.value) {
-            total += parseFloat(costo.value);
+        function calcularTotalGastos() {
+            let total = 0;
+            const costos = document.querySelectorAll('.costo-input');
+            
+            costos.forEach(costo => {
+                if (costo.value) {
+                    total += parseFloat(costo.value);
+                }
+            });
+            
+            document.getElementById('total-gastos').textContent = '$' + total.toFixed(2);
+            document.getElementById('resumen-gastos').textContent = '$' + total.toFixed(2);
+            
+            // Actualizar total de pagos del día
+            actualizarTotalPagosDia();
+            calcularResultadoTotal();
         }
-    });
-    
-    document.getElementById('total-gastos').textContent = '$' + total.toFixed(2);
-    document.getElementById('resumen-gastos').textContent = '$' + total.toFixed(2);
-    
-    // Actualizar tabla de gastos pagados
-    actualizarTablaGastosPagados();
-    calcularResultadoTotal();
-}
         
         // Calcular fila de ingresos (precio * cantidad)
         function calcularFila(input) {
@@ -536,6 +551,9 @@ function calcularTotalGastos() {
                 <td class="checkbox-label">
                     <input type="checkbox" class="checkbox-pagado" onchange="marcarComoPagado(this)">
                 </td>
+                <td class="actions-cell">
+                    <button type="button" class="delete-row-button" onclick="eliminarFila(this)">Eliminar</button>
+                </td>
             `;
             
             tabla.insertBefore(nuevaFila, ultimaFila);
@@ -557,7 +575,7 @@ function calcularTotalGastos() {
             tabla.insertBefore(nuevaFila, ultimaFila.previousElementSibling.previousElementSibling);
         }
         
-        // Generar PDF y enviar por email
+        // Generar PDF
         function generarPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();

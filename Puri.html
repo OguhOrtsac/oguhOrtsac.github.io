@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/smtp.js/1.0.1/smtp.js"></script>
-    <style>
+            <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -16,6 +16,12 @@
             background-color: #f8f9fa;
             color: #333;
         }
+        
+        /* Establecer anchos para las columnas de gastos */
+        #gastos-table th:nth-child(1) { width: 40%; }
+        #gastos-table th:nth-child(2) { width: 15%; }
+        #gastos-table th:nth-child(3) { width: 15%; }
+        #gastos-table th:nth-child(4) { width: 30%; }
         
         .container {
             max-width: 1000px;
@@ -76,6 +82,11 @@
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
+        }
+        
+        .costo-input {
+            width: 80px;
+            text-align: right;
         }
         
         .total-row {
@@ -207,10 +218,10 @@
             <table id="gastos-table">
                 <thead>
                     <tr>
-                        <th>Concepto</th>
-                        <th>Costo</th>
-                        <th>Se pagó hoy</th>
-                        <th>Acciones</th>
+                        <th style="width: 40%;">Concepto</th>
+                        <th style="width: 15%;">Costo</th>
+                        <th style="width: 15%;">Se pagó hoy</th>
+                        <th style="width: 30%;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>

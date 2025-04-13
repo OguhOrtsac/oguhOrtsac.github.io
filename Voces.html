@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KitCook - Conversor de Voz Real</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #ff6b6b;
+            --background-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            color: #666;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 8px;
+            font-size: 0.8rem;
+        }
+
+        .file-input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-input-container:hover {
+            border-color: var(--primary-color);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #3a5a8c;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .download-btn {
+            background-color: var(--secondary-color);
+        }
+
+        .download-btn:hover {
+            background-color: #ff5252;
+        }
+
+        .voice-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .voice-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .voice-card:hover {
+            border-color: var(--primary-color);
+            background-color: #f0f5ff;
+            transform: translateY(-2px);
+        }
+
+        .voice-card.selected {
+            border: 2px solid var(--primary-color);
+            background-color: #e0eaff;
+        }
+
+        .voice-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            margin-bottom: 0.8rem;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .voice-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .voice-name {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            text-align: center;
+        }
+
+        .voice-lang {
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+        }
+
+        .voice-preview-btn {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .voice-preview-btn:hover {
+            background-color: #d0d0d0;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            color: #ff5252;
+            margin-top: 0.5rem;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            margin: 1rem 0;
+            position: relative;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s;
+            position: relative;
+        }
+
+        .progress-text {
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 0.8rem;
+            line-height: 20px;
+            z-index: 1;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .info-box {
+            background-color: #e0f7ff;
+            border-left: 4px solid #00a0e9;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .warning-box {
+            background-color: #fff9e0;
+            border-left: 4px solid #ffcc00;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .settings-panel {
+            margin-top: 1rem;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        .settings-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .settings-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .settings-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .settings-label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .range-value {
+            font-size: 0.8rem;
+            color: #888;
+            text-align: right;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background-color: #f0f0f0;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        #waveform {
+            width: 100%;
+            height: 100px;
+            margin: 1rem 0;
+        }
+
+        .result-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 600px) {
+            .result-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>KitCook - Conversor de Voz</h1>
+            <div class="subtitle">Convierte tu voz a la de famosos artistas</div>
+            <div class="description">
+                Utiliza tecnología RVC (Retrieval-based Voice Conversion) para transformar cualquier grabación de voz en la voz de tus artistas favoritos, sin necesidad de servidores externos.
+            </div>
+        </header>
+
+        <div class="card">
+            <div class="step">
+                <div class="step-title"><span class="step-number">1</span> Selecciona un archivo de audio</div>
+                <div class="file-input-container" id="dropArea">
+                    <p>Arrastra un archivo de audio aquí o haz clic para seleccionar</p>
+                    <p style="font-size: 0.8rem; color: #666;">Formatos soportados: WAV, MP3, M4A, OGG (máximo 10 MB)</p>
+                    <input type="file" id="fileInput" accept="audio/*">
+                    <div id="fileName"></div>
+                </div>
+                <div id="fileError" class="error-message"></div>
+            </div>
+
+            <div class="step hidden" id="voiceSelectionStep">
+                <div class="step-title"><span class="step-number">2</span> Elige una voz para la conversión</div>
+                
+                <div class="tabs">
+                    <div class="tab active" data-tab="popularTab">Artistas Populares</div>
+                    <div class="tab" data-tab="latinTab">Artistas Latinos</div>
+                    <div class="tab" data-tab="internationalTab">Artistas Internacionales</div>
+                </div>
+                
+                <div id="popularTab" class="tab-content active">
+                    <div id="voiceGallery" class="voice-gallery">
+                        <!-- Las voces se cargarán dinámicamente aquí -->
+                    </div>
+                </div>
+                
+                <div id="latinTab" class="tab-content">
+                    <div id="latinVoiceGallery" class="voice-gallery">
+                        <!-- Voces latinas se cargarán aquí -->
+                    </div>
+                </div>
+                
+                <div id="internationalTab" class="tab-content">
+                    <div id="internationalVoiceGallery" class="voice-gallery">
+                        <!-- Voces internacionales se cargarán aquí -->
+                    </div>
+                </div>
+                
+                <div id="loadingVoices" class="loading-spinner"></div>
+                <div id="voiceError" class="error-message"></div>
+                
+                <div class="warning-box hidden" id="modelSizeWarning">
+                    <strong>Nota:</strong> El modelo de voz seleccionado debe descargarse (~15MB). Esto puede tomar unos momentos dependiendo de tu conexión a internet.
+                </div>
+                
+                <div class="settings-panel">
+                    <div class="settings-title">Ajustes Avanzados</div>
+                    <div class="settings-row">
+                        <div class="settings-group">
+                            <label class="settings-label">Intensidad de conversión:</label>
+                            <input type="range" id="intensitySlider" min="0" max="1" step="0.01" value="0.8">
+                            <div class="range-value"><span id="intensityValue">0.8</span></div>
+                        </div>
+                        <div class="settings-group">
+                            <label class="settings-label">Pitch (tono):</label>
+                            <input type="range" id="pitchSlider" min="-12" max="12" step="1" value="0">
+                            <div class="range-value"><span id="pitchValue">0</span></div>
+                        </div>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-group">
+                            <label class="settings-label">Protección de consonantes:</label>
+                            <input type="range" id="protectionSlider" min="0" max="0.5" step="0.01" value="0.33">
+                            <div class="range-value"><span id="protectionValue">0.33</span></div>
+                        </div>
+                        <div class="settings-group">
+                            <label class="settings-label">Calidad del modelo:</label>
+                            <select id="qualitySelect" style="width: 100%; padding: 5px;">
+                                <option value="low">Baja (más rápido)</option>
+                                <option value="medium" selected>Media (recomendado)</option>
+                                <option value="high">Alta (más lento)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step hidden" id="conversionStep">
+                <div class="step-title"><span class="step-number">3</span> Convierte el audio</div>
+                
+                <button id="convertButton" disabled>Convertir Audio</button>
+                
+                <div id="progressContainer" class="progress-container hidden">
+                    <div id="progressBar" class="progress-bar"></div>
+                    <div id="progressText" class="progress-text">0%</div>
+                </div>
+                
+                <div id="conversionInfo" class="info-box hidden">
+                    <div id="statusMessage">Procesando audio...</div>
+                    <div id="stageMessage" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Etapa: Cargando modelo</div>
+                </div>
+                
+                <div id="conversionSpinner" class="loading-spinner"></div>
+                <div id="conversionError" class="error-message"></div>
+            </div>
+
+            <div class="step hidden" id="resultStep">
+                <div class="step-title"><span class="step-number">4</span> Resultado</div>
+                
+                <div id="resultInfo" class="info-box">
+                    <strong>Conversión completada correctamente</strong>
+                    <div id="conversionDetails" style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        Tu audio ha sido convertido a la voz seleccionada. Puedes escuchar el resultado a continuación y descargarlo si estás satisfecho.
+                    </div>
+                </div>
+                
+                <div id="waveform"></div>
+                <audio id="audioPlayer" class="audio-player" controls></audio>
+                
+                <div class="result-controls">
+                    <button id="downloadButton" class="download-btn">Descargar Audio Convertido</button>
+                    <button id="tryAgainButton">Probar con otra voz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.3/wavesurfer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/4.6.0/tf.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables principales
+            let selectedFile = null;
+            let selectedVoice = null;
+            let audioContext = null;
+            let audioBuffer = null;
+            let processedAudio = null;
+            let wavesurfer = null;
+            let rvcModel = null;
+            let modelLoaded = false;
+
+            // Elementos del DOM
+            const fileInput = document.getElementById('fileInput');
+            const dropArea = document.getElementById('dropArea');
+            const fileName = document.getElementById('fileName');
+            const fileError = document.getElementById('fileError');
+            const voiceSelectionStep = document.getElementById('voiceSelectionStep');
+            const voiceGallery = document.getElementById('voiceGallery');
+            const latinVoiceGallery = document.getElementById('latinVoiceGallery');
+            const internationalVoiceGallery = document.getElementById('internationalVoiceGallery');
+            const voiceError = document.getElementById('voiceError');
+            const loadingVoices = document.getElementById('loadingVoices');
+            const conversionStep = document.getElementById('conversionStep');
+            const convertButton = document.getElementById('convertButton');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const conversionSpinner = document.getElementById('conversionSpinner');
+            const conversionError = document.getElementById('conversionError');
+            const resultStep = document.getElementById('resultStep');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const downloadButton = document.getElementById('downloadButton');
+            const tryAgainButton = document.getElementById('tryAgainButton');
+            const modelSizeWarning = document.getElementById('modelSizeWarning');
+            const conversionInfo = document.getElementById('conversionInfo');
+            const statusMessage = document.getElementById('statusMessage');
+            const stageMessage = document.getElementById('stageMessage');
+
+            // Elementos de configuración
+            const intensitySlider = document.getElementById('intensitySlider');
+            const intensityValue = document.getElementById('intensityValue');
+            const pitchSlider = document.getElementById('pitchSlider');
+            const pitchValue = document.getElementById('pitchValue');
+            const protectionSlider = document.getElementById('protectionSlider');
+            const protectionValue = document.getElementById('protectionValue');
+            const qualitySelect = document.getElementById('qualitySelect');
+
+            // Actualizar valores de los sliders
+            intensitySlider.addEventListener('input', function() {
+                intensityValue.textContent = this.value;
+            });
+            
+            pitchSlider.addEventListener('input', function() {
+                pitchValue.textContent = this.value;
+            });
+            
+            protectionSlider.addEventListener('input', function() {
+                protectionValue.textContent = this.value;
+            });
+
+            // Gestión de pestañas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Desactivar todas las pestañas
+                    document.querySelectorAll('.tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    
+                    // Ocultar todos los contenidos de pestañas
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Activar la pestaña actual
+                    this.classList.add('active');
+                    
+                    // Mostrar el contenido correspondiente
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Inicializar WaveSurfer
+            function initWaveSurfer() {
+                wavesurfer = WaveSurfer.create({
+                    container: '#waveform',
+                    waveColor: '#4a6fa5',
+                    progressColor: '#ff6b6b',
+                    cursorColor: '#333333',
+                    barWidth: 2,
+                    barRadius: 3,
+                    responsive: true,
+                    height: 100
+                });
+                
+                wavesurfer.on('ready', function () {
+                    audioPlayer.src = wavesurfer.getMediaElement().src;
+                });
+            }
+
+            // Inicializar contexto de audio
+            function initAudioContext() {
+                try {
+                    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                    audioContext = new AudioContext();
+                } catch (e) {
+                    fileError.textContent = "Tu navegador no soporta Web Audio API. Por favor, utiliza un navegador moderno.";
+                }
+            }
+
+            // Cargar voces disponibles
+            function loadVoices() {
+                loadingVoices.style.display = 'block';
+                
+                // Lista de voces de artistas populares
+                const popularVoices = [
+                    { id: 'adele', name: 'Adele', lang: 'Inglés', gender: 'female', category: 'pop', previewUrl: 'https://example.com/preview/adele.mp3' },
+                    { id: 'bruno_mars', name: 'Bruno Mars', lang: 'Inglés', gender: 'male', category: 'pop', previewUrl: 'https://example.com/preview/bruno_mars.mp3' },
+                    { id: 'taylor_swift', name: 'Taylor Swift', lang: 'Inglés', gender: 'female', category: 'pop', previewUrl: 'https://example.com/preview/taylor_swift.mp3' },
+                    { id: 'weeknd', name: 'The Weeknd', lang: 'Inglés', gender: 'male', category: 'pop', previewUrl: 'https://example.com/preview/weeknd.mp3' },
+                    { id: 'billie_eilish', name: 'Billie Eilish', lang: 'Inglés', gender: 'female', category: 'pop', previewUrl: 'https://example.com/preview/billie_eilish.mp3' },
+                    { id: 'ed_sheeran', name: 'Ed Sheeran', lang: 'Inglés', gender: 'male', category: 'pop', previewUrl: 'https://example.com/preview/ed_sheeran.mp3' }
+                ];
+                
+                // Lista de voces de artistas latinos
+                const latinVoices = [
+                    { id: 'bad_bunny', name: 'Bad Bunny', lang: 'Español', gender: 'male', category: 'latin', previewUrl: 'https://example.com/preview/bad_bunny.mp3' },
+                    { id: 'shakira', name: 'Shakira', lang: 'Español', gender: 'female', category: 'latin', previewUrl: 'https://example.com/preview/shakira.mp3' },
+                    { id: 'j_balvin', name: 'J Balvin', lang: 'Español', gender: 'male', category: 'latin', previewUrl: 'https://example.com/preview/j_balvin.mp3' },
+                    { id: 'karol_g', name: 'Karol G', lang: 'Español', gender: 'female', category: 'latin', previewUrl: 'https://example.com/preview/karol_g.mp3' },
+                    { id: 'luis_fonsi', name: 'Luis Fonsi', lang: 'Español', gender: 'male', category: 'latin', previewUrl: 'https://example.com/preview/luis_fonsi.mp3' },
+                    { id: 'rosalia', name: 'Rosalía', lang: 'Español', gender: 'female', category: 'latin', previewUrl: 'https://example.com/preview/rosalia.mp3' }
+                ];
+                
+                // Lista de voces de artistas internacionales
+                const internationalVoices = [
+                    { id: 'michael_jackson', name: 'Michael Jackson', lang: 'Inglés', gender: 'male', category: 'international', previewUrl: 'https://example.com/preview/michael_jackson.mp3' },
+                    { id: 'beyonce', name: 'Beyoncé', lang: 'Inglés', gender: 'female', category: 'international', previewUrl: 'https://example.com/preview/beyonce.mp3' },
+                    { id: 'eminem', name: 'Eminem', lang: 'Inglés', gender: 'male', category: 'international', previewUrl: 'https://example.com/preview/eminem.mp3' },
+                    { id: 'ariana_grande', name: 'Ariana Grande', lang: 'Inglés', gender:

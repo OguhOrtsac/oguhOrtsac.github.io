@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purificadora de Agua La Esmeralda - Control Financiero</title>
+    <title>Purificadora de Agua La Esmeralda - Control de la Semana</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #e7f4fd;
+            background-color: #e8f5e9;
             color: #333;
-            background-image: linear-gradient(to bottom, #e7f4fd, #d0e8f8);
+            background-image: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
             min-height: 100vh;
         }
         header {
-            background-color: #0092ca;
-            color: white;
+            background-color: #c8e6c9;
+            color: #1b5e20;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 146, 202, 0.2);
-            background-image: linear-gradient(to right, #0092ca, #00b5e2);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+            background-image: linear-gradient(to right, #c8e6c9, #a5d6a7);
         }
         .container {
             max-width: 900px;
@@ -31,34 +31,44 @@
         .card {
             background-color: white;
             border-radius: 15px;
-            box-shadow: 0 6px 15px rgba(0, 146, 202, 0.15);
+            box-shadow: 0 6px 15px rgba(46, 125, 50, 0.15);
             padding: 25px;
             margin-bottom: 25px;
-            border-left: 5px solid #0092ca;
+            border-left: 5px solid #2e7d32;
+            transform: perspective(800px) rotateX(2deg);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: perspective(800px) rotateX(0deg);
         }
         h1, h2, h3 {
             margin-top: 0;
-            color: #0070a3;
+            color: #1b5e20;
         }
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-bottom: 15px;
             border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         th, td {
             padding: 14px 15px;
             text-align: left;
-            border-bottom: 1px solid #e0e8f0;
+            border-bottom: 1px solid #e0e8e0;
         }
         th {
-            background-color: #e0f2fc;
+            background-color: #c8e6c9;
             font-weight: bold;
-            color: #0070a3;
+            color: #1b5e20;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
         }
         .btn {
-            background-color: #00a0cc;
+            background-color: #43a047;
             color: white;
             border: none;
             padding: 10px 18px;
@@ -66,16 +76,31 @@
             cursor: pointer;
             margin-top: 10px;
             font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0, 146, 202, 0.3);
+            box-shadow: 0 2px 5px rgba(46, 125, 50, 0.3);
             transition: all 0.2s ease;
         }
         .btn:hover {
-            background-color: #0084a8;
+            background-color: #2e7d32;
+            transform: translateY(-2px);
+        }
+        .btn-delete {
+            background-color: #e53935;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            box-shadow: 0 2px 5px rgba(229, 57, 53, 0.3);
+            transition: all 0.2s ease;
+        }
+        .btn-delete:hover {
+            background-color: #c62828;
             transform: translateY(-2px);
         }
         .total-row {
             font-weight: bold;
-            background-color: #f2f6fc;
+            background-color: #e8f5e9;
         }
         .balance {
             font-size: 24px;
@@ -98,6 +123,10 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
         .input-text {
             width: 200px;
             padding: 8px;
@@ -110,14 +139,58 @@
             color: #666;
             margin-bottom: 20px;
         }
+        .operator {
+            font-weight: bold;
+            color: #1b5e20;
+        }
+        .logo-img {
+            max-width: 120px;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+        
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            .card {
+                padding: 15px;
+            }
+            th, td {
+                padding: 10px;
+            }
+            .input-number, .input-text {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+            header {
+                padding: 15px;
+            }
+            .card {
+                padding: 10px;
+                transform: none;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
+            .btn, .btn-delete {
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Purificadora de Agua La Esmeralda</h1>
-            <p>Sistema de Control Financiero</p>
-            <img src="/api/placeholder/80/80" alt="Logo de gota de agua" style="margin: 10px auto; filter: brightness(0) invert(1); opacity: 0.9;"/>
+            <h1 style="color: #1b5e20;">La Esmeralda</h1>
+            <p style="color: #1b5e20;">Purificadora de Agua</p>
+            <p>Control de la Semana</p>
+            <img src="Screenshot_20250409_011003_Gallery.jpg" alt="Logo La Puri" class="logo-img"/>
         </header>
         
         <div class="date" id="fechaActual">Fecha: </div>
@@ -134,45 +207,45 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td>Domingo</td>
+                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                    <tr>
                         <td>Lunes</td>
-                        <td><input type="number" class="input-number ingresos" value="1770"></td>
-                        <td></td>
+                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Martes</td>
-                        <td><input type="number" class="input-number ingresos" value="1655"></td>
-                        <td></td>
+                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Miércoles</td>
-                        <td><input type="number" class="input-number ingresos" value="1786"></td>
-                        <td></td>
+                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Jueves</td>
-                        <td><input type="number" class="input-number ingresos" value="1125"></td>
-                        <td></td>
+                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Viernes</td>
-                        <td><input type="number" class="input-number ingresos" value="1169"></td>
-                        <td></td>
+                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Sábado</td>
-                        <td><input type="number" class="input-number ingresos" value="2397"></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Domingo</td>
                         <td><input type="number" class="input-number ingresos" value="0"></td>
-                        <td></td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr class="total-row">
                         <td>Total Ingresos</td>
-                        <td id="totalIngresos">$9,902</td>
+                        <td id="totalIngresos">$0</td>
                         <td></td>
                     </tr>
                 </tfoot>
@@ -181,7 +254,66 @@
         </div>
         
         <div class="card">
-            <h2>Gastos Fijos Semanales</h2>
+            <h2>Sueldos Semanales</h2>
+            <table id="tablaSueldos">
+                <thead>
+                    <tr>
+                        <th>Empleado</th>
+                        <th>Días Trabajados</th>
+                        <th>Costo por Día</th>
+                        <th>Extra</th>
+                        <th>Pago</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="operator">Yahir</td>
+                        <td><input type="number" class="input-number dias-trabajados" value="6" min="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="250" min="0"></div></td>
+                        <td><input type="number" class="input-number extra" value="0"></td>
+                        <td class="pago">$1,500</td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+
+                    <tr>
+                        <td class="operator">Zaira</td>
+                        <td><input type="number" class="input-number dias-trabajados" value="6" min="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="200" min="0"></div></td>
+                        <td><input type="number" class="input-number extra" value="0"></td>
+                        <td class="pago">$1,200</td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td class="operator">Anahí</td>
+                        <td><input type="number" class="input-number dias-trabajados" value="6" min="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="200" min="0"></div></td>
+                        <td><input type="number" class="input-number extra" value="0"></td>
+                        <td class="pago">$1,200</td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td class="operator">Conejo</td>
+                        <td><input type="number" class="input-number dias-trabajados" value="2" min="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="200" min="0"></div></td>
+                        <td><input type="number" class="input-number extra" value="0"></td>
+                        <td class="pago">$1,200</td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="4">Total Sueldos</td>
+                        <td id="totalSueldos">$6,300</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="btn" id="agregarFilaSueldo">Agregar Fila de Sueldo</button>
+        </div>
+        
+        <div class="card">
+            <h2>Otros Gastos</h2>
             <table id="tablaGastos">
                 <thead>
                     <tr>
@@ -192,29 +324,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Pago Yahir</td>
-                        <td><input type="number" class="input-number gastos" value="0"></td>
-                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
-                    </tr>
-                    <tr>
-                        <td>Pago Zarai</td>
-                        <td><input type="number" class="input-number gastos" value="0"></td>
-                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
-                    </tr>
-                    <tr>
-                        <td>Pago Anahi</td>
-                        <td><input type="number" class="input-number gastos" value="0"></td>
-                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
-                    </tr>
-                    <tr>
-                        <td>Pago Conejo</td>
-                        <td><input type="number" class="input-number gastos" value="0"></td>
-                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
-                    </tr>
-                    <tr>
                         <td>Gasolina</td>
                         <td><input type="number" class="input-number gastos" value="0"></td>
-                        <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+                        <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -233,14 +345,18 @@
             <table>
                 <tr>
                     <td>Total Ingresos:</td>
-                    <td id="resumenIngresos">$9,902</td>
+                    <td id="resumenIngresos">$0</td>
                 </tr>
                 <tr>
-                    <td>Total Gastos:</td>
+                    <td>Total Sueldos:</td>
+                    <td id="resumenSueldos">$6,300</td>
+                </tr>
+                <tr>
+                    <td>Total Otros Gastos:</td>
                     <td id="resumenGastos">$0</td>
                 </tr>
             </table>
-            <div id="balanceFinal" class="balance positive">Balance: $9,902</div>
+            <div id="balanceFinal" class="balance negative">Balance: -$6,300</div>
         </div>
     </div>
 
@@ -259,7 +375,7 @@
         function calcularTotalIngresos() {
             let total = 0;
             document.querySelectorAll('.ingresos').forEach(input => {
-                total += parseInt(input.value) || 0;
+                total += parseFloat(input.value) || 0;
             });
             
             document.getElementById('totalIngresos').textContent = formatearDinero(total);
@@ -268,11 +384,33 @@
             return total;
         }
         
+        // Función para calcular pagos de sueldos
+        function calcularPagos() {
+            let totalSueldos = 0;
+            const filas = document.querySelectorAll('#tablaSueldos tbody tr');
+            
+            filas.forEach(fila => {
+                const diasTrabajados = parseFloat(fila.querySelector('.dias-trabajados').value) || 0;
+                const costoPorDia = parseFloat(fila.querySelector('.costo-dia').value) || 0;
+                const extra = parseFloat(fila.querySelector('.extra').value) || 0;
+                
+                const pago = (diasTrabajados * costoPorDia) + extra;
+                fila.querySelector('.pago').textContent = formatearDinero(pago);
+                
+                totalSueldos += pago;
+            });
+            
+            document.getElementById('totalSueldos').textContent = formatearDinero(totalSueldos);
+            document.getElementById('resumenSueldos').textContent = formatearDinero(totalSueldos);
+            actualizarBalance();
+            return totalSueldos;
+        }
+        
         // Función para calcular el total de gastos
         function calcularTotalGastos() {
             let total = 0;
             document.querySelectorAll('.gastos').forEach(input => {
-                total += parseInt(input.value) || 0;
+                total += parseFloat(input.value) || 0;
             });
             
             document.getElementById('totalGastos').textContent = formatearDinero(total);
@@ -285,7 +423,9 @@
         function actualizarBalance() {
             const ingresos = calcularTotalReal('ingresos');
             const gastos = calcularTotalReal('gastos');
-            const balance = ingresos - gastos;
+            const sueldos = calcularTotalSueldos();
+            
+            const balance = ingresos - gastos - sueldos;
             
             const balanceElement = document.getElementById('balanceFinal');
             balanceElement.textContent = 'Balance: ' + formatearDinero(balance);
@@ -299,11 +439,24 @@
             }
         }
         
+        // Función para calcular el total de sueldos
+        function calcularTotalSueldos() {
+            let total = 0;
+            const pagos = document.querySelectorAll('.pago');
+            
+            pagos.forEach(pago => {
+                const valor = pago.textContent.replace(/[^\d.-]/g, '') || 0;
+                total += parseFloat(valor);
+            });
+            
+            return total;
+        }
+        
         // Función auxiliar para calcular totales
         function calcularTotalReal(clase) {
             let total = 0;
             document.querySelectorAll('.' + clase).forEach(input => {
-                total += parseInt(input.value) || 0;
+                total += parseFloat(input.value) || 0;
             });
             return total;
         }
@@ -318,6 +471,17 @@
             input.addEventListener('input', calcularTotalGastos);
         });
         
+        // Agregar eventos para los cálculos de sueldos
+        function agregarEventosSueldos(fila) {
+            fila.querySelector('.dias-trabajados').addEventListener('input', calcularPagos);
+            fila.querySelector('.costo-dia').addEventListener('input', calcularPagos);
+            fila.querySelector('.extra').addEventListener('input', calcularPagos);
+        }
+        
+        document.querySelectorAll('#tablaSueldos tbody tr').forEach(fila => {
+            agregarEventosSueldos(fila);
+        });
+        
         // Función para agregar filas de ingresos
         document.getElementById('agregarFilaIngreso').addEventListener('click', function() {
             const tabla = document.querySelector('#tablaIngresos tbody');
@@ -326,11 +490,30 @@
             nuevaFila.innerHTML = `
                 <td><input type="text" class="input-text" placeholder="Concepto"></td>
                 <td><input type="number" class="input-number ingresos" value="0"></td>
-                <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+                <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
             `;
             
             tabla.appendChild(nuevaFila);
             nuevaFila.querySelector('.ingresos').addEventListener('input', calcularTotalIngresos);
+        });
+        
+        // Función para agregar filas de sueldos
+        document.getElementById('agregarFilaSueldo').addEventListener('click', function() {
+            const tabla = document.querySelector('#tablaSueldos tbody');
+            const nuevaFila = document.createElement('tr');
+            
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="input-text" placeholder="Empleado"></td>
+                <td><input type="number" class="input-number dias-trabajados" value="6" min="0"></td>
+                <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="200" min="0"></div></td>
+                <td><input type="number" class="input-number extra" value="0"></td>
+                <td class="pago">$1,200</td>
+                <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
+            `;
+            
+            tabla.appendChild(nuevaFila);
+            agregarEventosSueldos(nuevaFila);
+            calcularPagos();
         });
         
         // Función para agregar filas de gastos
@@ -341,7 +524,7 @@
             nuevaFila.innerHTML = `
                 <td><input type="text" class="input-text" placeholder="Concepto"></td>
                 <td><input type="number" class="input-number gastos" value="0"></td>
-                <td><button class="btn" onclick="eliminarFila(this)">Eliminar</button></td>
+                <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
             `;
             
             tabla.appendChild(nuevaFila);
@@ -358,12 +541,14 @@
             // Recalcular totales
             calcularTotalIngresos();
             calcularTotalGastos();
+            calcularPagos();
             actualizarBalance();
         }
         
         // Calcular totales iniciales
         calcularTotalIngresos();
         calcularTotalGastos();
+        calcularPagos();
         actualizarBalance();
     </script>
 </body>

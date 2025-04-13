@@ -138,15 +138,24 @@
             font-size: 14px;
             color: #666;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .date-picker {
+            margin-right: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
         .operator {
             font-weight: bold;
             color: #1b5e20;
         }
         .logo-img {
-            width: 90%;
-            max-height: 150px;
-            margin: 10px auto;
+            width: 98%;
+            height: auto;
+            margin: 5px auto;
             border-radius: 10px;
             object-fit: contain;
         }
@@ -190,10 +199,17 @@
     <div class="container">
         <header>
             <img src="Screenshot_20250409_011003_Gallery.jpg" alt="Logo La Puri" class="logo-img"/>
-            <p style="margin-top: 15px;">Control de la Semana</p>
         </header>
         
-        <div class="date" id="fechaActual">Fecha: </div>
+        <div class="date" id="fechaActual">
+            <div>
+                <span>Del: </span>
+                <input type="date" id="fechaInicio" class="date-picker">
+                <span>Al: </span>
+                <input type="date" id="fechaFin" class="date-picker">
+            </div>
+            <div id="fechaTexto">Periodo: </div>
+        </div>
         
         <div class="card">
             <h2>Ingresos Semanales</h2>
@@ -364,7 +380,33 @@
         // Establecer la fecha actual
         const ahora = new Date();
         const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('fechaActual').textContent = 'Fecha: ' + ahora.toLocaleDateString('es-ES', opciones);
+        
+        // Configurar la fecha inicial en los selectores
+        document.getElementById('fechaInicio').valueAsDate = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate() - ahora.getDay());
+        document.getElementById('fechaFin').valueAsDate = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate() - ahora.getDay() + 6);
+        
+        // Actualizar el texto de la fecha
+        function actualizarTextoFecha() {
+            const fechaInicio = new Date(document.getElementById('fechaInicio').value);
+            const fechaFin = new Date(document.getElementById('fechaFin').value);
+            
+            if (isNaN(fechaInicio.getTime()) || isNaN(fechaFin.getTime())) {
+                document.getElementById('fechaTexto').textContent = 'Periodo: Seleccione fechas válidas';
+                return;
+            }
+            
+            const textoInicio = fechaInicio.toLocaleDateString('es-ES', opciones);
+            const textoFin = fechaFin.toLocaleDateString('es-ES', opciones);
+            
+            document.getElementById('fechaTexto').textContent = 'Periodo: Del ' + textoInicio + ' al ' + textoFin;
+        }
+        
+        // Añadir eventos a los selectores de fecha
+        document.getElementById('fechaInicio').addEventListener('change', actualizarTextoFecha);
+        document.getElementById('fechaFin').addEventListener('change', actualizarTextoFecha);
+        
+        // Inicializar el texto de la fecha
+        actualizarTextoFecha();
         
         // Función para dar formato a cantidades monetarias
         function formatearDinero(cantidad) {

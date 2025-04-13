@@ -140,10 +140,24 @@
         }
         
         .date-section {
-            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
             font-size: 1.1em;
-            margin-top: 5px; /* Reducido el espacio entre el título y la fecha */
+            margin-top: 5px;
+        }
+        
+        .date-selector {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .date-text {
+            text-align: right;
+            font-weight: 500;
+            color: #2c3e50;
         }
         
         #resultado-final {
@@ -216,6 +230,18 @@
             align-items: center;
             justify-content: center;
         }
+        
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            .date-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .date-text {
+                margin-top: 10px;
+                text-align: left;
+            }
+        }
     </style>
 </head>
 <body>
@@ -223,7 +249,11 @@
         <h1>Reporte de ventas Diario</h1>
         
         <div class="date-section">
-            Fecha: <input type="date" id="current-date" style="width: auto; display: inline-block;">
+            <div class="date-selector">
+                <span>Fecha: </span>
+                <input type="date" id="current-date" style="width: auto; display: inline-block; margin-left: 8px;">
+            </div>
+            <div id="fecha-texto" class="date-text"></div>
         </div>
         
         <div class="section">
@@ -402,7 +432,7 @@
     </div>
 
     <script>
-        // Establecer la fecha actual
+        // Establecer la fecha actual y actualizar el texto de fecha
         document.addEventListener('DOMContentLoaded', function() {
             const fechaActual = new Date();
             const año = fechaActual.getFullYear();
@@ -411,11 +441,51 @@
             const fechaFormateada = `${año}-${mes}-${dia}`;
             
             document.getElementById('current-date').value = fechaFormateada;
+            actualizarTextoFecha();
+            
+            // Añadir evento al cambio de fecha
+            document.getElementById('current-date').addEventListener('change', actualizarTextoFecha);
             
             // Calcular totales iniciales
             calcularTotalGastos();
             calcularTotalIngresos();
         });
+        
+        // Función para actualizar el texto de la fecha en formato largo
+        function actualizarTextoFecha() {
+            const fechaSeleccionada = document.getElementById('current-date').value;
+            
+            if (!fechaSeleccionada) {
+                document.getElementById('fecha-texto').textContent = 'Seleccione una fecha válida';
+                return;
+            }
+            
+            // Dividir la fecha en componentes
+            const [anio, mes, dia] = fechaSeleccionada.split('-').map(Number);
+            
+            // Crear objeto Date especificando la zona horaria local (mediodía para evitar problemas)
+            const fechaObj = new Date(anio, mes-1, dia, 12, 0, 0);
+            
+            if (isNaN(fechaObj.getTime())) {
+                document.getElementById('fecha-texto').textContent = 'Seleccione una fecha válida';
+                return;
+            }
+            
+            // Opciones para formato largo
+            const opciones = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            
+            // Formatear la fecha en español
+            const textoFecha = fechaObj.toLocaleDateString('es-ES', opciones);
+            
+            // Capitalizar primera letra y mostrar
+            const textoFechaCapitalizado = textoFecha.charAt(0).toUpperCase() + textoFecha.slice(1);
+            document.getElementById('fecha-texto').textContent = textoFechaCapitalizado;
+        }
         
         // Eliminar una fila
         function eliminarFila(boton) {

@@ -144,9 +144,11 @@
             color: #1b5e20;
         }
         .logo-img {
-            max-width: 120px;
+            width: 90%;
+            max-height: 150px;
             margin: 10px auto;
             border-radius: 10px;
+            object-fit: contain;
         }
         
         /* Media Queries para responsividad */
@@ -187,10 +189,8 @@
 <body>
     <div class="container">
         <header>
-            <h1 style="color: #1b5e20;">La Esmeralda</h1>
-            <p style="color: #1b5e20;">Purificadora de Agua</p>
-            <p>Control de la Semana</p>
             <img src="Screenshot_20250409_011003_Gallery.jpg" alt="Logo La Puri" class="logo-img"/>
+            <p style="margin-top: 15px;">Control de la Semana</p>
         </header>
         
         <div class="date" id="fechaActual">Fecha: </div>

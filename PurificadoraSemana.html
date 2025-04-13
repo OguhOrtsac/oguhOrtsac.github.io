@@ -134,16 +134,23 @@
             border-radius: 4px;
         }
         .date {
-            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 14px;
             color: #666;
             margin-bottom: 20px;
+        }
+        .date-selectors {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
+            justify-content: flex-start;
+        }
+        .date-text {
+            text-align: right;
         }
         .date-picker {
-            margin-right: 10px;
+            margin: 0 10px;
             padding: 5px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -170,6 +177,14 @@
             }
             .input-number, .input-text {
                 width: 100%;
+            }
+            .date {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .date-text {
+                margin-top: 10px;
+                text-align: left;
             }
         }
         
@@ -202,13 +217,13 @@
         </header>
         
         <div class="date" id="fechaActual">
-            <div>
+            <div class="date-selectors">
                 <span>Del: </span>
                 <input type="date" id="fechaInicio" class="date-picker">
                 <span>Al: </span>
                 <input type="date" id="fechaFin" class="date-picker">
             </div>
-            <div id="fechaTexto">Periodo: </div>
+            <div id="fechaTexto" class="date-text">Periodo: </div>
         </div>
         
         <div class="card">
@@ -387,16 +402,30 @@
         
         // Actualizar el texto de la fecha
         function actualizarTextoFecha() {
-            const fechaInicio = new Date(document.getElementById('fechaInicio').value);
-            const fechaFin = new Date(document.getElementById('fechaFin').value);
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
             
-            if (isNaN(fechaInicio.getTime()) || isNaN(fechaFin.getTime())) {
+            if (!fechaInicio || !fechaFin) {
                 document.getElementById('fechaTexto').textContent = 'Periodo: Seleccione fechas válidas';
                 return;
             }
             
-            const textoInicio = fechaInicio.toLocaleDateString('es-ES', opciones);
-            const textoFin = fechaFin.toLocaleDateString('es-ES', opciones);
+            // Crear fechas corrigiendo el problema de zona horaria
+            // Al añadir 'T00:00:00' aseguramos que se interprete como medianoche
+            const fechaInicioObj = new Date(fechaInicio + 'T00:00:00');
+            const fechaFinObj = new Date(fechaFin + 'T00:00:00');
+            
+            // Asegurar que se construya correctamente
+            fechaInicioObj.setUTCHours(0,0,0,0);
+            fechaFinObj.setUTCHours(0,0,0,0);
+            
+            if (isNaN(fechaInicioObj.getTime()) || isNaN(fechaFinObj.getTime())) {
+                document.getElementById('fechaTexto').textContent = 'Periodo: Seleccione fechas válidas';
+                return;
+            }
+            
+            const textoInicio = fechaInicioObj.toLocaleDateString('es-ES', opciones);
+            const textoFin = fechaFinObj.toLocaleDateString('es-ES', opciones);
             
             document.getElementById('fechaTexto').textContent = 'Periodo: Del ' + textoInicio + ' al ' + textoFin;
         }

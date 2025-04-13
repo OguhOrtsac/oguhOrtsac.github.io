@@ -410,20 +410,21 @@
                 return;
             }
             
-            // Crear fechas corrigiendo el problema de zona horaria
-            // Al añadir 'T00:00:00' aseguramos que se interprete como medianoche
-            const fechaInicioObj = new Date(fechaInicio + 'T00:00:00');
-            const fechaFinObj = new Date(fechaFin + 'T00:00:00');
+            // Dividir la fecha en partes [año, mes, día]
+            const partesFechaInicio = fechaInicio.split('-').map(num => parseInt(num, 10));
+            const partesFechaFin = fechaFin.split('-').map(num => parseInt(num, 10));
             
-            // Asegurar que se construya correctamente
-            fechaInicioObj.setUTCHours(0,0,0,0);
-            fechaFinObj.setUTCHours(0,0,0,0);
+            // Crear fechas usando UTC para evitar problemas de zona horaria
+            // Nota: los meses en JavaScript son base 0 (enero = 0), por eso restamos 1 al mes
+            const fechaInicioObj = new Date(Date.UTC(partesFechaInicio[0], partesFechaInicio[1] - 1, partesFechaInicio[2]));
+            const fechaFinObj = new Date(Date.UTC(partesFechaFin[0], partesFechaFin[1] - 1, partesFechaFin[2]));
             
             if (isNaN(fechaInicioObj.getTime()) || isNaN(fechaFinObj.getTime())) {
                 document.getElementById('fechaTexto').textContent = 'Periodo: Seleccione fechas válidas';
                 return;
             }
             
+            // Usar toLocaleDateString con la zona horaria correcta
             const textoInicio = fechaInicioObj.toLocaleDateString('es-ES', opciones);
             const textoFin = fechaFinObj.toLocaleDateString('es-ES', opciones);
             

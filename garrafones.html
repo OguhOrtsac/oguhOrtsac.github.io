@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👻 Purificadora de Agua La Esmeralda - Conteo de Garrafones</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e8f5e9;
+            color: #333;
+            background-image: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background-color: #c8e6c9;
+            color: #1b5e20;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+            background-image: linear-gradient(to right, #c8e6c9, #a5d6a7);
+        }
+        
+        h1, h2, h3 {
+            margin-top: 0;
+            color: #1b5e20;
+        }
+        
+        .date-picker {
+            margin: 0 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .input-number {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .input-text {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .date-container label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        #date-display {
+            font-weight: normal;
+            text-align: right;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(46, 125, 50, 0.15);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #2e7d32;
+            transform: perspective(800px) rotateX(2deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: perspective(800px) rotateX(0deg);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        th, td {
+            padding: 14px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e8e0;
+        }
+        
+        th {
+            background-color: #c8e6c9;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .btn {
+            background-color: #43a047;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(46, 125, 50, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .btn:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px);
+        }
+        
+        .btn-delete {
+            background-color: #e53935;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(229, 57, 53, 0.3);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+        }
+        
+        .btn-delete:hover {
+            background-color: #c62828;
+            transform: translateY(-2px);
+        }
+        
+        .trash-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            position: relative;
+        }
+        
+        .trash-icon::before {
+            content: "";
+            position: absolute;
+            top: -3px;
+            left: 2px;
+            width: 12px;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+        
+        .trash-icon::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            background-color: transparent;
+            border: 2px solid white;
+            border-top: none;
+            border-radius: 0 0 3px 3px;
+            box-sizing: border-box;
+        }
+        
+        .trash-icon .trash-lid {
+            position: absolute;
+            top: -3px;
+            left: 6px;
+            width: 4px;
+            height: 3px;
+            background-color: white;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #e8f5e9;
+        }
+        
+        .summary {
+            font-size: 24px;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .logo-img {
+            width: 98%;
+            height: auto;
+            margin: 5px auto;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+        
+        .date {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .date-selectors {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .date-text {
+            text-align: right;
+        }
+
+        .detalles-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .detalles-lista {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .detalles-lista li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e8e0;
+        }
+        
+        .detalles-lista li strong {
+            color: #1b5e20;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+            header {
+                padding: 15px;
+            }
+            .card {
+                padding: 10px;
+                transform: none;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
+            .btn, .btn-delete {
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="Screenshot_20250409_011003_Gallery.jpg" alt="Logo La Puri" class="logo-img"/>
+        </header>
+        
+        <div class="date" id="fechaActual">
+            <div class="date-selectors">
+                <span>Fecha: </span>
+                <input type="date" id="fechaReporte" class="date-picker">
+            </div>
+            <div id="fechaTexto" class="date-text">Fecha del reporte: </div>
+        </div>
+        
+        <div class="card">
+            <h2>Inventario de Garrafones</h2>
+            <table id="garrafones-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th width="80">Cantidad</th>
+                        <th>Detalle</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nuevos</td>
+                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                    </tr>
+                    <tr>
+                        <td>Para la ruta</td>
+                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                    </tr>
+                    <tr>
+                        <td>Rotos (por reparar)</td>
+                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                    </tr>
+                    <tr>
+                        <td>Ya no sirven</td>
+                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                    </tr>
+                    <tr>
+                        <td>Casa (adentro)</td>
+                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                    </tr>
+                    <tr>
+                        <td>Abue</td>
+                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                    </tr>
+                    <tr>
+                        <td>Prestados</td>
+                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                    </tr>
+                    <tr>
+                        <td>En toto</td>
+                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total Garrafones</td>
+                        <td id="total-garrafones">0</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button id="agregar-fila" class="btn">Agregar nueva fila</button>
+        </div>
+        
+        <div class="card">
+            <h2>Resumen</h2>
+            <div class="summary">
+                Total de Garrafones: <span id="total-resumen">0</span>
+            </div>
+            <div class="detalles-container">
+                <h3>Detalles:</h3>
+                <ul id="lista-detalles" class="detalles-lista">
+                    <!-- Aquí se generarán los detalles dinámicamente -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Establecer la fecha actual
+        const ahora = new Date();
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        
+        // Configurar la fecha inicial en el selector
+        document.getElementById('fechaReporte').valueAsDate = ahora;
+        
+        // Actualizar el texto de la fecha
+        function actualizarTextoFecha() {
+            const fechaReporte = document.getElementById('fechaReporte').value;
+            
+            if (!fechaReporte) {
+                document.getElementById('fechaTexto').textContent = 'Fecha del reporte: Seleccione una fecha válida';
+                return;
+            }
+            
+            // Dividir la fecha en componentes [año, mes, día]
+            const [anio, mes, dia] = fechaReporte.split('-').map(Number);
+            
+            // Crear objeto Date en la zona horaria local
+            // Especificar mediodía (12:00) para evitar problemas con cambios de horario
+            const fechaObj = new Date(anio, mes-1, dia, 12, 0, 0);
+            
+            if (isNaN(fechaObj.getTime())) {
+                document.getElementById('fechaTexto').textContent = 'Fecha del reporte: Seleccione una fecha válida';
+                return;
+            }
+            
+            const textoFecha = fechaObj.toLocaleDateString('es-ES', opciones);
+            
+            document.getElementById('fechaTexto').textContent = 'Fecha del reporte: ' + textoFecha;
+        }
+        
+        // Añadir evento al selector de fecha
+        document.getElementById('fechaReporte').addEventListener('change', actualizarTextoFecha);
+        
+        // Inicializar el texto de la fecha
+        actualizarTextoFecha();
+        
+        // Función para dar formato a cantidades
+        function formatearNumero(cantidad) {
+            return cantidad.toLocaleString('es-MX');
+        }
+        
+        // Funcionalidad para eliminar filas
+        document.querySelectorAll('.eliminar-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const fila = this.closest('tr');
+                fila.remove();
+                actualizarTotal();
+            });
+        });
+        
+        // Funcionalidad para agregar nuevas filas
+        document.getElementById('agregar-fila').addEventListener('click', function() {
+            const tabla = document.querySelector('#garrafones-table tbody');
+            const nuevaFila = document.createElement('tr');
+            
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="input-text" placeholder="Nombre categoría"></td>
+                <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
+                <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+            `;
+            
+            tabla.appendChild(nuevaFila);
+            
+            // Agregar evento para el nuevo botón de eliminar
+            nuevaFila.querySelector('.eliminar-btn').addEventListener('click', function() {
+                nuevaFila.remove();
+                actualizarTotal();
+            });
+            
+            // Agregar evento para actualizar el total cuando cambie la cantidad
+            nuevaFila.querySelector('.cantidad-input').addEventListener('input', actualizarTotal);
+        });
+        
+        // Función para actualizar la lista de detalles
+        function actualizarDetalles() {
+            const listaDetalles = document.getElementById('lista-detalles');
+            listaDetalles.innerHTML = ''; // Limpiar la lista
+            
+            const filas = document.querySelectorAll('#garrafones-table tbody tr');
+            
+            filas.forEach(fila => {
+                const nombre = fila.cells[0].textContent || fila.querySelector('input[type="text"]').value;
+                const cantidad = fila.querySelector('.cantidad-input').value;
+                const detalle = fila.querySelector('.detalle-input').value;
+                
+                if (cantidad && detalle) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${nombre} (${cantidad}):</strong> ${detalle}`;
+                    listaDetalles.appendChild(li);
+                }
+            });
+            
+            // Si no hay detalles, mostrar un mensaje
+            if (listaDetalles.children.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'No hay detalles registrados';
+                listaDetalles.appendChild(li);
+            }
+        }
+        
+        // Actualizar el total cuando se cambie cualquier cantidad
+        document.querySelectorAll('.cantidad-input').forEach(input => {
+            input.addEventListener('input', function() {
+                actualizarTotal();
+                actualizarDetalles();
+            });
+        });
+        
+        // Actualizar detalles cuando cambien
+        document.querySelectorAll('.detalle-input').forEach(input => {
+            input.addEventListener('input', actualizarDetalles);
+        });
+        
+        // Función para calcular y actualizar el total
+        function actualizarTotal() {
+            const cantidades = document.querySelectorAll('.cantidad-input');
+            let total = 0;
+            
+            cantidades.forEach(input => {
+                total += parseInt(input.value) || 0;
+            });
+            
+            document.getElementById('total-garrafones').textContent = formatearNumero(total);
+            document.getElementById('total-resumen').textContent = formatearNumero(total);
+        }
+        
+        // Calcular el total inicial
+        actualizarTotal();
+        
+        // Actualizar detalles iniciales
+        actualizarDetalles();
+    </script>
+</body>
+</html>

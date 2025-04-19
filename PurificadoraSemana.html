@@ -167,6 +167,28 @@
             object-fit: contain;
         }
         
+        /* Agregando el estilo del botón menu-button */
+        .menu-button {
+            background-color: #1abc9c; /* Color verde esmeralda */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            margin-left: auto;
+            width: 150px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .menu-button:hover {
+            background-color: #16a085; /* Verde esmeralda un poco más oscuro al hacer hover */
+        }
+        
         /* Media Queries para responsividad */
         @media (max-width: 768px) {
             .card {
@@ -216,6 +238,11 @@
             <img src="Screenshot_20250409_011003_Gallery.jpg" alt="Logo La Puri" class="logo-img"/>
         </header>
         
+        <!-- Agregando el botón de menú -->
+        <div style="display: flex; justify-content: flex-end;">
+            <a href="https://oguhortsac.github.io/menuPuri.html" class="menu-button">Regresar al Menú</a>
+        </div>
+        
         <div class="date" id="fechaActual">
             <div class="date-selectors">
                 <span>Del: </span>
@@ -239,37 +266,37 @@
                 <tbody>
                     <tr>
                         <td>Domingo</td>
-                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number ingresos" value=""></div></td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Lunes</td>
-                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number ingresos" value=""></div></td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Martes</td>
-                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number ingresos" value=""></div></td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Miércoles</td>
-                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number ingresos" value=""></div></td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Jueves</td>
-                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number ingresos" value=""></div></td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Viernes</td>
-                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number ingresos" value=""></div></td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Sábado</td>
-                        <td><input type="number" class="input-number ingresos" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number ingresos" value=""></div></td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                 </tbody>
@@ -302,7 +329,7 @@
                         <td class="operator">Yahir</td>
                         <td><input type="number" class="input-number dias-trabajados" value="6" min="0"></td>
                         <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="250" min="0"></div></td>
-                        <td><input type="number" class="input-number extra" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number extra" value=""></div></td>
                         <td class="pago">$1,500</td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
@@ -311,7 +338,7 @@
                         <td class="operator">Zaira</td>
                         <td><input type="number" class="input-number dias-trabajados" value="6" min="0"></td>
                         <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="200" min="0"></div></td>
-                        <td><input type="number" class="input-number extra" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number extra" value=""></div></td>
                         <td class="pago">$1,200</td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
@@ -319,7 +346,7 @@
                         <td class="operator">Anahí</td>
                         <td><input type="number" class="input-number dias-trabajados" value="6" min="0"></td>
                         <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="200" min="0"></div></td>
-                        <td><input type="number" class="input-number extra" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number extra" value=""></div></td>
                         <td class="pago">$1,200</td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
@@ -327,7 +354,7 @@
                         <td class="operator">Conejo</td>
                         <td><input type="number" class="input-number dias-trabajados" value="2" min="0"></td>
                         <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="200" min="0"></div></td>
-                        <td><input type="number" class="input-number extra" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number extra" value=""></div></td>
                         <td class="pago">$1,200</td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
@@ -356,7 +383,7 @@
                 <tbody>
                     <tr>
                         <td>Gasolina</td>
-                        <td><input type="number" class="input-number gastos" value="0"></td>
+                        <td><div class="input-container">$<input type="number" class="input-number gastos" value=""></div></td>
                         <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                 </tbody>
@@ -560,7 +587,7 @@
             
             nuevaFila.innerHTML = `
                 <td><input type="text" class="input-text" placeholder="Concepto"></td>
-                <td><input type="number" class="input-number ingresos" value="0"></td>
+                <td><div class="input-container">$<input type="number" class="input-number ingresos" value=""></div></td>
                 <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
             `;
             
@@ -577,7 +604,7 @@
                 <td><input type="text" class="input-text" placeholder="Empleado"></td>
                 <td><input type="number" class="input-number dias-trabajados" value="6" min="0"></td>
                 <td><div class="input-container">$<input type="number" class="input-number costo-dia" value="200" min="0"></div></td>
-                <td><input type="number" class="input-number extra" value="0"></td>
+                <td><div class="input-container">$<input type="number" class="input-number extra" value=""></div></td>
                 <td class="pago">$1,200</td>
                 <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
             `;
@@ -594,7 +621,7 @@
             
             nuevaFila.innerHTML = `
                 <td><input type="text" class="input-text" placeholder="Concepto"></td>
-                <td><input type="number" class="input-number gastos" value="0"></td>
+                <td><div class="input-container">$<input type="number" class="input-number gastos" value=""></div></td>
                 <td><button class="btn-delete" onclick="eliminarFila(this)">Eliminar</button></td>
             `;
             

@@ -210,18 +210,22 @@
             color: var(--primary);
         }
         
+        /* Modificación: Menu container ahora es un flex column en todos los tamaños */
         .menu-container {
             width: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 30px;
             margin-top: 20px;
             perspective: 1000px;
+            max-width: 400px; /* Limitar el ancho máximo para que los botones no sean demasiado anchos */
         }
         
         .menu-button {
             position: relative;
             height: 200px;
+            width: 100%; /* Asegurar que los botones tomen el ancho completo */
             background: rgba(255, 255, 255, 0.85);
             border-radius: 20px;
             display: flex;
@@ -427,8 +431,8 @@
             }
         }
         
-        /* Efecto de resplandor al pasar el mouse */
-                /* Estilos responsivos */
+        /* Ya no necesitamos media queries específicas para cambiar la disposición
+           ya que ahora los botones siempre estarán uno debajo del otro */
         @media (max-width: 768px) {
             .container {
                 padding: 20px 0;
@@ -441,12 +445,6 @@
             .logo-container {
                 width: 200px;
                 height: 200px;
-            }
-            
-            .menu-container {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-                margin: 0 auto;
             }
         }
         
@@ -621,8 +619,6 @@
                 opacity: 0;
             }
         }
-            animation: drop-flow 2s infinite;
-        }
         
         .menu-button:hover .garrafon-1 {
             transform: translateX(-40px) rotate(-10deg);
@@ -634,17 +630,6 @@
         
         .menu-button:hover .garrafon-2 {
             transform: translateY(-10px);
-        }
-        
-        @keyframes drop-flow {
-            0%, 100% {
-                transform: rotate(-45deg) translateY(0);
-                opacity: 1;
-            }
-            50% {
-                transform: rotate(-45deg) translateY(20px);
-                opacity: 0;
-            }
         }
     </style>
 </head>

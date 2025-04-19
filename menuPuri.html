@@ -102,8 +102,8 @@
         
         .logo-container {
             position: relative;
-            width: 250px;
-            height: 250px;
+            width: 300px; /* Aumentado de 250px */
+            height: 300px; /* Aumentado de 250px */
             margin: 0 auto 20px;
             perspective: 1000px;
         }
@@ -114,7 +114,7 @@
             height: 100%;
             border-radius: 50%;
             transform-style: preserve-3d;
-            animation: rotate-logo 20s linear infinite;
+            animation: rotate-logo 12s linear infinite; /* Acelerado de 20s a 12s */
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
         
@@ -148,10 +148,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 3.2rem; /* Aumentado de 2.5rem */
+            margin-bottom: 15px; /* Aumentado de 10px */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             animation: text-glow 3s ease-in-out infinite alternate;
+            font-weight: 700; /* Añadido para hacerlo más prominente */
+            letter-spacing: 1px; /* Añadido para mejor legibilidad */
         }
         
         /* Estilo adicional para las gotas animadas en la página */
@@ -219,7 +221,7 @@
             gap: 30px;
             margin-top: 20px;
             perspective: 1000px;
-            max-width: 400px; /* Limitar el ancho máximo para que los botones no sean demasiado anchos */
+            max-width: 800px; /* Aumentado para permitir botones más anchos en pantallas grandes */
         }
         
         .menu-button {
@@ -243,6 +245,8 @@
             animation: button-intro 1s ease forwards;
             animation-delay: calc(var(--delay) * 0.2s);
             opacity: 0;
+            max-width: 1000px; /* Asegurar que en pantallas muy grandes tengan un límite razonable */
+            margin: 0 auto; /* Centrar los botones */
         }
         
         .menu-button:hover {
@@ -292,8 +296,8 @@
         }
         
         .button-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 3.5rem; /* Aumentado de 3rem */
+            margin-bottom: 20px; /* Aumentado de 15px */
             color: var(--primary);
             transition: all 0.4s ease;
             position: relative;
@@ -308,7 +312,7 @@
         
         .button-title {
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.8rem; /* Aumentado de 1.4rem */
             text-align: center;
             transition: all 0.4s ease;
             position: relative;
@@ -319,6 +323,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
+            margin-top: 5px; /* Añadido para mejor espaciado */
         }
         
         .menu-button:hover .button-title {
@@ -364,6 +369,11 @@
             100% {
                 transform: rotateY(360deg);
             }
+        }
+        
+        /* Aceleración de la animación del logo */
+        .logo-inner {
+            animation: rotate-logo 12s linear infinite; /* Cambiado de 20s a 12s para hacerlo más rápido */
         }
         
         @keyframes text-glow {
@@ -439,12 +449,16 @@
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem; /* Aumentado de 2rem para mantener proporciones */
             }
             
             .logo-container {
-                width: 200px;
-                height: 200px;
+                width: 220px; /* Aumentado de 200px */
+                height: 220px; /* Aumentado de 200px */
+            }
+            
+            .menu-container {
+                max-width: 100%; /* En móvil, los botones ocupan todo el ancho disponible */
             }
         }
         

@@ -98,6 +98,10 @@
             border-bottom: 1px solid #e0e8e0;
         }
         
+        td:last-child {
+            text-align: center; /* Centrar el contenido de la última columna (eliminar) */
+        }
+        
         th {
             background-color: #c8e6c9;
             font-weight: bold;
@@ -141,6 +145,7 @@
             justify-content: center;
             width: 34px;
             height: 34px;
+            margin: 0 auto; /* Centrar el botón horizontalmente en su contenedor */
         }
         
         .btn-delete:hover {
@@ -148,45 +153,29 @@
             transform: translateY(-2px);
         }
         
-        .trash-icon {
+        .x-icon {
             display: inline-block;
-            width: 16px;
-            height: 16px;
             position: relative;
-        }
-        
-        .trash-icon::before {
-            content: "";
-            position: absolute;
-            top: -3px;
-            left: 2px;
-            width: 12px;
-            height: 3px;
-            background-color: white;
-            border-radius: 2px;
-        }
-        
-        .trash-icon::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 16px;
             height: 16px;
-            background-color: transparent;
-            border: 2px solid white;
-            border-top: none;
-            border-radius: 0 0 3px 3px;
-            box-sizing: border-box;
         }
         
-        .trash-icon .trash-lid {
+        .x-icon:before, .x-icon:after {
+            content: "";
             position: absolute;
-            top: -3px;
-            left: 6px;
-            width: 4px;
-            height: 3px;
+            width: 16px;
+            height: 2px;
             background-color: white;
+            top: 7px;
+            left: 0; /* Asegurar que las líneas de la X estén centradas */
+        }
+        
+        .x-icon:before {
+            transform: rotate(45deg);
+        }
+        
+        .x-icon:after {
+            transform: rotate(-45deg);
         }
         
         .total-row {
@@ -254,6 +243,26 @@
             margin-right: 8px;
         }
         
+        .btn-menu {
+            background-color: #1b5e20;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(27, 94, 32, 0.3);
+            transition: all 0.2s ease;
+            display: block;
+            margin-left: auto;
+            margin-top: 20px;
+        }
+        
+        .btn-menu:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px);
+        }
+        
         @media (max-width: 576px) {
             body {
                 padding: 10px;
@@ -306,49 +315,49 @@
                         <td>Nuevos</td>
                         <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                     <tr>
                         <td>Para la ruta</td>
                         <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                     <tr>
                         <td>Rotos (por reparar)</td>
                         <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                     <tr>
                         <td>Ya no sirven</td>
                         <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                     <tr>
                         <td>Casa (adentro)</td>
                         <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                     <tr>
                         <td>Abue</td>
                         <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                     <tr>
                         <td>Prestados</td>
                         <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                     <tr>
                         <td>En toto</td>
                         <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                        <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                        <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -374,6 +383,8 @@
                 </ul>
             </div>
         </div>
+        
+        <button id="btn-menu" class="btn-menu">Regresar al menú</button>
     </div>
 
     <script>
@@ -427,6 +438,7 @@
                 const fila = this.closest('tr');
                 fila.remove();
                 actualizarTotal();
+                actualizarDetalles(); // Actualizar detalles cuando se elimine una fila
             });
         });
         
@@ -439,7 +451,7 @@
                 <td><input type="text" class="input-text" placeholder="Nombre categoría"></td>
                 <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
                 <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
-                <td><button class="btn-delete eliminar-btn"><div class="trash-icon"><div class="trash-lid"></div></div></button></td>
+                <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
             `;
             
             tabla.appendChild(nuevaFila);
@@ -448,10 +460,15 @@
             nuevaFila.querySelector('.eliminar-btn').addEventListener('click', function() {
                 nuevaFila.remove();
                 actualizarTotal();
+                actualizarDetalles(); // Actualizar detalles cuando se elimine una fila
             });
             
             // Agregar evento para actualizar el total cuando cambie la cantidad
             nuevaFila.querySelector('.cantidad-input').addEventListener('input', actualizarTotal);
+            
+            // Agregar evento para actualizar detalles cuando cambie el detalle o la cantidad
+            nuevaFila.querySelector('.cantidad-input').addEventListener('input', actualizarDetalles);
+            nuevaFila.querySelector('.detalle-input').addEventListener('input', actualizarDetalles);
         });
         
         // Función para actualizar la lista de detalles
@@ -506,6 +523,11 @@
             document.getElementById('total-garrafones').textContent = formatearNumero(total);
             document.getElementById('total-resumen').textContent = formatearNumero(total);
         }
+        
+        // Configurar botón de regreso al menú
+        document.getElementById('btn-menu').addEventListener('click', function() {
+            window.location.href = 'https://oguhortsac.github.io/puriMenu.html';
+        });
         
         // Calcular el total inicial
         actualizarTotal();

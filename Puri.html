@@ -231,6 +231,28 @@
             justify-content: center;
         }
         
+        /* Botón de regresar al menú */
+        .menu-button {
+            background-color: #1abc9c; /* Color verde esmeralda */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            margin-left: auto;
+            width: 150px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-button:hover {
+            background-color: #16a085; /* Verde esmeralda un poco más oscuro al hacer hover */
+        }
+        
         /* Media Queries para responsividad */
         @media (max-width: 768px) {
             .date-section {
@@ -429,6 +451,11 @@
         </div>
         
         <button class="action-button" onclick="generarPDF()">Descargar PDF</button>
+        
+        <div style="display: flex; justify-content: flex-end;">
+            <!-- Botón para regresar al menú principal -->
+            <a href="https://oguhortsac.github.io/puriMenu.html" class="menu-button">Regresar al Menú</a>
+        </div>
     </div>
 
     <script>
@@ -709,5 +736,3 @@
             });
         }
     </script>
-</body>
-</html>

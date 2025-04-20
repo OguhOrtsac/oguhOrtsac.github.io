@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoja de Ruta</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e0f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .destinos-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 70px;
+            position: relative;
+            padding: 80px 20px;
+            margin: 20px 0;
+        }
+        .destinos-container:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(90deg, #5D4037, #3E2723, #5D4037);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .destinos-container:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background-color: #FFD700;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .destino {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 15px;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            border: 8px solid white;
+        }
+        /* Agregar marcas de carretera */
+        .marcas-carretera {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .marcas-carretera:before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 5%;
+            width: 30px;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255,215,0,0.8);
+        }
+        .marcas-carretera:after {
+            content: "";
+            position: absolute;
+            top: -10px;
+            right: 5%;
+            width: 30px;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255,215,0,0.8);
+        }
+        /* Conectores verticales más visibles */
+        .destino:after {
+            content: "";
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 40px;
+            background-color: #3E2723;
+            z-index: -1;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .destino:nth-child(even):after {
+            bottom: auto;
+            top: -40px;
+        }
+        .destino:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+        }
+        .destino h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+            color: white;
+            z-index: 2;
+        }
+        .dias {
+            font-weight: bold;
+            font-size: 0.9em;
+            color: white;
+            z-index: 2;
+        }
+        .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            z-index: 2;
+        }
+        .tanque {
+            background: linear-gradient(135deg, #1e88e5, #0d47a1);
+        }
+        .paso {
+            background: linear-gradient(135deg, #43a047, #1b5e20);
+        }
+        .atotonilco {
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+        }
+        .pilas {
+            background: linear-gradient(135deg, #8e24aa, #4a148c);
+        }
+        .canada {
+            background: linear-gradient(135deg, #fb8c00, #e65100);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #00796b;
+            font-size: 0.9em;
+        }
+        /* Días de la semana */
+        .semana {
+            background-color: #004d40;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .horario {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0;
+        }
+        .horario-detalle {
+            font-size: 1.2em;
+            margin: 5px 0 0 0;
+        }
+        .dia {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hoja de Ruta - Destinos</h1>
+        
+        <div class="semana">
+            <p class="horario">HORARIO DE ATENCIÓN</p>
+            <p class="horario-detalle">7:00 AM a 5:00 PM</p>
+        </div>
+        
+        <div class="destinos-container">
+            <div class="destino tanque">
+                <div class="icon">💧</div>
+                <h2>Tanque de San Juan</h2>
+                <p class="dias">Lunes y Viernes</p>
+            </div>
+            
+            <div class="destino paso">
+                <div class="icon">🚚</div>
+                <h2>Paso de San Antonio</h2>
+                <p class="dias">Miércoles</p>
+            </div>
+            
+            <div class="destino atotonilco">
+                <div class="icon">🌊</div>
+                <h2>Atotonilco, Terremoto</h2>
+                <p class="dias">Miércoles y Sábado</p>
+            </div>
+            
+            <div class="destino pilas">
+                <div class="icon">💧💧💧</div>
+                <h2>Pilas, Morillos y Ventilla</h2>
+                <p class="dias">Martes</p>
+            </div>
+            
+            <div class="destino canada">
+                <div class="icon">😊</div>
+                <h2>Cañada Grande y Rancho el Puente</h2>
+                <p class="dias">Todos los días</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Actualizado: Abril 2025</p>
+        </div>
+    </div>
+</body>
+</html>

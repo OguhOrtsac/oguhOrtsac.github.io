@@ -6,6 +6,7 @@
     <title>Ruleta de Sorteo</title>
     <style>
         :root {
+            /* Tema Verde (predeterminado) */
             --primary-color: #2e8b57;
             --secondary-color: #3cb371;
             --accent-color: #ffa500;
@@ -18,6 +19,70 @@
             --field-bg: #f1f8e9;
             --header-bg: linear-gradient(135deg, #2e8b57, #3cb371);
             --body-bg: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233cb371' fill-opacity='0.1'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Tema Rojo */
+        .theme-red {
+            --primary-color: #c62828;
+            --secondary-color: #d32f2f;
+            --accent-color: #ffeb3b;
+            --light-color: #ffebee;
+            --dark-color: #333333;
+            --success-color: #28a745;
+            --danger-color: #c62828;
+            --text-color: #3a3f44;
+            --title-color: #b71c1c;
+            --field-bg: #ffebee;
+            --header-bg: linear-gradient(135deg, #c62828, #d32f2f);
+            --body-bg: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d32f2f' fill-opacity='0.1'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Tema Azul */
+        .theme-blue {
+            --primary-color: #1565c0;
+            --secondary-color: #1976d2;
+            --accent-color: #ff9800;
+            --light-color: #e3f2fd;
+            --dark-color: #333333;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --text-color: #3a3f44;
+            --title-color: #0d47a1;
+            --field-bg: #e3f2fd;
+            --header-bg: linear-gradient(135deg, #1565c0, #1976d2);
+            --body-bg: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231976d2' fill-opacity='0.1'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Tema Rosa */
+        .theme-pink {
+            --primary-color: #c2185b;
+            --secondary-color: #d81b60;
+            --accent-color: #ffeb3b;
+            --light-color: #fce4ec;
+            --dark-color: #333333;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --text-color: #3a3f44;
+            --title-color: #880e4f;
+            --field-bg: #fce4ec;
+            --header-bg: linear-gradient(135deg, #c2185b, #d81b60);
+            --body-bg: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d81b60' fill-opacity='0.1'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Tema Oscuro */
+        .theme-dark {
+            --primary-color: #424242;
+            --secondary-color: #616161;
+            --accent-color: #ffb300;
+            --light-color: #eeeeee;
+            --dark-color: #212121;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --text-color: #f5f5f5;
+            --title-color: #e0e0e0;
+            --field-bg: #424242;
+            --header-bg: linear-gradient(135deg, #424242, #616161);
+            --body-bg: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23616161' fill-opacity='0.1'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
         * {
@@ -87,6 +152,41 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             position: relative;
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e8f5e9' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            transition: all 0.3s ease;
+        }
+        
+        .ruleta-expanded {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .toggle-panel-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .toggle-panel-btn:hover {
+            background-color: #e59400;
+            transform: translateY(-2px);
+        }
+        
+        .ruleta-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1;
+            margin: 20px 0;
+            perspective: 1000px;
         }
 
         .form-group {
@@ -213,50 +313,154 @@
         .ruleta {
             position: relative;
             width: 100%;
-            max-width: 400px;
-            aspect-ratio: 1;
-            margin-bottom: 30px;
-            transition: transform 5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-            transform: rotate(0deg);
-        }
-
-        .pointer {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 40px;
-            background: #c62828;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            z-index: 10;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s;
-        }
-        
-        .pointer-pin {
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 10px;
-            height: 10px;
-            background: #ffeb3b;
+            height: 100%;
             border-radius: 50%;
-            z-index: 11;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
-        .pointer::after {
-            content: "";
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2), 
+                        inset 0 0 50px rgba(0, 0, 0, 0.1);
             background: white;
+            overflow: hidden;
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+            transform: rotateZ(0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ruleta-stand {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 40px;
+            background: linear-gradient(90deg, #8B4513, #CD853F, #8B4513);
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+        
+        .ruleta-stand::before,
+        .ruleta-stand::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            width: 20px;
+            height: 40px;
+            background: linear-gradient(90deg, #8B4513, #CD853F, #8B4513);
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .ruleta-stand::before {
+            left: 20%;
+            transform: rotate(15deg);
+        }
+        
+        .ruleta-stand::after {
+            right: 20%;
+            transform: rotate(-15deg);
+        }
+        
+        .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15%;
+            height: 15%;
+            background-color: #f8f8f8;
             border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            }
+            to {
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 165, 0, 0.3);
+            }
+        }
+        
+        .spinner-arrow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform-origin: bottom center;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 40px solid #c62828;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+            z-index: 20;
+            transition: transform 0.5s ease-out;
+            animation: pulse 1s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from {
+                filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+            }
+            to {
+                filter: drop-shadow(0 2px 5px rgba(198, 40, 40, 0.5));
+            }
+        }
+        
+        .divider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform-origin: bottom center;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .slice {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom right;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+        
+        .slice.active {
+            background-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.8);
+            z-index: 5;
+        }
+        
+        .slice-content {
+            position: absolute;
+            transform-origin: bottom right;
+            width: 85%;
+            text-align: right;
+            padding-right: 40px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+            font-size: 14px;
+            transition: font-size 0.3s;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .slice.active .slice-content {
+            font-size: 16px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
         }
 
         .controls {
@@ -422,8 +626,8 @@
     </header>
 
     <div class="container">
-        <div class="app-container">
-            <div class="config-panel">
+        <div class="app-container" id="app-container">
+            <div class="config-panel" id="config-panel">
                 <h2 class="config-header">Configuración</h2>
                 
                 <div class="form-group">
@@ -473,6 +677,33 @@
                     </div>
                 </div>
 
+                <h3 class="config-header">Apariencia</h3>
+                <div class="form-group">
+                    <label>Tema de Color</label>
+                    <div class="display-option">
+                        <div class="checkbox-container">
+                            <input type="radio" id="theme-green" name="theme" value="theme-green" checked>
+                            <label for="theme-green">Verde</label>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="radio" id="theme-red" name="theme" value="theme-red">
+                            <label for="theme-red">Rojo</label>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="radio" id="theme-blue" name="theme" value="theme-blue">
+                            <label for="theme-blue">Azul</label>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="radio" id="theme-pink" name="theme" value="theme-pink">
+                            <label for="theme-pink">Rosa</label>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="radio" id="theme-dark" name="theme" value="theme-dark">
+                            <label for="theme-dark">Oscuro</label>
+                        </div>
+                    </div>
+                </div>
+                
                 <h3 class="config-header">Participantes</h3>
                 <div class="form-group">
                     <label for="participant-name">Nombre del Participante</label>
@@ -493,14 +724,20 @@
                 </div>
             </div>
 
-            <div class="ruleta-container">
+            <div class="ruleta-container" id="ruleta-container">
+                <button id="toggle-panel-btn" class="toggle-panel-btn">Ocultar Configuraciones</button>
                 <h2 id="sorteo-title">Ruleta de Sorteo</h2>
-                <div class="pointer">
-                    <div class="pointer-pin"></div>
+                
+                <div class="ruleta-wrapper">
+                    <div class="ruleta-stand"></div>
+                    <div class="ruleta" id="ruleta">
+                        <!-- La ruleta se generará aquí -->
+                        <div class="spinner">
+                            <div class="spinner-arrow"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="ruleta" id="ruleta">
-                    <!-- La ruleta se generará aquí -->
-                </div>
+                
                 <div class="loading" id="loading"></div>
                 <div class="controls">
                     <button id="spin-btn" class="btn-success" disabled>Girar Ruleta</button>
@@ -512,6 +749,22 @@
                 <div class="result-history" id="result-history">
                     <h3>Historial</h3>
                     <!-- Aquí se mostrará el historial de resultados -->
+                </div>
+                
+                <div id="winners-container" style="display: none;">
+                    <h3 class="config-header">Ganadores</h3>
+                    <table class="ganadores-table" id="winners-table">
+                        <thead>
+                            <tr>
+                                <th>Posición</th>
+                                <th>Número</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Los ganadores se agregarán aquí -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -550,23 +803,17 @@
             let winnerPositions = [];
             let nextAutoNumber = 1;
             
-            // Mostrar/ocultar opciones según el tipo de juego
-            gameTypeSelect.addEventListener('change', function() {
-                specificNumberContainer.style.display = 
-                    this.value === 'specific' ? 'block' : 'none';
-                
-                multipleWinnersContainer.style.display = 
-                    this.value === 'multiple' ? 'block' : 'none';
+            // Inicializar la interfaz
+            document.querySelectorAll('input[name="display"]').forEach(radio => {
+                radio.addEventListener('change', createRuleta);
             });
             
-            // Mostrar/ocultar campo de número manual
-            const manualNumbersCheckbox = document.getElementById('manual-numbers');
-            const participantNumberContainer = document.getElementById('participant-number-container');
+            // Crear ruleta inicial
+            createRuleta();
             
-            manualNumbersCheckbox.addEventListener('change', function() {
-                participantNumberContainer.style.display = 
-                    this.checked ? 'block' : 'none';
-            });
+            // Eventos para validación
+            titleInput.addEventListener('input', updateControlsState);
+            participantNameInput.addEventListener('input', updateControlsState);
             
             // Actualizar título del sorteo
             titleInput.addEventListener('input', function() {
@@ -662,7 +909,7 @@
                     
                     const editBtn = document.createElement('button');
                     editBtn.className = 'edit-btn';
-                    editBtn.innerHTML = '<i>✏️</i>';
+                    editBtn.innerHTML = 'Edit';
                     editBtn.title = 'Editar participante';
                     editBtn.addEventListener('click', function() {
                         editParticipant(participant.id);
@@ -979,6 +1226,51 @@
                 resultItem.className = 'result-item';
                 resultItem.textContent = `Ronda ${currentRound}: ${participant.number}. ${participant.name}`;
                 
+                // Verificar si es ganador según el tipo de juego
+                const gameType = gameTypeSelect.value;
+                let isWinner = false;
+                
+                if (gameType === 'last') {
+                    // El último en quedar es el ganador
+                    const remainingCount = participants.filter(p => !eliminatedParticipants.includes(p.id)).length;
+                    isWinner = remainingCount === 1;
+                } 
+                else if (gameType === 'specific') {
+                    // El participante en la posición específica es el ganador
+                    const position = parseInt(specificNumberInput.value);
+                    isWinner = currentRound === position;
+                } 
+                else if (gameType === 'multiple') {
+                    // Varios participantes en posiciones específicas son ganadores
+                    if (winnerPositions.length === 0) {
+                        // Inicializar posiciones ganadoras si no se ha hecho ya
+                        const positions = winnersPositionsInput.value.split(',')
+                            .map(pos => parseInt(pos.trim()))
+                            .filter(pos => !isNaN(pos) && pos > 0);
+                        
+                        if (positions.length === 0) {
+                            positions.push(1); // Por defecto, el primero es ganador
+                        }
+                        
+                        winnerPositions = positions;
+                    }
+                    
+                    isWinner = winnerPositions.includes(currentRound);
+                } 
+                else if (gameType === 'random') {
+                    // Cualquier participante puede ser ganador
+                    isWinner = true;
+                }
+                
+                // Marcar en el historial si es ganador
+                if (isWinner) {
+                    resultItem.classList.add('winner');
+                    resultItem.innerHTML = `<strong>Ronda ${currentRound}: ${participant.number}. ${participant.name} 🏆</strong>`;
+                    
+                    // Agregar a la tabla de ganadores
+                    addToWinnersTable(participant, currentRound);
+                }
+                
                 // Añadir al principio para que los más recientes estén arriba
                 if (resultHistory.children.length > 1) {
                     resultHistory.insertBefore(resultItem, resultHistory.children[1]);
@@ -989,8 +1281,42 @@
                 // Guardar en el historial
                 results.push({
                     round: currentRound,
-                    participant: participant
+                    participant: participant,
+                    isWinner: isWinner
                 });
+            }
+            
+            // Agregar a la tabla de ganadores
+            function addToWinnersTable(participant, position) {
+                const winnersContainer = document.getElementById('winners-container');
+                const winnersTable = document.getElementById('winners-table').getElementsByTagName('tbody')[0];
+                
+                // Mostrar la tabla si está oculta
+                winnersContainer.style.display = 'block';
+                
+                // Crear fila
+                const row = document.createElement('tr');
+                row.className = 'winner';
+                
+                // Posición
+                const posCell = document.createElement('td');
+                posCell.textContent = position;
+                
+                // Número
+                const numCell = document.createElement('td');
+                numCell.textContent = participant.number;
+                
+                // Nombre
+                const nameCell = document.createElement('td');
+                nameCell.textContent = participant.name;
+                
+                // Añadir celdas a la fila
+                row.appendChild(posCell);
+                row.appendChild(numCell);
+                row.appendChild(nameCell);
+                
+                // Añadir fila a la tabla
+                winnersTable.appendChild(row);
             }
             
             // Reiniciar el sorteo
@@ -1011,14 +1337,31 @@
                 winnerPositions = [];
                 
                 // Reiniciar UI
-                ruletaElement.style.transition = 'none';
-                ruletaElement.style.transform = 'rotate(0deg)';
+                const spinnerArrow = document.querySelector('.spinner-arrow');
+                if (spinnerArrow) {
+                    spinnerArrow.style.transition = 'none';
+                    spinnerArrow.style.transform = 'rotate(0deg)';
+                }
+                
+                // Eliminar clases activas
+                const slices = document.querySelectorAll('.slice');
+                slices.forEach(slice => {
+                    slice.classList.remove('active');
+                });
+                
                 resultDisplay.innerHTML = '';
                 resultHistory.innerHTML = '<h3>Historial</h3>';
+                
+                // Ocultar tabla de ganadores
+                const winnersContainer = document.getElementById('winners-container');
+                winnersContainer.style.display = 'none';
+                const winnersTable = document.getElementById('winners-table').getElementsByTagName('tbody')[0];
+                winnersTable.innerHTML = '';
                 
                 // Refrescar ruleta
                 setTimeout(() => {
                     createRuleta();
+                    updateControlsState();
                 }, 50);
             });
             
@@ -1049,17 +1392,56 @@
             specificNumberInput.addEventListener('input', updateControlsState);
             winnersPositionsInput.addEventListener('input', updateControlsState);
             
-            // Inicializar la interfaz
-            document.querySelectorAll('input[name="display"]').forEach(radio => {
-                radio.addEventListener('change', createRuleta);
+            // Mostrar/ocultar opciones según el tipo de juego
+            gameTypeSelect.addEventListener('change', function() {
+                specificNumberContainer.style.display = 
+                    this.value === 'specific' ? 'block' : 'none';
+                
+                multipleWinnersContainer.style.display = 
+                    this.value === 'multiple' ? 'block' : 'none';
+                    
+                updateControlsState();
             });
             
-            // Crear ruleta inicial
-            createRuleta();
+            // Mostrar/ocultar campo de número manual
+            const manualNumbersCheckbox = document.getElementById('manual-numbers');
+            const participantNumberContainer = document.getElementById('participant-number-container');
             
-            // Eventos para validación
-            titleInput.addEventListener('input', updateControlsState);
-            participantNameInput.addEventListener('input', updateControlsState);
+            manualNumbersCheckbox.addEventListener('change', function() {
+                participantNumberContainer.style.display = 
+                    this.checked ? 'block' : 'none';
+            });
+            
+            // Toggle para mostrar/ocultar panel de configuración
+            const togglePanelBtn = document.getElementById('toggle-panel-btn');
+            const configPanel = document.getElementById('config-panel');
+            const appContainer = document.getElementById('app-container');
+            const ruletaContainer = document.getElementById('ruleta-container');
+            
+            togglePanelBtn.addEventListener('click', function() {
+                if (configPanel.style.display === 'none') {
+                    configPanel.style.display = 'block';
+                    ruletaContainer.classList.remove('ruleta-expanded');
+                    togglePanelBtn.textContent = 'Ocultar Configuraciones';
+                } else {
+                    configPanel.style.display = 'none';
+                    ruletaContainer.classList.add('ruleta-expanded');
+                    togglePanelBtn.textContent = 'Mostrar Configuraciones';
+                }
+            });
+            
+            // Manejo del cambio de temas
+            document.querySelectorAll('input[name="theme"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remover todas las clases de tema del body
+                    document.body.classList.remove('theme-green', 'theme-red', 'theme-blue', 'theme-pink', 'theme-dark');
+                    
+                    // Si se seleccionó un tema diferente del verde (predeterminado), añadir la clase
+                    if (this.value !== 'theme-green') {
+                        document.body.classList.add(this.value);
+                    }
+                });
+            });
         });
     </script>
 </body>

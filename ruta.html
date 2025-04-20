@@ -3,231 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hoja de Ruta</title>
+    <title> 👻Purificadora de Agua La Esmeralda - Hoja de Ruta</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #e0f7fa;
+            padding: 0;
+            background-color: #e8f5f9;
             color: #333;
         }
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
-        h1 {
+        header {
+            background-color: #c8e6c9;
+            color: #1b5e20;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
             text-align: center;
-            color: #00796b;
-            margin-bottom: 40px;
-            font-size: 2.5em;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+            background-image: linear-gradient(to right, #c8e6c9, #a5d6a7);
         }
-        .destinos-container {
+        .dias-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 70px;
+            gap: 35px;
+            margin: 30px 0;
             position: relative;
-            padding: 80px 20px;
-            margin: 20px 0;
+            padding: 40px 0;
         }
-        .destinos-container:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: linear-gradient(90deg, #5D4037, #3E2723, #5D4037);
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            z-index: 1;
-            transform: translateY(-50%);
+        .dia-card {
+            width: 230px;
+            position: relative;
+            margin-bottom: 25px;
+            z-index: 2;
         }
-        .destinos-container:after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background-color: #FFD700;
-            z-index: 1;
-            transform: translateY(-50%);
+        .dia-card.martes {
+            width: 270px;
         }
-        .destino {
-            width: 180px;
-            height: 180px;
+        .camion-container {
+            width: 100%;
+            height: auto;
+            position: relative;
+            padding: 10px;
+        }
+        .camion-circulo {
+            width: 100%;
+            aspect-ratio: 1/1;
             border-radius: 50%;
-            overflow: hidden;
+            position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            transition: transform 0.3s, box-shadow 0.3s;
-            padding: 15px;
-            position: relative;
-            z-index: 2;
-            cursor: pointer;
+            flex-direction: column;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            overflow: hidden;
+            transition: transform 0.3s;
+            z-index: 1;
             border: 8px solid white;
         }
-        /* Agregar marcas de carretera */
-        .marcas-carretera {
+        .camion-circulo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+        }
+        .lunes .camion-circulo {
+            background: linear-gradient(135deg, #1a237e, #3949ab);
+        }
+        .martes .camion-circulo {
+            background: linear-gradient(135deg, #bf360c, #d84315);
+        }
+        .miercoles .camion-circulo {
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+        }
+        .jueves .camion-circulo {
+            background: linear-gradient(135deg, #0277bd, #0288d1);
+        }
+        .viernes .camion-circulo {
+            background: linear-gradient(135deg, #4a148c, #6a1b9a);
+        }
+        .sabado .camion-circulo {
+            background: linear-gradient(135deg, #e65100, #ef6c00);
+        }
+        .dia-titulo {
+            font-family: 'Trebuchet MS', 'Lucida Sans', sans-serif;
+            color: white;
+            font-weight: 900;
+            font-size: 1.7em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 2;
+            background-color: rgba(0,0,0,0.25);
+            padding: 5px 15px;
+            border-radius: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+        .dia-content {
+            width: 100%;
+            padding: 0 20px;
+            text-align: center;
+            z-index: 2;
+        }
+        .destinos-lista {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.95em;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 500;
+        }
+        .destinos-lista li {
+            margin-bottom: 6px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .destinos-lista li:before {
+            content: "🚚";
+            margin-right: 8px;
+            font-size: 0.9em;
+        }
+        /* Carretera que conecta los círculos */
+        .carretera {
             position: absolute;
             top: 50%;
             left: 0;
             right: 0;
-            z-index: 1;
+            height: 20px;
+            background-color: #555;
             transform: translateY(-50%);
-        }
-        .marcas-carretera:before {
-            content: "";
-            position: absolute;
-            top: -10px;
-            left: 5%;
-            width: 30px;
-            height: 30px;
-            background-color: #FFD700;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255,215,0,0.8);
-        }
-        .marcas-carretera:after {
-            content: "";
-            position: absolute;
-            top: -10px;
-            right: 5%;
-            width: 30px;
-            height: 30px;
-            background-color: #FFD700;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255,215,0,0.8);
-        }
-        /* Conectores verticales más visibles */
-        .destino:after {
-            content: "";
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 12px;
-            height: 40px;
-            background-color: #3E2723;
-            z-index: -1;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
-        .destino:nth-child(even):after {
-            bottom: auto;
-            top: -40px;
-        }
-        .destino:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.3);
-        }
-        .destino h2 {
-            margin: 0 0 10px 0;
-            font-size: 1.2em;
-            color: white;
-            z-index: 2;
-        }
-        .dias {
-            font-weight: bold;
-            font-size: 0.9em;
-            color: white;
-            z-index: 2;
-        }
-        .icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-            z-index: 2;
-        }
-        .tanque {
-            background: linear-gradient(135deg, #1e88e5, #0d47a1);
-        }
-        .paso {
-            background: linear-gradient(135deg, #43a047, #1b5e20);
-        }
-        .atotonilco {
-            background: linear-gradient(135deg, #e53935, #b71c1c);
-        }
-        .pilas {
-            background: linear-gradient(135deg, #8e24aa, #4a148c);
-        }
-        .canada {
-            background: linear-gradient(135deg, #fb8c00, #e65100);
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #00796b;
-            font-size: 0.9em;
-        }
-        /* Días de la semana */
-        .semana {
-            background-color: #004d40;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 30px 0;
+            z-index: 1;
+            border-radius: 4px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        .horario {
-            font-size: 1.5em;
-            font-weight: bold;
+        .carretera:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,215,0,0.8) 50%, transparent 50%);
+            background-size: 20px 100%;
+            z-index: 2;
+            transform: translateY(-50%);
+        }
+        .horario-info {
+            background-color: #005e52;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin: 40px 0 0 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .horario-titulo {
+            font-size: 1.2em;
             margin: 0;
+            padding: 0;
+            font-weight: bold;
+            text-transform: uppercase;
         }
         .horario-detalle {
-            font-size: 1.2em;
+            font-size: 1.1em;
             margin: 5px 0 0 0;
+            padding: 0;
         }
-        .dia {
-            display: none;
+        .contacto {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+        .contacto-texto {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #555;
+            margin: 0;
+        }
+        .destacado {
+            font-weight: bold;
+            color: #2E7D32;
+        }
+        .telefono {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+            color: #333;
+            margin: 0 2px;
+        }
+        .social-icon {
+            font-size: 1.3em;
+            margin: 0 3px;
+            vertical-align: middle;
+        }
+        .footer {
+            margin-top: 20px;
+            color: #00796b;
+            font-size: 0.9em;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Hoja de Ruta - Destinos</h1>
+        <header>
+            <img src="Screenshot_20250409_011003_Gallery.jpg" alt="Logo Purificadora de Agua" class="logo-img" style="width: 98%; height: auto; margin: 5px auto; border-radius: 10px; object-fit: contain;"/>
+        </header>
         
-        <div class="semana">
-            <p class="horario">HORARIO DE ATENCIÓN</p>
+        <div class="dias-container">
+            <div class="carretera"></div>
+            
+            <div class="dia-card lunes">
+                <div class="camion-container">
+                    <div class="camion-circulo">
+                        <div class="dia-titulo">Lunes</div>
+                        <div class="dia-content">
+                            <ul class="destinos-lista">
+                                <li>Tanque de San Juan</li>
+                                <li>Rancho el Puente</li>
+                                <li>Cañada Grande</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dia-card martes">
+                <div class="camion-container">
+                    <div class="camion-circulo">
+                        <div class="dia-titulo">Martes</div>
+                        <div class="dia-content">
+                            <ul class="destinos-lista">
+                                <li>Atotonilco</li>
+                                <li>Pilas</li>
+                                <li>Morillos</li>
+                                <li>Ventilla</li>
+                                <li>Rancho el Puente</li>
+                                <li>Cañada Grande</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dia-card miercoles">
+                <div class="camion-container">
+                    <div class="camion-circulo">
+                        <div class="dia-titulo">Miércoles</div>
+                        <div class="dia-content">
+                            <ul class="destinos-lista">
+                                <li>Paso de San Antonio</li>
+                                <li>Terremoto</li>
+                                <li>Rancho el Puente</li>
+                                <li>Cañada Grande</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dia-card jueves">
+                <div class="camion-container">
+                    <div class="camion-circulo">
+                        <div class="dia-titulo">Jueves</div>
+                        <div class="dia-content">
+                            <ul class="destinos-lista">
+                                <li>Rancho el Puente</li>
+                                <li>Cañada Grande</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dia-card viernes">
+                <div class="camion-container">
+                    <div class="camion-circulo">
+                        <div class="dia-titulo">Viernes</div>
+                        <div class="dia-content">
+                            <ul class="destinos-lista">
+                                <li>Tanque de San Juan</li>
+                                <li>Rancho el Puente</li>
+                                <li>Cañada Grande</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dia-card sabado">
+                <div class="camion-container">
+                    <div class="camion-circulo">
+                        <div class="dia-titulo">Sábado</div>
+                        <div class="dia-content">
+                            <ul class="destinos-lista">
+                                <li>Atotonilco</li>
+                                <li>Terremoto</li>
+                                <li>Rancho el Puente</li>
+                                <li>Cañada Grande</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="horario-info">
+            <p class="horario-titulo">HORARIO DE ATENCIÓN</p>
             <p class="horario-detalle">7:00 AM a 5:00 PM</p>
         </div>
         
-        <div class="destinos-container">
-            <div class="destino tanque">
-                <div class="icon">💧</div>
-                <h2>Tanque de San Juan</h2>
-                <p class="dias">Lunes y Viernes</p>
-            </div>
-            
-            <div class="destino paso">
-                <div class="icon">🚚</div>
-                <h2>Paso de San Antonio</h2>
-                <p class="dias">Miércoles</p>
-            </div>
-            
-            <div class="destino atotonilco">
-                <div class="icon">🌊</div>
-                <h2>Atotonilco, Terremoto</h2>
-                <p class="dias">Miércoles y Sábado</p>
-            </div>
-            
-            <div class="destino pilas">
-                <div class="icon">💧💧💧</div>
-                <h2>Pilas, Morillos y Ventilla</h2>
-                <p class="dias">Martes</p>
-            </div>
-            
-            <div class="destino canada">
-                <div class="icon">😊</div>
-                <h2>Cañada Grande y Rancho el Puente</h2>
-                <p class="dias">Todos los días</p>
-            </div>
+        <div class="contacto">
+            <p class="contacto-texto">
+                <span class="destacado">Recuerda</span> que puedes solicitar agua si lo necesitas y 
+                <span class="destacado">te la llevaremos lo antes posible sin costo extra</span>, 
+                comunícate a nuestro <span class="social-icon">📱</span> WhatsApp: <span class="telefono">487-107-1716</span>, 
+                a nuestra página de <span class="social-icon">📘</span> Facebook o bien al número 
+                <span class="telefono">487-8777-020</span>.
+            </p>
         </div>
         
         <div class="footer">

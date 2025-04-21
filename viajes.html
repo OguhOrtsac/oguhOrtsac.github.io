@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruta Diaria</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background-color: #f0f8ff;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .vendor-selector {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        
+        select {
+            padding: 8px 15px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        .table-container {
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .table-title {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+            border-radius: 10px 10px 0 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: #34495e;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+            transform: translateZ(10px);
+            transition: all 0.3s ease;
+        }
+        
+        tr td:first-child {
+            color: white;
+            background-color: #34495e;
+        }
+        
+        .quantity-cell {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .quantity-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            height: 25px;
+            width: 25px;
+            margin: 3px auto;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: red;
+            font-size: 16px;
+        }
+        
+        .quantity-box-container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            height: 300px;
+        }
+        
+        .total-money {
+            color: white;
+            background-color: #2ecc71;
+            font-weight: bold;
+        }
+        
+        .total-bottles {
+            color: black;
+            background-color: #a5d6a7;
+            font-weight: bold;
+        }
+        
+        .final-summary {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            font-weight: bold;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .table-container {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ruta Diaria</h1>
+    
+    <div class="vendor-selector">
+        <label for="vendedor">Vendedor:</label>
+        <select id="vendedor">
+            <option value="yahir">Yahir</option>
+            <option value="chavas">Chavas</option>
+            <option value="otro">Otro</option>
+        </select>
+    </div>
+    
+    <!-- Viaje 1 -->
+    <div class="table-container">
+        <div class="table-title">Viaje 1</div>
+        <table id="viaje1">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>T. Canti</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Domicilio</td>
+                    <td>$20</td>
+                    <td>
+                        <div class="quantity-cell" id="domicilio-cantidad-v1">
+                            <div class="quantity-box-container">
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            </div>
+                            <div class="quantity-box-container">
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            </div>
+                            <div class="quantity-box-container">
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td id="domicilio-total-cant-v1">0</td>
+                    <td id="domicilio-total-v1">$0</td>
+                </tr>
+                <tr>
+                    <td>Tienda</td>
+                    <td>$15</td>
+                    <td>
+                        <div class="quantity-cell" id="tienda-cantidad-v1">
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
+                        </div>
+                    </td>
+                    <td id="tienda-total-cant-v1">0</td>
+                    <td id="tienda-total-v1">$0</td>
+                </tr>
+                <tr class="total-money">
+                    <td colspan="4">Total Dinero 💰</td>
+                    <td id="total-dinero-v1">$0</td>
+                </tr>
+                <tr class="total-bottles">
+                    <td colspan="4">Total Garrafones</td>
+                    <td id="total-garrafones-v1">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Viaje 2 -->
+    <div class="table-container">
+        <div class="table-title">Viaje 2</div>
+        <table id="viaje2">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Domicilio</td>
+                    <td>$20</td>
+                    <td>
+                        <div class="quantity-cell" id="domicilio-cantidad-v2">
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
+                        </div>
+                    </td>
+                    <td id="domicilio-total-cant-v2">0</td>
+                    <td id="domicilio-total-v2">$0</td>
+                </tr>
+                <tr>
+                    <td>Tienda</td>
+                    <td>$15</td>
+                    <td>
+                        <div class="quantity-cell" id="tienda-cantidad-v2">
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
+                        </div>
+                    </td>
+                    <td id="tienda-total-cant-v2">0</td>
+                    <td id="tienda-total-v2">$0</td>
+                </tr>
+                <tr class="total-money">
+                    <td colspan="4">Total Dinero 💰</td>
+                    <td id="total-dinero-v2">$0</td>
+                </tr>
+                <tr class="total-bottles">
+                    <td colspan="4">Total Garrafones</td>
+                    <td id="total-garrafones-v2">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Viaje 3 -->
+    <div class="table-container">
+        <div class="table-title">Viaje 3</div>
+        <table id="viaje3">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Domicilio</td>
+                    <td>$20</td>
+                    <td>
+                        <div class="quantity-cell" id="domicilio-cantidad-v3">
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
+                        </div>
+                    </td>
+                    <td id="domicilio-total-cant-v3">0</td>
+                    <td id="domicilio-total-v3">$0</td>
+                </tr>
+                <tr>
+                    <td>Tienda</td>
+                    <td>$15</td>
+                    <td>
+                        <div class="quantity-cell" id="tienda-cantidad-v3">
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
+                        </div>
+                    </td>
+                    <td id="tienda-total-cant-v3">0</td>
+                    <td id="tienda-total-v3">$0</td>
+                </tr>
+                <tr class="total-money">
+                    <td colspan="4">Total Dinero 💰</td>
+                    <td id="total-dinero-v3">$0</td>
+                </tr>
+                <tr class="total-bottles">
+                    <td colspan="4">Total Garrafones</td>
+                    <td id="total-garrafones-v3">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Resumen Total -->
+    <div class="table-container">
+        <div class="table-title final-summary">Total Viajes</div>
+        <table id="resumen">
+            <tbody>
+                <tr class="total-money">
+                    <td>Suma Dinero 💰</td>
+                    <td id="suma-dinero-total">$0</td>
+                </tr>
+                <tr class="total-bottles" style="background-color: #f0ad4e; color: black;">
+                    <td>Garrafones Domicilio</td>
+                    <td id="suma-garrafones-domicilio">0</td>
+                </tr>
+                <tr class="total-bottles" style="background-color: #5bc0de; color: black;">
+                    <td>Garrafones Tienda</td>
+                    <td id="suma-garrafones-tienda">0</td>
+                </tr>
+                <tr class="total-bottles">
+                    <td>Total Garrafones</td>
+                    <td id="suma-garrafones-total">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Función para alternar el llenado de una casilla
+        function toggleFill(element) {
+            if (element.style.backgroundColor === 'rgb(255, 255, 0)') {
+                element.style.backgroundColor = '#f8f9fa';
+                element.innerHTML = '';
+            } else {
+                element.style.backgroundColor = 'yellow';
+                element.innerHTML = 'X';
+            }
+            
+            updateTotals();
+        }
+        
+        // Función para actualizar todos los totales
+        function updateTotals() {
+            // Precios
+            const precioDomicilio = 20;
+            const precioTienda = 15;
+            
+            // Valores acumulados para el resumen total
+            let sumaDineroTotal = 0;
+            let sumaDomicilioTotal = 0;
+            let sumaTiendaTotal = 0;
+            let sumaGarrafonesTotal = 0;
+            
+            // Actualizar para cada viaje
+            for (let viaje = 1; viaje <= 3; viaje++) {
+                // Contar garrafones domicilio
+                const garrfonesDomicilio = countFilledBoxes(`domicilio-v${viaje}`);
+                document.getElementById(`domicilio-total-cant-v${viaje}`).textContent = garrfonesDomicilio;
+                const totalDomicilio = garrfonesDomicilio * precioDomicilio;
+                document.getElementById(`domicilio-total-v${viaje}`).textContent = `$${totalDomicilio}`;
+                sumaDomicilioTotal += garrfonesDomicilio;
+                
+                // Contar garrafones tienda
+                const garrafonesTienda = countFilledBoxes(`tienda-v${viaje}`);
+                document.getElementById(`tienda-total-cant-v${viaje}`).textContent = garrafonesTienda;
+                const totalTienda = garrafonesTienda * precioTienda;
+                document.getElementById(`tienda-total-v${viaje}`).textContent = `$${totalTienda}`;
+                sumaTiendaTotal += garrafonesTienda;
+                
+                // Total dinero por viaje
+                const totalDinero = totalDomicilio + totalTienda;
+                document.getElementById(`total-dinero-v${viaje}`).textContent = `$${totalDinero}`;
+                sumaDineroTotal += totalDinero;
+                
+                // Total garrafones por viaje
+                const totalGarrafones = garrfonesDomicilio + garrafonesTienda;
+                document.getElementById(`total-garrafones-v${viaje}`).textContent = totalGarrafones;
+                sumaGarrafonesTotal += totalGarrafones;
+            }
+            
+            // Actualizar resumen total
+            document.getElementById('suma-dinero-total').textContent = `$${sumaDineroTotal}`;
+            document.getElementById('suma-garrafones-domicilio').textContent = sumaDomicilioTotal;
+            document.getElementById('suma-garrafones-tienda').textContent = sumaTiendaTotal;
+            document.getElementById('suma-garrafones-total').textContent = sumaGarrafonesTotal;
+        }
+        
+        // Función para contar cajas llenas por tipo y viaje
+        function countFilledBoxes(dataRowId) {
+            const boxes = document.querySelectorAll(`[data-row="${dataRowId}"]`);
+            let count = 0;
+            
+            boxes.forEach(box => {
+                if (box.style.backgroundColor === 'yellow') {
+                    count++;
+                }
+            });
+            
+            return count;
+        }
+
+        // Inicializar totales al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTotals();
+        });
+    </script>
+</body>
+</html>

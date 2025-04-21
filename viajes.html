@@ -96,8 +96,8 @@
         
         .quantity-cell {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(15, 1fr);
+            gap: 2px;
         }
         
         .quantity-box {
@@ -113,13 +113,6 @@
             font-weight: bold;
             color: red;
             font-size: 16px;
-        }
-        
-        .quantity-box-container {
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            height: 300px;
         }
         
         .total-money {
@@ -172,7 +165,7 @@
                     <th>Precio</th>
                     <th>Cantidad</th>
                     <th>T. Canti</th>
-                    <th>Total</th>
+                    <th>Dinero 💰</th>
                 </tr>
             </thead>
             <tbody>
@@ -181,42 +174,21 @@
                     <td>$20</td>
                     <td>
                         <div class="quantity-cell" id="domicilio-cantidad-v1">
-                            <div class="quantity-box-container">
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                            </div>
-                            <div class="quantity-box-container">
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                            </div>
-                            <div class="quantity-box-container">
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                                <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
-                            </div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
+                            <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
                         </div>
                     </td>
                     <td id="domicilio-total-cant-v1">0</td>

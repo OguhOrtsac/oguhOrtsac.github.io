@@ -24,6 +24,16 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .selector-group {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
         }
         
         label {
@@ -32,7 +42,7 @@
             font-size: 1.1em;
         }
         
-        select {
+        select, input {
             padding: 8px 15px;
             font-size: 1em;
             border-radius: 5px;
@@ -133,6 +143,26 @@
             font-weight: bold;
         }
         
+        .pdf-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .pdf-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -141,18 +171,43 @@
         .table-container {
             animation: fadeIn 0.5s ease-in-out;
         }
+        
+        @media print {
+            .pdf-button {
+                display: none;
+            }
+            
+            body {
+                background-color: white;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .table-container {
+                margin-bottom: 15px;
+                break-inside: avoid;
+            }
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <h1>Ruta Diaria</h1>
     
     <div class="vendor-selector">
-        <label for="vendedor">Vendedor:</label>
-        <select id="vendedor">
-            <option value="yahir">Yahir</option>
-            <option value="chavas">Chavas</option>
-            <option value="otro">Otro</option>
-        </select>
+        <div class="selector-group">
+            <label for="vendedor">Vendedor:</label>
+            <select id="vendedor">
+                <option value="" selected disabled>-- Seleccionar vendedor --</option>
+                <option value="yahir">Yahir</option>
+                <option value="chavas">Chavas</option>
+                <option value="otro">Otro</option>
+            </select>
+        </div>
+        <div class="selector-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha">
+        </div>
     </div>
     
     <!-- Viaje 1 -->
@@ -407,6 +462,9 @@
             </tbody>
         </table>
     </div>
+    
+    <!-- Botón para generar PDF -->
+    <button id="generarPDF" class="pdf-button">Generar PDF</button>
 
     <script>
         // Función para alternar el llenado de una casilla
@@ -481,9 +539,41 @@
             
             return count;
         }
+        
+        // Configuración para generar PDF
+        document.getElementById('generarPDF').addEventListener('click', function() {
+            // Obtener información del vendedor y fecha
+            const vendedor = document.getElementById('vendedor').options[document.getElementById('vendedor').selectedIndex].text;
+            const fecha = document.getElementById('fecha').value;
+            
+            // Verificar si se ha seleccionado un vendedor
+            if (document.getElementById('vendedor').value === "") {
+                alert("Por favor, seleccione un vendedor antes de generar el PDF");
+                return;
+            }
+            
+            // Verificar si se ha ingresado una fecha
+            if (fecha === "") {
+                alert("Por favor, ingrese una fecha antes de generar el PDF");
+                return;
+            }
+            
+            // Opciones para el PDF
+            const options = {
+                margin: 10,
+                filename: `Ruta_Diaria_${vendedor}_${fecha}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            // Generar el PDF
+            html2pdf().from(document.body).set(options).save();
+        });
 
         // Inicializar totales al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
+            // No establecer ninguna fecha predeterminada
             updateTotals();
         });
     </script>

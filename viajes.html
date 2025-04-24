@@ -198,7 +198,7 @@
         <div class="selector-group">
             <label for="vendedor">Vendedor:</label>
             <select id="vendedor">
-                <option value="" selected disabled>-- Seleccionar vendedor --</option>
+                <option value="" selected disabled></option>
                 <option value="yahir">Yahir</option>
                 <option value="chavas">Chavas</option>
                 <option value="otro">Otro</option>
@@ -217,8 +217,8 @@
             <thead>
                 <tr>
                     <th>Tipo</th>
-                    <th>Precio</th>
                     <th>Cantidad</th>
+                    <th>Precio</th>
                     <th>T. Canti</th>
                     <th>Dinero 💰</th>
                 </tr>
@@ -226,7 +226,6 @@
             <tbody>
                 <tr>
                     <td>Domicilio</td>
-                    <td>$20</td>
                     <td>
                         <div class="quantity-cell" id="domicilio-cantidad-v1">
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
@@ -246,12 +245,12 @@
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v1"></div>
                         </div>
                     </td>
-                    <td id="domicilio-total-cant-v1">0</td>
-                    <td id="domicilio-total-v1">$0</td>
+                    <td>$20</td>
+                    <td id="domicilio-total-cant-v1"></td>
+                    <td id="domicilio-total-v1"></td>
                 </tr>
                 <tr>
                     <td>Tienda</td>
-                    <td>$18</td>
                     <td>
                         <div class="quantity-cell" id="tienda-cantidad-v1">
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
@@ -271,16 +270,17 @@
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v1"></div>
                         </div>
                     </td>
-                    <td id="tienda-total-cant-v1">0</td>
-                    <td id="tienda-total-v1">$0</td>
-                </tr>
-                <tr class="total-money">
-                    <td colspan="4">Total Dinero 💰</td>
-                    <td id="total-dinero-v1">$0</td>
+                    <td>$18</td>
+                    <td id="tienda-total-cant-v1"></td>
+                    <td id="tienda-total-v1"></td>
                 </tr>
                 <tr class="total-bottles">
                     <td colspan="4">Total Garrafones</td>
-                    <td id="total-garrafones-v1">0</td>
+                    <td id="total-garrafones-v1"></td>
+                </tr>
+                <tr class="total-money">
+                    <td colspan="4">Total Dinero 💰</td>
+                    <td id="total-dinero-v1"></td>
                 </tr>
             </tbody>
         </table>
@@ -293,8 +293,8 @@
             <thead>
                 <tr>
                     <th>Tipo</th>
-                    <th>Precio</th>
                     <th>Cantidad</th>
+                    <th>Precio</th>
                     <th>T. Canti</th>
                     <th>Dinero 💰</th>
                 </tr>
@@ -302,7 +302,6 @@
             <tbody>
                 <tr>
                     <td>Domicilio</td>
-                    <td>$20</td>
                     <td>
                         <div class="quantity-cell" id="domicilio-cantidad-v2">
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
@@ -322,12 +321,12 @@
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v2"></div>
                         </div>
                     </td>
-                    <td id="domicilio-total-cant-v2">0</td>
-                    <td id="domicilio-total-v2">$0</td>
+                    <td>$20</td>
+                    <td id="domicilio-total-cant-v2"></td>
+                    <td id="domicilio-total-v2"></td>
                 </tr>
                 <tr>
                     <td>Tienda</td>
-                    <td>$18</td>
                     <td>
                         <div class="quantity-cell" id="tienda-cantidad-v2">
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
@@ -347,16 +346,17 @@
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v2"></div>
                         </div>
                     </td>
-                    <td id="tienda-total-cant-v2">0</td>
-                    <td id="tienda-total-v2">$0</td>
-                </tr>
-                <tr class="total-money">
-                    <td colspan="4">Total Dinero 💰</td>
-                    <td id="total-dinero-v2">$0</td>
+                    <td>$18</td>
+                    <td id="tienda-total-cant-v2"></td>
+                    <td id="tienda-total-v2"></td>
                 </tr>
                 <tr class="total-bottles">
                     <td colspan="4">Total Garrafones</td>
-                    <td id="total-garrafones-v2">0</td>
+                    <td id="total-garrafones-v2"></td>
+                </tr>
+                <tr class="total-money">
+                    <td colspan="4">Total Dinero 💰</td>
+                    <td id="total-dinero-v2"></td>
                 </tr>
             </tbody>
         </table>
@@ -369,8 +369,8 @@
             <thead>
                 <tr>
                     <th>Tipo</th>
-                    <th>Precio</th>
                     <th>Cantidad</th>
+                    <th>Precio</th>
                     <th>T. Canti</th>
                     <th>Dinero 💰</th>
                 </tr>
@@ -378,7 +378,6 @@
             <tbody>
                 <tr>
                     <td>Domicilio</td>
-                    <td>$20</td>
                     <td>
                         <div class="quantity-cell" id="domicilio-cantidad-v3">
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
@@ -398,12 +397,12 @@
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="domicilio-v3"></div>
                         </div>
                     </td>
-                    <td id="domicilio-total-cant-v3">0</td>
-                    <td id="domicilio-total-v3">$0</td>
+                    <td>$20</td>
+                    <td id="domicilio-total-cant-v3"></td>
+                    <td id="domicilio-total-v3"></td>
                 </tr>
                 <tr>
                     <td>Tienda</td>
-                    <td>$18</td>
                     <td>
                         <div class="quantity-cell" id="tienda-cantidad-v3">
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
@@ -423,16 +422,17 @@
                             <div class="quantity-box" onclick="toggleFill(this)" data-row="tienda-v3"></div>
                         </div>
                     </td>
-                    <td id="tienda-total-cant-v3">0</td>
-                    <td id="tienda-total-v3">$0</td>
-                </tr>
-                <tr class="total-money">
-                    <td colspan="4">Total Dinero 💰</td>
-                    <td id="total-dinero-v3">$0</td>
+                    <td>$18</td>
+                    <td id="tienda-total-cant-v3"></td>
+                    <td id="tienda-total-v3"></td>
                 </tr>
                 <tr class="total-bottles">
                     <td colspan="4">Total Garrafones</td>
-                    <td id="total-garrafones-v3">0</td>
+                    <td id="total-garrafones-v3"></td>
+                </tr>
+                <tr class="total-money">
+                    <td colspan="4">Total Dinero 💰</td>
+                    <td id="total-dinero-v3"></td>
                 </tr>
             </tbody>
         </table>
@@ -445,19 +445,19 @@
             <tbody>
                 <tr class="total-money">
                     <td>Suma Dinero 💰</td>
-                    <td id="suma-dinero-total">$0</td>
+                    <td id="suma-dinero-total"></td>
                 </tr>
                 <tr class="total-bottles" style="background-color: #f0ad4e; color: black;">
                     <td>Garrafones Domicilio</td>
-                    <td id="suma-garrafones-domicilio">0</td>
+                    <td id="suma-garrafones-domicilio"></td>
                 </tr>
                 <tr class="total-bottles" style="background-color: #5bc0de; color: black;">
                     <td>Garrafones Tienda</td>
-                    <td id="suma-garrafones-tienda">0</td>
+                    <td id="suma-garrafones-tienda"></td>
                 </tr>
                 <tr class="total-bottles">
                     <td>Total Garrafones</td>
-                    <td id="suma-garrafones-total">0</td>
+                    <td id="suma-garrafones-total"></td>
                 </tr>
             </tbody>
         </table>
@@ -496,34 +496,34 @@
             for (let viaje = 1; viaje <= 3; viaje++) {
                 // Contar garrafones domicilio
                 const garrfonesDomicilio = countFilledBoxes(`domicilio-v${viaje}`);
-                document.getElementById(`domicilio-total-cant-v${viaje}`).textContent = garrfonesDomicilio;
+                document.getElementById(`domicilio-total-cant-v${viaje}`).textContent = garrfonesDomicilio || "";
                 const totalDomicilio = garrfonesDomicilio * precioDomicilio;
-                document.getElementById(`domicilio-total-v${viaje}`).textContent = `$${totalDomicilio}`;
+                document.getElementById(`domicilio-total-v${viaje}`).textContent = totalDomicilio ? `$${totalDomicilio}` : "";
                 sumaDomicilioTotal += garrfonesDomicilio;
                 
                 // Contar garrafones tienda
                 const garrafonesTienda = countFilledBoxes(`tienda-v${viaje}`);
-                document.getElementById(`tienda-total-cant-v${viaje}`).textContent = garrafonesTienda;
+                document.getElementById(`tienda-total-cant-v${viaje}`).textContent = garrafonesTienda || "";
                 const totalTienda = garrafonesTienda * precioTienda;
-                document.getElementById(`tienda-total-v${viaje}`).textContent = `$${totalTienda}`;
+                document.getElementById(`tienda-total-v${viaje}`).textContent = totalTienda ? `$${totalTienda}` : "";
                 sumaTiendaTotal += garrafonesTienda;
                 
                 // Total dinero por viaje
                 const totalDinero = totalDomicilio + totalTienda;
-                document.getElementById(`total-dinero-v${viaje}`).textContent = `$${totalDinero}`;
+                document.getElementById(`total-dinero-v${viaje}`).textContent = totalDinero ? `$${totalDinero}` : "";
                 sumaDineroTotal += totalDinero;
                 
                 // Total garrafones por viaje
                 const totalGarrafones = garrfonesDomicilio + garrafonesTienda;
-                document.getElementById(`total-garrafones-v${viaje}`).textContent = totalGarrafones;
+                document.getElementById(`total-garrafones-v${viaje}`).textContent = totalGarrafones || "";
                 sumaGarrafonesTotal += totalGarrafones;
             }
             
-            // Actualizar resumen total
-            document.getElementById('suma-dinero-total').textContent = `$${sumaDineroTotal}`;
-            document.getElementById('suma-garrafones-domicilio').textContent = sumaDomicilioTotal;
-            document.getElementById('suma-garrafones-tienda').textContent = sumaTiendaTotal;
-            document.getElementById('suma-garrafones-total').textContent = sumaGarrafonesTotal;
+            // Actualizar resumen total - todos en blanco como solicitó el usuario
+            document.getElementById('suma-dinero-total').textContent = "";
+            document.getElementById('suma-garrafones-domicilio').textContent = "";
+            document.getElementById('suma-garrafones-tienda').textContent = "";
+            document.getElementById('suma-garrafones-total').textContent = "";
         }
         
         // Función para contar cajas llenas por tipo y viaje

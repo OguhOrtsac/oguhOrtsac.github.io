@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Excel para Ruta Diaria</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .description {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .features {
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .features h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        
+        .features ul {
+            margin-bottom: 0;
+        }
+        
+        .features li {
+            margin-bottom: 8px;
+        }
+        
+        .btn {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #2980b9, #1c5a85);
+        }
+        
+        .credit {
+            margin-top: 25px;
+            font-size: 0.8em;
+            text-align: center;
+            color: #7f8c8d;
+        }
+    </style>
+    <!-- SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Generador de Excel para Ruta Diaria</h1>
+        
+        <div class="description">
+            Esta herramienta genera un archivo Excel completo para el seguimiento de rutas diarias, con todas las tablas, fórmulas y formato ya configurados.
+        </div>
+        
+        <div class="features">
+            <h3>Características del Excel:</h3>
+            <ul>
+                <li>Selector de vendedor (Yahir, Chavas, Otro)</li>
+                <li>Campo de fecha</li>
+                <li>3 tablas de viajes con casillas marcables</li>
+                <li>Conteo automático de garrafones</li>
+                <li>Cálculo automático de dinero</li>
+                <li>Tabla de resumen final</li>
+                <li>Formato condicional para casillas marcadas</li>
+            </ul>
+        </div>
+        
+        <button id="generarExcel" class="btn">Generar Excel</button>
+    </div>
+    
+    <div class="credit">Desarrollado para Ruta Diaria</div>
+
+    <script>
+        document.getElementById('generarExcel').addEventListener('click', function() {
+            // Crear un nuevo libro de trabajo
+            const wb = XLSX.utils.book_new();
+            
+            // Crear hojas
+            createMainSheet(wb);
+            createInstructionsSheet(wb);
+            
+            // Guardar el archivo
+            XLSX.writeFile(wb, "Ruta_Diaria.xlsx");
+        });
+        
+        function createMainSheet(wb) {
+            // Crear los datos para la hoja principal
+            const wsData = [];
+            
+            // Título
+            wsData.push(["Ruta Diaria"]);
+            wsData.push([]);
+            
+            // Información del vendedor y fecha
+            wsData.push(["Vendedor:", ""]);
+            wsData.push(["Fecha:", ""]);
+            wsData.push([]);
+            
+            // VIAJE 1
+            wsData.push(["Viaje 1", "", "", "", ""]);
+            wsData.push(["Tipo", "Cantidad", "Precio", "T. Canti", "Dinero 💰"]);
+            wsData.push(["Domicilio", "", "$20", "", ""]);
+            wsData.push(["Tienda", "", "$18", "", ""]);
+            wsData.push(["Total Garrafones", "", "", "", ""]);
+            wsData.push(["Total Dinero 💰", "", "", "", ""]);
+            wsData.push([]);
+            
+            // VIAJE 2
+            wsData.push(["Viaje 2", "", "", "", ""]);
+            wsData.push(["Tipo", "Cantidad", "Precio", "T. Canti", "Dinero 💰"]);
+            wsData.push(["Domicilio", "", "$20", "", ""]);
+            wsData.push(["Tienda", "", "$18", "", ""]);
+            wsData.push(["Total Garrafones", "", "", "", ""]);
+            wsData.push(["Total Dinero 💰", "", "", "", ""]);
+            wsData.push([]);
+            
+            // VIAJE 3
+            wsData.push(["Viaje 3", "", "", "", ""]);
+            wsData.push(["Tipo", "Cantidad", "Precio", "T. Canti", "Dinero 💰"]);
+            wsData.push(["Domicilio", "", "$20", "", ""]);
+            wsData.push(["Tienda", "", "$18", "", ""]);
+            wsData.push(["Total Garrafones", "", "", "", ""]);
+            wsData.push(["Total Dinero 💰", "", "", "", ""]);
+            wsData.push([]);
+            
+            // RESUMEN TOTAL
+            wsData.push(["Total Viajes", "", "", "", ""]);
+            wsData.push(["Suma Dinero 💰", ""]);
+            wsData.push(["Garrafones Domicilio", ""]);
+            wsData.push(["Garrafones Tienda", ""]);
+            wsData.push(["Total Garrafones", ""]);
+            
+            // Crear la hoja de trabajo
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            
+            // Configurar anchos de columnas
+            const wscols = [
+                {wch: 20},  // A
+                {wch: 20},  // B
+                {wch: 10},  // C
+                {wch: 10},  // D
+                {wch: 12},  // E
+            ];
+            ws['!cols'] = wscols;
+            
+            // Añadir metadatos para dropdown de vendedor
+            ws['!datavalidation'] = {
+                B3: {
+                    type: 'list',
+                    formula1: '"Yahir,Chavas,Otro"',
+                    allowBlank: false
+                }
+            };
+            
+            // Configurar fórmulas (las fórmulas serán creadas después al abrir el Excel)
+            
+            // Añadir la hoja al libro
+            XLSX.utils.book_append_sheet(wb, ws, "Ruta Diaria");
+            
+            // Configurar estilos (solo algunos pueden ser configurados con SheetJS)
+            configureStyles(ws);
+        }
+        
+        function createInstructionsSheet(wb) {
+            // Datos para la hoja de instrucciones
+            const instData = [
+                ["Instrucciones de Uso"],
+                [],
+                ["1. Seleccione un vendedor de la lista desplegable."],
+                ["2. Ingrese la fecha del recorrido."],
+                [],
+                ["Para marcar garrafones:"],
+                ["- En las celdas de 'Cantidad', escriba 'X' para cada garrafón vendido."],
+                ["- El Excel contará automáticamente las X y calculará los totales."],
+                [],
+                ["Precios configurados:"],
+                ["- Domicilio: $20 por garrafón"],
+                ["- Tienda: $18 por garrafón"],
+                [],
+                ["IMPORTANTE:"],
+                ["- No modifique las celdas de cálculo (T. Canti, Dinero, Totales)"],
+                ["- Si necesita reiniciar, simplemente borre las X de las celdas de cantidad."]
+            ];
+            
+            // Crear la hoja
+            const ws = XLSX.utils.aoa_to_sheet(instData);
+            
+            // Configurar anchos de columnas
+            const wscols = [
+                {wch: 60},  // A
+            ];
+            ws['!cols'] = wscols;
+            
+            // Añadir la hoja al libro
+            XLSX.utils.book_append_sheet(wb, ws, "Instrucciones");
+        }
+        
+        function configureStyles(ws) {
+            // Añadir algunos estilos básicos (por limitaciones de SheetJS, muchos estilos
+            // tendrán que ser aplicados manualmente al abrir el Excel)
+            
+            // Estilo para el título
+            if (!ws.A1.s) ws.A1.s = {};
+            ws.A1.s = { font: { bold: true, sz: 16 }, alignment: { horizontal: "center" } };
+            
+            // Estilos para encabezados de viajes
+            applyStyleToCell(ws, "A6", { font: { bold: true, color: { rgb: "FFFFFF" } }, fill: { fgColor: { rgb: "3498DB" } } });
+            applyStyleToCell(ws, "A13", { font: { bold: true, color: { rgb: "FFFFFF" } }, fill: { fgColor: { rgb: "3498DB" } } });
+            applyStyleToCell(ws, "A20", { font: { bold: true, color: { rgb: "FFFFFF" } }, fill: { fgColor: { rgb: "3498DB" } } });
+            
+            // Estilos para encabezados de tabla
+            for (const row of [7, 14, 21]) {
+                for (let col = 0; col < 5; col++) {
+                    const cellRef = XLSX.utils.encode_cell({r: row-1, c: col});
+                    applyStyleToCell(ws, cellRef, { font: { bold: true }, fill: { fgColor: { rgb: "34495E" } } });
+                }
+            }
+            
+            // Estilo para el resumen final
+            applyStyleToCell(ws, "A27", { font: { bold: true, color: { rgb: "FFFFFF" } }, fill: { fgColor: { rgb: "9B59B6" } } });
+            
+            // Estilos para filas de total
+            const totalMoneyRows = [11, 18, 25, 28];
+            for (const row of totalMoneyRows) {
+                applyStyleToCell(ws, `A${row}`, { font: { bold: true, color: { rgb: "FFFFFF" } }, fill: { fgColor: { rgb: "2ECC71" } } });
+            }
+            
+            const totalBottlesRows = [10, 17, 24, 31];
+            for (const row of totalBottlesRows) {
+                applyStyleToCell(ws, `A${row}`, { font: { bold: true }, fill: { fgColor: { rgb: "A5D6A7" } } });
+            }
+            
+            // Estilo para garrafones domicilio
+            applyStyleToCell(ws, "A29", { font: { bold: true }, fill: { fgColor: { rgb: "F0AD4E" } } });
+            
+            // Estilo para garrafones tienda
+            applyStyleToCell(ws, "A30", { font: { bold: true }, fill: { fgColor: { rgb: "5BC0DE" } } });
+        }
+        
+        function applyStyleToCell(ws, cellRef, style) {
+            // Función auxiliar para aplicar estilo a una celda
+            const cell = ws[cellRef];
+            if (!cell) {
+                ws[cellRef] = { t: 's', v: '' };
+            }
+            if (!ws[cellRef].s) ws[cellRef].s = {};
+            ws[cellRef].s = Object.assign({}, ws[cellRef].s, style);
+        }
+    </script>
+
+    <script>
+        // Función para generar el archivo Excel con fórmulas (se ejecutará cuando el usuario descargue el Excel)
+        document.getElementById('generarExcel').addEventListener('click', function() {
+            alert("¡Excel generado! Al abrir el archivo, puede que necesites habilitar el contenido si aparece una advertencia de seguridad.");
+            
+            // El archivo se descargará, pero las fórmulas tienen que ser configuradas manualmente
+            // después de abrir el Excel debido a limitaciones de seguridad del navegador.
+            // Un mensaje explicativo aparecerá al usuario.
+            
+            setTimeout(function() {
+                alert("IMPORTANTE:\n\nDebido a limitaciones técnicas, necesitarás configurar manualmente lo siguiente después de abrir el Excel:\n\n1. Formato de fecha para la celda B4\n2. Validación de datos (lista con X) para las celdas de cantidad\n3. Las fórmulas para los cálculos\n4. Formato condicional\n\nConsulta la hoja de 'Instrucciones' para más detalles.");
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

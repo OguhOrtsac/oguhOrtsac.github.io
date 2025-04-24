@@ -282,6 +282,15 @@
             border-radius: 4px;
         }
         
+        .casas-label {
+            color: #3f51b5;
+            font-weight: bold;
+            margin-right: 25px;
+            padding: 2px 8px;
+            background-color: rgba(63, 81, 181, 0.1);
+            border-radius: 4px;
+        }
+        
         .details-row {
             font-weight: bold;
             background-color: #f5f5f5;
@@ -361,13 +370,13 @@
                     </tr>
                     <tr>
                         <td>Casa (adentro)</td>
-                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="number" class="input-number cantidad-input casa-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
                         <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
                     <tr>
                         <td>Abue</td>
-                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="number" class="input-number cantidad-input casa-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
                         <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
@@ -395,6 +404,7 @@
                         <td>Garrafones</td>
                         <td id="garrafones-disponibles">0</td>
                         <td colspan="2">
+                            <span class="casas-label">Casas: </span><span id="garrafones-casas">0</span>
                             <span class="prestados-label">Prestados: </span><span id="garrafones-prestados">0</span>
                             <span class="reparacion-label">En reparación: </span><span id="garrafones-reparacion">0</span>
                         </td>
@@ -557,18 +567,32 @@
             document.getElementById('total-resumen').textContent = formatearNumero(total);
             
             // Nuevas funciones para calcular los subtotales
+            calcularGarrafonesCasas();
             calcularGarrafonesDisponibles();
             calcularGarrafonesPrestados();
             calcularGarrafonesReparacion();
         }
         
-        // Función para calcular garrafones disponibles (total - rotos - ya no sirven - prestados)
+        // Función para calcular garrafones en casas (Casa adentro y Abue)
+        function calcularGarrafonesCasas() {
+            const casas = document.querySelectorAll('.casa-input');
+            let totalCasas = 0;
+            
+            casas.forEach(input => {
+                totalCasas += parseInt(input.value) || 0;
+            });
+            
+            document.getElementById('garrafones-casas').textContent = formatearNumero(totalCasas);
+        }
+        
+        // Función para calcular garrafones disponibles (total - rotos - ya no sirven - prestados - casas)
         function calcularGarrafonesDisponibles() {
             const cantidades = document.querySelectorAll('.cantidad-input');
             let totalDisponibles = 0;
             let totalReparacion = 0;
             let totalNoSirven = 0;
             let totalPrestados = 0;
+            let totalCasas = 0;
             
             // Primero calculamos el total
             cantidades.forEach(input => {
@@ -593,8 +617,14 @@
                 totalPrestados += parseInt(input.value) || 0;
             });
             
+            // Restamos los de casas
+            const casas = document.querySelectorAll('.casa-input');
+            casas.forEach(input => {
+                totalCasas += parseInt(input.value) || 0;
+            });
+            
             // El disponible real es el total menos los que no están disponibles
-            totalDisponibles = totalDisponibles - totalReparacion - totalNoSirven - totalPrestados;
+            totalDisponibles = totalDisponibles - totalReparacion - totalNoSirven - totalPrestados - totalCasas;
             
             document.getElementById('garrafones-disponibles').textContent = formatearNumero(totalDisponibles);
         }

@@ -267,7 +267,7 @@
         .prestados-label {
             color: #ff9800;
             font-weight: bold;
-            margin-right: 10px;
+            margin-right: 25px;
             padding: 2px 8px;
             background-color: rgba(255, 152, 0, 0.1);
             border-radius: 4px;
@@ -355,7 +355,7 @@
                     </tr>
                     <tr>
                         <td>Ya no sirven</td>
-                        <td><input type="number" class="input-number cantidad-input" min="0" placeholder=""></td>
+                        <td><input type="number" class="input-number cantidad-input no-sirven-input" min="0" placeholder=""></td>
                         <td><input type="text" class="input-text detalle-input" placeholder="Agregar detalles"></td>
                         <td><button class="btn-delete eliminar-btn"><div class="x-icon"></div></button></td>
                     </tr>
@@ -562,11 +562,12 @@
             calcularGarrafonesReparacion();
         }
         
-        // Función para calcular garrafones disponibles (total - rotos - en reparación - prestados)
+        // Función para calcular garrafones disponibles (total - rotos - ya no sirven - prestados)
         function calcularGarrafonesDisponibles() {
             const cantidades = document.querySelectorAll('.cantidad-input');
             let totalDisponibles = 0;
             let totalReparacion = 0;
+            let totalNoSirven = 0;
             let totalPrestados = 0;
             
             // Primero calculamos el total
@@ -580,6 +581,12 @@
                 totalReparacion += parseInt(input.value) || 0;
             });
             
+            // Restamos los que ya no sirven
+            const noSirven = document.querySelectorAll('.no-sirven-input');
+            noSirven.forEach(input => {
+                totalNoSirven += parseInt(input.value) || 0;
+            });
+            
             // Restamos los prestados
             const prestados = document.querySelectorAll('.prestados-input');
             prestados.forEach(input => {
@@ -587,7 +594,7 @@
             });
             
             // El disponible real es el total menos los que no están disponibles
-            totalDisponibles = totalDisponibles - totalReparacion - totalPrestados;
+            totalDisponibles = totalDisponibles - totalReparacion - totalNoSirven - totalPrestados;
             
             document.getElementById('garrafones-disponibles').textContent = formatearNumero(totalDisponibles);
         }
@@ -604,12 +611,17 @@
             document.getElementById('garrafones-prestados').textContent = formatearNumero(totalPrestados);
         }
         
-        // Función para calcular garrafones en reparación (rotos)
+        // Función para calcular garrafones en reparación (rotos y los que ya no sirven)
         function calcularGarrafonesReparacion() {
             const rotos = document.querySelectorAll('.rotos-input');
+            const noSirven = document.querySelectorAll('.no-sirven-input');
             let totalReparacion = 0;
             
             rotos.forEach(input => {
+                totalReparacion += parseInt(input.value) || 0;
+            });
+            
+            noSirven.forEach(input => {
                 totalReparacion += parseInt(input.value) || 0;
             });
             

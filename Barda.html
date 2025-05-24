@@ -24,18 +24,24 @@
 </head>
 <body>
   <div class="container py-4">
+
+    <h1 class="text-center fw-bold text-primary mb-3">Control Semanal - Bodegas</h1>
+
     <div class="card p-4 mb-4">
       <div class="row mb-3">
         <div class="col-12 col-md-4 mb-2">
-          <label class="form-label">Semana (elige día inicio):</label>
-          <input type="date" class="form-control" id="input-fecha">
+          <label class="form-label">Semana - Día de inicio:</label>
+          <input type="date" class="form-control" id="input-fecha-inicio">
         </div>
-        <div class="col-12 col-md-8 mb-2">
+        <div class="col-12 col-md-4 mb-2">
+          <label class="form-label">Día de fin:</label>
+          <input type="date" class="form-control" id="input-fecha-fin">
+        </div>
+        <div class="col-12 col-md-4 mb-2">
           <label class="form-label">Nombre completo del responsable:</label>
           <input type="text" class="form-control" id="input-responsable" placeholder="Escribe tu nombre">
         </div>
       </div>
-      <h1 class="text-center fw-bold text-primary mb-0">Control Semanal - Bodegas</h1>
       <p class="text-center text-muted mb-3" id="showSemana"></p>
     </div>
 
@@ -57,9 +63,9 @@
           <tbody>
             <tr>
               <td><input type="text" class="form-control nombre-trab" placeholder="Ej: Juan Pérez"></td>
-              <td><input type="number" class="form-control costo-dia" min="0" value="0"></td>
+              <td><input type="number" class="form-control costo-dia" min="0" step="any" value=""></td>
               <td><input type="number" class="form-control dias" min="1" value="6"></td>
-              <td><input type="number" class="form-control extra" min="0" value="0"></td>
+              <td><input type="number" class="form-control extra" min="0" step="any" value=""></td>
               <td class="total-trab">$0.00</td>
               <td></td>
             </tr>
@@ -97,7 +103,7 @@
             <tr>
               <td><input type="text" class="form-control nombre-extra" placeholder="Ej: Cemento"></td>
               <td><input type="date" class="form-control fecha-extra"></td>
-              <td><input type="number" class="form-control precio-extra" min="0" value="0"></td>
+              <td><input type="number" class="form-control precio-extra" min="0" step="any" value=""></td>
               <td class="text-center">
                 <button class="btn btn-outline-danger btn-sm eliminar-fila">&times;</button>
               </td>
@@ -105,7 +111,7 @@
             <tr>
               <td><input type="text" class="form-control nombre-extra"></td>
               <td><input type="date" class="form-control fecha-extra"></td>
-              <td><input type="number" class="form-control precio-extra" min="0" value="0"></td>
+              <td><input type="number" class="form-control precio-extra" min="0" step="any" value=""></td>
               <td class="text-center">
                 <button class="btn btn-outline-danger btn-sm eliminar-fila">&times;</button>
               </td>
@@ -113,7 +119,7 @@
             <tr>
               <td><input type="text" class="form-control nombre-extra"></td>
               <td><input type="date" class="form-control fecha-extra"></td>
-              <td><input type="number" class="form-control precio-extra" min="0" value="0"></td>
+              <td><input type="number" class="form-control precio-extra" min="0" step="any" value=""></td>
               <td class="text-center">
                 <button class="btn btn-outline-danger btn-sm eliminar-fila">&times;</button>
               </td>
@@ -152,8 +158,8 @@
           <tbody>
             <tr>
               <td><input type="text" class="form-control material-nombre" placeholder="Ej: Varilla"></td>
-              <td><input type="number" class="form-control material-cant" min="0" value="0"></td>
-              <td><input type="number" class="form-control material-precio" min="0" value="0"></td>
+              <td><input type="number" class="form-control material-cant" min="0" step="any" value=""></td>
+              <td><input type="number" class="form-control material-precio" min="0" step="any" value=""></td>
               <td class="material-total">$0.00</td>
               <td class="text-center">
                 <button class="btn btn-outline-danger btn-sm eliminar-fila-mat">&times;</button>
@@ -210,7 +216,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <!-- TU SCRIPT PERSONALIZADO -->
   <script src="barda.js"></script>
 </body>
 </html>

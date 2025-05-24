@@ -122,4 +122,27 @@ $(document).ready(function () {
     const t1 = parseFloat($("#suma-trab").text().replace('$', '')) || 0;
     const t2 = parseFloat($("#suma-extra").text().replace('$', '')) || 0;
     const t3 = parseFloat($("#suma-mat").text().replace('$', '')) || 0;
-    const suma = t1 +
+    const suma = t1 + t2 + t3;
+    $("#gasto-total").text(`$${suma.toFixed(2)}`);
+  }
+
+  // Inicializa todo al cargar
+  recalcularTrab();
+  recalcularExtra();
+  recalcularMat();
+
+  // --- PDF ---
+  $("#btn-pdf").click(function () {
+    $('.btn, input, textarea').attr('disabled', true);
+    html2canvas(document.body, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('control_semanal_bodegas.pdf');
+      $('.btn, input, textarea').attr('disabled', false);
+    });
+  });
+
+});

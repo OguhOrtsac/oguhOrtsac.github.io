@@ -1,20 +1,30 @@
-// Utilidad: días de la semana en español
-function nombreDia(fechaStr) {
+// ----- Utilidades de fechas -----
+
+function parseLocalDate(str) {
+  // str: "YYYY-MM-DD"
+  if (!str) return null;
+  const [y, m, d] = str.split('-');
+  return new Date(Number(y), Number(m) - 1, Number(d));
+}
+function nombreDia(dateObj) {
+  // dateObj es un objeto Date
   const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-  const f = new Date(fechaStr);
-  return dias[f.getDay()];
+  return dias[dateObj.getDay()];
+}
+function capitalizar(texto) {
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
 }
 
-// Actualiza el texto de la semana/responsable
+// ----- Actualiza el texto de la semana/responsable -----
 function mostrarSemana() {
   const inicio = $("#input-fecha-inicio").val();
   const fin = $("#input-fecha-fin").val();
   const responsable = $("#input-responsable").val();
   let semanaTxt = "";
   if (inicio && fin) {
-    const f1 = new Date(inicio);
-    const f2 = new Date(fin);
-    semanaTxt = `Semana del <b>${nombreDia(inicio)} ${f1.getDate()} de ${f1.toLocaleString('es-ES',{month:'long'})} de ${f1.getFullYear()}</b> al <b>${nombreDia(fin)} ${f2.getDate()} de ${f2.toLocaleString('es-ES',{month:'long'})} de ${f2.getFullYear()}</b>`;
+    const f1 = parseLocalDate(inicio);
+    const f2 = parseLocalDate(fin);
+    semanaTxt = `Semana del <b>${capitalizar(nombreDia(f1))} ${f1.getDate()} de ${capitalizar(f1.toLocaleString('es-ES',{month:'long'}))} de ${f1.getFullYear()}</b> al <b>${capitalizar(nombreDia(f2))} ${f2.getDate()} de ${capitalizar(f2.toLocaleString('es-ES',{month:'long'}))} de ${f2.getFullYear()}</b>`;
   }
   $("#showSemana").html((semanaTxt ? semanaTxt + "<br>" : "") + (responsable ? `<span class="badge bg-info">Responsable: ${responsable}</span>` : ""));
 }
@@ -22,7 +32,7 @@ function mostrarSemana() {
 $(document).ready(function () {
   $("#input-fecha-inicio, #input-fecha-fin, #input-responsable").on('input', mostrarSemana);
 
-  // TABLA TRABAJADORES
+  // --- TABLA TRABAJADORES ---
   function recalcularTrab() {
     let suma = 0;
     $("#tabla-trabajadores tbody tr").each(function () {
@@ -57,7 +67,7 @@ $(document).ready(function () {
     recalcularTrab();
   });
 
-  // TABLA EXTRAS
+  // --- TABLA EXTRAS ---
   function recalcularExtra() {
     let suma = 0;
     $("#tabla-extra tbody tr").each(function () {
@@ -85,7 +95,7 @@ $(document).ready(function () {
     recalcularExtra();
   });
 
-  // TABLA MATERIALES
+  // --- TABLA MATERIALES ---
   function recalcularMat() {
     let suma = 0;
     $("#tabla-materiales tbody tr").each(function () {
@@ -117,7 +127,7 @@ $(document).ready(function () {
     recalcularMat();
   });
 
-  // Gasto total
+  // --- Gasto total ---
   function recalcularTotal() {
     const t1 = parseFloat($("#suma-trab").text().replace('$', '')) || 0;
     const t2 = parseFloat($("#suma-extra").text().replace('$', '')) || 0;
@@ -126,7 +136,7 @@ $(document).ready(function () {
     $("#gasto-total").text(`$${suma.toFixed(2)}`);
   }
 
-  // Inicializa todo al cargar
+  // --- Inicializa totales al cargar ---
   recalcularTrab();
   recalcularExtra();
   recalcularMat();

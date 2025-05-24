@@ -1,20 +1,28 @@
+// Utilidad: días de la semana en español
+function nombreDia(fechaStr) {
+  const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  const f = new Date(fechaStr);
+  return dias[f.getDay()];
+}
+
+// Actualiza el texto de la semana/responsable
+function mostrarSemana() {
+  const inicio = $("#input-fecha-inicio").val();
+  const fin = $("#input-fecha-fin").val();
+  const responsable = $("#input-responsable").val();
+  let semanaTxt = "";
+  if (inicio && fin) {
+    const f1 = new Date(inicio);
+    const f2 = new Date(fin);
+    semanaTxt = `Semana del <b>${nombreDia(inicio)} ${f1.getDate()} de ${f1.toLocaleString('es-ES',{month:'long'})} de ${f1.getFullYear()}</b> al <b>${nombreDia(fin)} ${f2.getDate()} de ${f2.toLocaleString('es-ES',{month:'long'})} de ${f2.getFullYear()}</b>`;
+  }
+  $("#showSemana").html((semanaTxt ? semanaTxt + "<br>" : "") + (responsable ? `<span class="badge bg-info">Responsable: ${responsable}</span>` : ""));
+}
+
 $(document).ready(function () {
+  $("#input-fecha-inicio, #input-fecha-fin, #input-responsable").on('input', mostrarSemana);
 
-  // Mostrar semana seleccionada y responsable
-  $("#input-fecha, #input-responsable").on('input', function () {
-    const fecha = $("#input-fecha").val();
-    const responsable = $("#input-responsable").val();
-    let semanaTxt = "";
-    if (fecha) {
-      const f = new Date(fecha);
-      const fin = new Date(f);
-      fin.setDate(f.getDate() + 6);
-      semanaTxt = `Semana del ${f.toLocaleDateString('es-MX')} al ${fin.toLocaleDateString('es-MX')}`;
-    }
-    $("#showSemana").html((semanaTxt ? semanaTxt + "<br>" : "") + (responsable ? `<span class="badge bg-info">Responsable: ${responsable}</span>` : ""));
-  });
-
-  // --- TRABAJADORES ---
+  // TABLA TRABAJADORES
   function recalcularTrab() {
     let suma = 0;
     $("#tabla-trabajadores tbody tr").each(function () {
@@ -34,9 +42,9 @@ $(document).ready(function () {
     $("#tabla-trabajadores tbody").append(`
       <tr>
         <td><input type="text" class="form-control nombre-trab" placeholder="Ej: Nombre"></td>
-        <td><input type="number" class="form-control costo-dia" min="0" value="0"></td>
+        <td><input type="number" class="form-control costo-dia" min="0" step="any" value=""></td>
         <td><input type="number" class="form-control dias" min="1" value="6"></td>
-        <td><input type="number" class="form-control extra" min="0" value="0"></td>
+        <td><input type="number" class="form-control extra" min="0" step="any" value=""></td>
         <td class="total-trab">$0.00</td>
         <td><button class="btn btn-outline-danger btn-sm eliminar-fila-trab">&times;</button></td>
       </tr>
@@ -49,7 +57,7 @@ $(document).ready(function () {
     recalcularTrab();
   });
 
-  // --- EXTRAS ---
+  // TABLA EXTRAS
   function recalcularExtra() {
     let suma = 0;
     $("#tabla-extra tbody tr").each(function () {
@@ -66,7 +74,7 @@ $(document).ready(function () {
       <tr>
         <td><input type="text" class="form-control nombre-extra"></td>
         <td><input type="date" class="form-control fecha-extra"></td>
-        <td><input type="number" class="form-control precio-extra" min="0" value="0"></td>
+        <td><input type="number" class="form-control precio-extra" min="0" step="any" value=""></td>
         <td class="text-center"><button class="btn btn-outline-danger btn-sm eliminar-fila">&times;</button></td>
       </tr>
     `);
@@ -77,7 +85,7 @@ $(document).ready(function () {
     recalcularExtra();
   });
 
-  // --- MATERIALES ---
+  // TABLA MATERIALES
   function recalcularMat() {
     let suma = 0;
     $("#tabla-materiales tbody tr").each(function () {
@@ -96,8 +104,8 @@ $(document).ready(function () {
     $("#tabla-materiales tbody").append(`
       <tr>
         <td><input type="text" class="form-control material-nombre"></td>
-        <td><input type="number" class="form-control material-cant" min="0" value="0"></td>
-        <td><input type="number" class="form-control material-precio" min="0" value="0"></td>
+        <td><input type="number" class="form-control material-cant" min="0" step="any" value=""></td>
+        <td><input type="number" class="form-control material-precio" min="0" step="any" value=""></td>
         <td class="material-total">$0.00</td>
         <td class="text-center"><button class="btn btn-outline-danger btn-sm eliminar-fila-mat">&times;</button></td>
       </tr>
@@ -114,27 +122,4 @@ $(document).ready(function () {
     const t1 = parseFloat($("#suma-trab").text().replace('$', '')) || 0;
     const t2 = parseFloat($("#suma-extra").text().replace('$', '')) || 0;
     const t3 = parseFloat($("#suma-mat").text().replace('$', '')) || 0;
-    const suma = t1 + t2 + t3;
-    $("#gasto-total").text(`$${suma.toFixed(2)}`);
-  }
-
-  // Inicializa todo al cargar
-  recalcularTrab();
-  recalcularExtra();
-  recalcularMat();
-
-  // --- PDF ---
-  $("#btn-pdf").click(function () {
-    // Opcional: desactiva inputs para que el PDF sea solo lectura
-    $('.btn, input, textarea').attr('disabled', true);
-    html2canvas(document.body, { scale: 2 }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('control_semanal_bodegas.pdf');
-      $('.btn, input, textarea').attr('disabled', false);
-    });
-  });
-});
+    const suma = t1 +

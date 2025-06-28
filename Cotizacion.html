@@ -35,7 +35,7 @@
           <th>Cantidad</th>
           <th>Observaciones</th>
           <th>Total</th>
-          <th>Acciones</th>
+          <th class="action-column">Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -51,7 +51,7 @@
           <td><input type="number" class="form-control form-control-sm item-qty" min="0" step="1"/></td>
           <td><textarea class="form-control form-control-sm item-obs" rows="1"></textarea></td>
           <td class="total-cell item-total">$0.00</td>
-          <td><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
+          <td class="action-column"><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
         </tr>
         <tr>
           <td><textarea class="form-control form-control-sm item-name" rows="1"></textarea></td>
@@ -64,7 +64,7 @@
           <td><input type="number" class="form-control form-control-sm item-qty" min="0" step="1"/></td>
           <td><textarea class="form-control form-control-sm item-obs" rows="1"></textarea></td>
           <td class="total-cell item-total">$0.00</td>
-          <td><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
+          <td class="action-column"><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
         </tr>
         <tr>
           <td><textarea class="form-control form-control-sm item-name" rows="1"></textarea></td>
@@ -77,28 +77,28 @@
           <td><input type="number" class="form-control form-control-sm item-qty" min="0" step="1"/></td>
           <td><textarea class="form-control form-control-sm item-obs" rows="1"></textarea></td>
           <td class="total-cell item-total">$0.00</td>
-          <td><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
+          <td class="action-column"><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
           <td colspan="4" class="text-end"><strong>Total General:</strong></td>
           <td class="total-cell" id="grandTotal">$0.00</td>
-          <td></td>
+          <td class="action-column"></td>
         </tr>
       </tfoot>
     </table>
   </div>
 
   <!-- Botones y notas -->
-  <div class="mb-3">
+  <div class="mb-3" id="addRowContainer">
     <button class="btn btn-success" id="addRowBtn">Agregar Fila</button>
   </div>
   <div class="mb-3">
     <label for="notas" class="form-label">Indicaciones / Notas:</label>
     <textarea id="notas" class="form-control" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
   </div>
-  <div class="mb-3 text-center">
+  <div class="mb-3 text-center" id="generatePdfContainer">
     <button class="btn btn-primary" id="generatePdfBtn">Generar PDF</button>
   </div>
 
@@ -121,6 +121,8 @@
       const pdfTitle = document.getElementById('pdfTitle');
       const pdfFooter = document.getElementById('pdfFooter');
       const pdfDate = document.getElementById('pdfDate');
+      const addRowContainer = document.getElementById('addRowContainer');
+      const generatePdfContainer = document.getElementById('generatePdfContainer');
 
       // Auto-grow for textareas
       function autoGrow(textarea) {
@@ -168,6 +170,7 @@
         autoGrow(obs);
         row.querySelector('.delete-row').addEventListener('click', () => { row.remove(); updateGrandTotal(); });
       }
+
       tableBody.querySelectorAll('tr').forEach(row => attachRowEvents(row));
       addRowBtn.addEventListener('click', () => {
         const newRow = tableBody.rows[0].cloneNode(true);
@@ -185,13 +188,21 @@
         pdfTitle.textContent = title;
         pdfHeader.style.display = 'block';
         nameContainer.style.display = 'none';
+        // Ocultar controles y columna Acciones
+        addRowContainer.style.display = 'none';
+        generatePdfContainer.style.display = 'none';
+        document.querySelectorAll('.action-column').forEach(el => el.style.display = 'none');
         const today = new Date();
         pdfDate.textContent = 'Fecha: ' + today.toLocaleDateString('es-MX');
         pdfFooter.style.display = 'block';
         // Generar
         html2pdf().from(document.getElementById('content-to-pdf')).save().then(() => {
+          // Revertir vista
           pdfHeader.style.display = 'none';
           nameContainer.style.display = 'block';
+          addRowContainer.style.display = 'block';
+          generatePdfContainer.style.display = 'block';
+          document.querySelectorAll('.action-column').forEach(el => el.style.display = '');
           pdfFooter.style.display = 'none';
         });
       });

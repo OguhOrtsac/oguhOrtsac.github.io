@@ -13,6 +13,11 @@
       overflow: hidden;
       resize: none;
     }
+    /* Centrar verticalmente celdas */
+    #itemsTable td,
+    #itemsTable th {
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
@@ -148,7 +153,6 @@
         const textAfter = obs.value.substring(cursorPos);
         obs.value = textBefore + '\n' + lineCount + '. ' + textAfter;
         autoGrow(obs);
-        // move cursor after inserted prefix
         const newPos = textBefore.length + 3 + lineCount.toString().length;
         obs.setSelectionRange(newPos, newPos);
       }
@@ -159,10 +163,8 @@
     row.querySelector('.delete-row').addEventListener('click', () => { row.remove(); updateGrandTotal(); });
   }
 
-  // Inicializar filas
   tableBody.querySelectorAll('tr').forEach(row => attachRowEvents(row));
 
-  // Agregar nueva fila
   addRowBtn.addEventListener('click', () => {
     const newRow = tableBody.rows[0].cloneNode(true);
     newRow.querySelectorAll('input').forEach(input => input.value = '');
@@ -173,7 +175,6 @@
     attachRowEvents(newRow);
   });
 
-  // Generar PDF
   generatePdfBtn.addEventListener('click', () => {
     const element = document.getElementById('content-to-pdf');
     html2pdf().from(element).save('cotizacion.pdf');

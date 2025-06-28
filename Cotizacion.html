@@ -6,15 +6,12 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
-    /* Estilos personalizados */
-    body {
-      padding: 20px;
-    }
-    .table-responsive {
-      margin-top: 20px;
-    }
-    .total-cell {
-      font-weight: bold;
+    body { padding: 20px; }
+    .table-responsive { margin-top: 20px; }
+    .total-cell { font-weight: bold; }
+    textarea {
+      overflow: hidden;
+      resize: none;
     }
   </style>
 </head>
@@ -41,38 +38,51 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Fila 1 -->
+            <!-- Filas por default -->
             <tr>
               <td><input type="text" class="form-control form-control-sm item-name"/></td>
-              <td><input type="number" class="form-control form-control-sm item-price" min="0" step="0.01"/></td>
+              <td>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text">$</span>
+                  <input type="number" class="form-control item-price" min="0" step="0.01"/>
+                </div>
+              </td>
               <td><input type="number" class="form-control form-control-sm item-qty" min="0" step="1"/></td>
-              <td><input type="text" class="form-control form-control-sm item-obs"/></td>
-              <td class="total-cell item-total">0.00</td>
+              <td><textarea class="form-control form-control-sm item-obs" rows="1"></textarea></td>
+              <td class="total-cell item-total">$0.00</td>
               <td><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
             </tr>
-            <!-- Fila 2 -->
             <tr>
               <td><input type="text" class="form-control form-control-sm item-name"/></td>
-              <td><input type="number" class="form-control form-control-sm item-price" min="0" step="0.01"/></td>
+              <td>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text">$</span>
+                  <input type="number" class="form-control item-price" min="0" step="0.01"/>
+                </div>
+              </td>
               <td><input type="number" class="form-control form-control-sm item-qty" min="0" step="1"/></td>
-              <td><input type="text" class="form-control form-control-sm item-obs"/></td>
-              <td class="total-cell item-total">0.00</td>
+              <td><textarea class="form-control form-control-sm item-obs" rows="1"></textarea></td>
+              <td class="total-cell item-total">$0.00</td>
               <td><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
             </tr>
-            <!-- Fila 3 -->
             <tr>
               <td><input type="text" class="form-control form-control-sm item-name"/></td>
-              <td><input type="number" class="form-control form-control-sm item-price" min="0" step="0.01"/></td>
+              <td>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text">$</span>
+                  <input type="number" class="form-control item-price" min="0" step="0.01"/>
+                </div>
+              </td>
               <td><input type="number" class="form-control form-control-sm item-qty" min="0" step="1"/></td>
-              <td><input type="text" class="form-control form-control-sm item-obs"/></td>
-              <td class="total-cell item-total">0.00</td>
+              <td><textarea class="form-control form-control-sm item-obs" rows="1"></textarea></td>
+              <td class="total-cell item-total">$0.00</td>
               <td><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
               <td colspan="4" class="text-end"><strong>Total General:</strong></td>
-              <td class="total-cell" id="grandTotal">0.00</td>
+              <td class="total-cell" id="grandTotal">$0.00</td>
               <td></td>
             </tr>
           </tfoot>
@@ -85,7 +95,7 @@
       <!-- Notas -->
       <div class="mb-3">
         <label for="notas" class="form-label">Indicaciones / Notas:</label>
-        <textarea id="notas" class="form-control" rows="4" placeholder="Escribe tus notas aquí..."></textarea>
+        <textarea id="notas" class="form-control" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
       </div>
     </div>
   </div>
@@ -98,47 +108,68 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const table = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+      const tableBody = document.querySelector('#itemsTable tbody');
       const addRowBtn = document.getElementById('addRowBtn');
       const generatePdfBtn = document.getElementById('generatePdfBtn');function updateRowTotal(row) {
-    const price = parseFloat(row.querySelector('.item-price').value) || 0;
-    const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+    const priceInput = row.querySelector('.item-price');
+    const qtyInput = row.querySelector('.item-qty');
+    const price = parseFloat(priceInput.value) || 0;
+    const qty = parseFloat(qtyInput.value) || 0;
     const total = price * qty;
-    row.querySelector('.item-total').textContent = total.toFixed(2);
+    row.querySelector('.item-total').textContent = '$' + total.toFixed(2);
   }
 
   function updateGrandTotal() {
     let sum = 0;
-    table.querySelectorAll('tr').forEach(row => {
-      sum += parseFloat(row.querySelector('.item-total').textContent) || 0;
+    tableBody.querySelectorAll('tr').forEach(row => {
+      const text = row.querySelector('.item-total').textContent.replace('$','') || 0;
+      sum += parseFloat(text);
     });
-    document.getElementById('grandTotal').textContent = sum.toFixed(2);
+    document.getElementById('grandTotal').textContent = '$' + sum.toFixed(2);
+  }
+
+  function autoGrow(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   function attachRowEvents(row) {
     row.querySelectorAll('.item-price, .item-qty').forEach(input => {
-      input.addEventListener('input', () => {
-        updateRowTotal(row);
-        updateGrandTotal();
-      });
+      input.addEventListener('input', () => { updateRowTotal(row); updateGrandTotal(); });
     });
-    row.querySelector('.delete-row').addEventListener('click', () => {
-      row.remove();
-      updateGrandTotal();
+    const obs = row.querySelector('.item-obs');
+    let lineCount = 1;
+    obs.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        lineCount++;
+        const cursorPos = obs.selectionStart;
+        const textBefore = obs.value.substring(0, cursorPos);
+        const textAfter = obs.value.substring(cursorPos);
+        obs.value = textBefore + '\n' + lineCount + '. ' + textAfter;
+        autoGrow(obs);
+        // move cursor after inserted prefix
+        const newPos = textBefore.length + 3 + lineCount.toString().length;
+        obs.setSelectionRange(newPos, newPos);
+      }
     });
+    obs.addEventListener('input', () => autoGrow(obs));
+    obs.value = '1. ';
+    autoGrow(obs);
+    row.querySelector('.delete-row').addEventListener('click', () => { row.remove(); updateGrandTotal(); });
   }
 
-  // Inicializar filas existentes
-  table.querySelectorAll('tr').forEach(row => {
-    attachRowEvents(row);
-  });
+  // Inicializar filas
+  tableBody.querySelectorAll('tr').forEach(row => attachRowEvents(row));
 
-  // Agregar fila
+  // Agregar nueva fila
   addRowBtn.addEventListener('click', () => {
-    const newRow = table.rows[0].cloneNode(true);
+    const newRow = tableBody.rows[0].cloneNode(true);
     newRow.querySelectorAll('input').forEach(input => input.value = '');
-    newRow.querySelector('.item-total').textContent = '0.00';
-    table.appendChild(newRow);
+    const newObs = newRow.querySelector('.item-obs');
+    newObs.value = '1. ';
+    newObs.rows = 1;
+    tableBody.appendChild(newRow);
     attachRowEvents(newRow);
   });
 

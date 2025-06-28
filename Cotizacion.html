@@ -6,28 +6,23 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
-    body { padding: 20px; }
-    .table-responsive { margin-top: 20px; }
+    body, html { height: 100%; margin: 0; padding: 0; }
+    #content-to-pdf { width: 100%; min-height: 100vh; padding: 20px; }
     .total-cell { font-weight: bold; }
-    textarea {
-      overflow: hidden;
-      resize: none;
-    }
-    /* Centrar verticalmente celdas */
-    #itemsTable td,
-    #itemsTable th {
-      vertical-align: middle;
-    }
+    textarea { overflow: hidden; resize: none; }
+    #itemsTable td, #itemsTable th { vertical-align: middle; }
   </style>
 </head>
 <body>
   <div id="content-to-pdf">
-    <div class="container">
-      <h1 class="mb-4">Cotización</h1>
+    <div id="pdfHeader" class="mb-4" style="display:none;">
+      <h1 id="pdfTitle" class="text-center" style="font-size:2.5rem; font-family: serif; color:black;"></h1>
+    </div>
+    <div class="container-fluid">
       <!-- Nombre -->
-      <div class="mb-3">
+      <div class="mb-3" id="nameContainer">
         <label for="clienteNombre" class="form-label">Nombre:</label>
-        <input type="text" id="clienteNombre" class="form-control" placeholder="Ingresa el nombre"/>
+        <textarea id="clienteNombre" class="form-control" rows="1" placeholder="Ingresa el nombre..."></textarea>
       </div>
       <!-- Tabla -->
       <div class="table-responsive">
@@ -45,7 +40,7 @@
           <tbody>
             <!-- Filas por default -->
             <tr>
-              <td><input type="text" class="form-control form-control-sm item-name"/></td>
+              <td><textarea class="form-control form-control-sm item-name" rows="1"></textarea></td>
               <td>
                 <div class="input-group input-group-sm">
                   <span class="input-group-text">$</span>
@@ -58,7 +53,7 @@
               <td><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
             </tr>
             <tr>
-              <td><input type="text" class="form-control form-control-sm item-name"/></td>
+              <td><textarea class="form-control form-control-sm item-name" rows="1"></textarea></td>
               <td>
                 <div class="input-group input-group-sm">
                   <span class="input-group-text">$</span>
@@ -71,7 +66,7 @@
               <td><button class="btn btn-danger btn-sm delete-row">Eliminar</button></td>
             </tr>
             <tr>
-              <td><input type="text" class="form-control form-control-sm item-name"/></td>
+              <td><textarea class="form-control form-control-sm item-name" rows="1"></textarea></td>
               <td>
                 <div class="input-group input-group-sm">
                   <span class="input-group-text">$</span>
@@ -97,45 +92,48 @@
       <div class="mb-3">
         <button class="btn btn-success" id="addRowBtn">Agregar Fila</button>
       </div>
-      <!-- Notas -->
-      <div class="mb-3">
-        <label for="notas" class="form-label">Indicaciones / Notas:</label>
-        <textarea id="notas" class="form-control" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
-      </div>
     </div>
-  </div>
-  <!-- Botón Generar PDF -->
-  <div class="container">
-    <button class="btn btn-primary" id="generatePdfBtn">Generar PDF</button>
+    <!-- Footer para PDF -->
+    <div id="pdfFooter" class="container-fluid mt-4" style="display:none;">
+      <p id="pdfDate"></p>
+      <p>Quién realizó: Victor Hugo Castro Hernández</p>
+    </div>
   </div>
   <!-- JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
       const tableBody = document.querySelector('#itemsTable tbody');
       const addRowBtn = document.getElementById('addRowBtn');
-      const generatePdfBtn = document.getElementById('generatePdfBtn');function updateRowTotal(row) {
-    const priceInput = row.querySelector('.item-price');
-    const qtyInput = row.querySelector('.item-qty');
-    const price = parseFloat(priceInput.value) || 0;
-    const qty = parseFloat(qtyInput.value) || 0;
-    const total = price * qty;
-    row.querySelector('.item-total').textContent = '$' + total.toFixed(2);
-  }
-
-  function updateGrandTotal() {
-    let sum = 0;
-    tableBody.querySelectorAll('tr').forEach(row => {
-      const text = row.querySelector('.item-total').textContent.replace('$','') || 0;
-      sum += parseFloat(text);
-    });
-    document.getElementById('grandTotal').textContent = '$' + sum.toFixed(2);
-  }
-
+      const generatePdfBtn = document.getElementById('generatePdfBtn');
+      const nameArea = document.getElementById('clienteNombre');
+      const nameContainer = document.getElementById('nameContainer');
+      const pdfHeader = document.getElementById('pdfHeader');
+      const pdfTitle = document.getElementById('pdfTitle');
+      const pdfFooter = document.getElementById('pdfFooter');
+      const pdfDate = document.getElementById('pdfDate');// Auto-grow for textareas
   function autoGrow(textarea) {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
+  }
+  document.querySelectorAll('textarea').forEach(txt => {
+    txt.addEventListener('input', () => autoGrow(txt));
+    autoGrow(txt);
+  });
+
+  function updateRowTotal(row) {
+    const price = parseFloat(row.querySelector('.item-price').value) || 0;
+    const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+    const total = price * qty;
+    row.querySelector('.item-total').textContent = '$' + total.toFixed(2);
+  }
+  function updateGrandTotal() {
+    let sum = 0;
+    tableBody.querySelectorAll('tr').forEach(row => {
+      sum += parseFloat(row.querySelector('.item-total').textContent.replace('$','')) || 0;
+    });
+    document.getElementById('grandTotal').textContent = '$' + sum.toFixed(2);
   }
 
   function attachRowEvents(row) {
@@ -144,40 +142,49 @@
     });
     const obs = row.querySelector('.item-obs');
     let lineCount = 1;
-    obs.addEventListener('keydown', function(e) {
+    obs.addEventListener('keydown', e => {
       if (e.key === 'Enter') {
         e.preventDefault();
         lineCount++;
-        const cursorPos = obs.selectionStart;
-        const textBefore = obs.value.substring(0, cursorPos);
-        const textAfter = obs.value.substring(cursorPos);
-        obs.value = textBefore + '\n' + lineCount + '. ' + textAfter;
+        const pos = obs.selectionStart;
+        const before = obs.value.substring(0, pos);
+        const after = obs.value.substring(pos);
+        obs.value = before + '\n' + lineCount + '. ' + after;
         autoGrow(obs);
-        const newPos = textBefore.length + 3 + lineCount.toString().length;
-        obs.setSelectionRange(newPos, newPos);
+        obs.setSelectionRange(before.length + 3 + lineCount.toString().length, before.length + 3 + lineCount.toString().length);
       }
     });
-    obs.addEventListener('input', () => autoGrow(obs));
     obs.value = '1. ';
     autoGrow(obs);
     row.querySelector('.delete-row').addEventListener('click', () => { row.remove(); updateGrandTotal(); });
   }
-
   tableBody.querySelectorAll('tr').forEach(row => attachRowEvents(row));
-
   addRowBtn.addEventListener('click', () => {
     const newRow = tableBody.rows[0].cloneNode(true);
-    newRow.querySelectorAll('input').forEach(input => input.value = '');
+    newRow.querySelectorAll('textarea, input').forEach(input => input.value = '');
     const newObs = newRow.querySelector('.item-obs');
     newObs.value = '1. ';
-    newObs.rows = 1;
+    autoGrow(newObs);
     tableBody.appendChild(newRow);
     attachRowEvents(newRow);
   });
 
   generatePdfBtn.addEventListener('click', () => {
-    const element = document.getElementById('content-to-pdf');
-    html2pdf().from(element).save('cotizacion.pdf');
+    // Preparar PDF
+    const title = nameArea.value.trim();
+    pdfTitle.textContent = title;
+    pdfHeader.style.display = 'block';
+    nameContainer.style.display = 'none';
+    const today = new Date();
+    pdfDate.textContent = 'Fecha: ' + today.toLocaleDateString('es-MX');
+    pdfFooter.style.display = 'block';
+    // Generar
+    html2pdf().from(document.getElementById('content-to-pdf')).save().then(() => {
+      // Revertir vista
+      pdfHeader.style.display = 'none';
+      nameContainer.style.display = 'block';
+      pdfFooter.style.display = 'none';
+    });
   });
 });
 

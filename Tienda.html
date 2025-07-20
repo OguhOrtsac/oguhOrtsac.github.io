@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Trade Labels</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #007AFF, #5856D6);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF2D55, #FF9500, #FFCC00, #34C759, #007AFF, #5856D6, #AF52DE);
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #007AFF;
+            box-shadow: 0 0 0 0.2rem rgba(0, 122, 255, 0.25);
+        }
+        
+        .btn-add {
+            background: linear-gradient(45deg, #34C759, #30D158);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 199, 89, 0.3);
+        }
+        
+        .export-buttons {
+            text-align: center;
+            margin: 20px;
+        }
+        
+        .btn-export {
+            border-radius: 12px;
+            padding: 12px 24px;
+            margin: 0 10px;
+            font-weight: 600;
+            min-width: 120px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-pdf {
+            background: linear-gradient(45deg, #FF2D55, #FF3B58);
+            border: none;
+            color: white;
+        }
+        
+        .btn-excel {
+            background: linear-gradient(45deg, #34C759, #30D158);
+            border: none;
+            color: white;
+        }
+        
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .table-container {
+            margin: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .table {
+            margin: 0;
+        }
+        
+        .table thead {
+            background: linear-gradient(45deg, #007AFF, #5856D6);
+            color: white;
+        }
+        
+        .table thead th {
+            border: none;
+            font-weight: 600;
+            padding: 18px 15px;
+            text-align: center;
+        }
+        
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f8f9ff;
+            transform: scale(1.01);
+        }
+        
+        .table tbody td {
+            padding: 15px;
+            text-align: center;
+            vertical-align: middle;
+            border-color: #e9ecef;
+        }
+        
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .btn-delete {
+            background: linear-gradient(45deg, #FF2D55, #FF3B58);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-delete:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(255, 45, 85, 0.3);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+            }
+            
+            .form-section {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .table-container {
+                margin: 10px;
+            }
+            
+            .btn-export {
+                margin: 5px;
+                min-width: 100px;
+            }
+        }
+        
+        .status-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Header -->
+            <div class="header">
+                <h1 class="mb-0">
+                    <i class="fab fa-apple me-2"></i>
+                    iOS Trade Labels
+                </h1>
+                <p class="mb-0 mt-2 opacity-75">Gestión de Productos y Precios</p>
+            </div>
+            
+            <!-- Form Section -->
+            <div class="form-section">
+                <h4 class="mb-4">
+                    <i class="fas fa-plus-circle text-success me-2"></i>
+                    Agregar Producto
+                </h4>
+                <form id="productForm">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="productName" class="form-label fw-bold">Producto</label>
+                            <input type="text" class="form-control" id="productName" placeholder="Nombre del producto" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="productPrice" class="form-label fw-bold">Precio</label>
+                            <input type="number" class="form-control" id="productPrice" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="updatedPrice" class="form-label fw-bold">Precio Actualizado</label>
+                            <input type="number" class="form-control" id="updatedPrice" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label fw-bold">&nbsp;</label>
+                            <button type="submit" class="btn btn-add w-100">
+                                <i class="fas fa-plus me-2"></i>Agregar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Export Buttons -->
+            <div class="export-buttons" id="exportButtons" style="display: none;">
+                <button class="btn btn-pdf btn-export" onclick="exportToPDF()">
+                    <i class="fas fa-file-pdf me-2"></i>Descargar PDF
+                </button>
+                <button class="btn btn-excel btn-export" onclick="exportToExcel()">
+                    <i class="fas fa-file-excel me-2"></i>Descargar Excel
+                </button>
+            </div>
+            
+            <!-- Products Table -->
+            <div class="table-container">
+                <div id="emptyState" class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <h5>No hay productos agregados</h5>
+                    <p>Comienza agregando tu primer producto usando el formulario de arriba</p>
+                </div>
+                <table class="table" id="productsTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Producto</th>
+                            <th>Precio Original</th>
+                            <th>Precio Actualizado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Status Messages -->
+    <div id="statusContainer" class="status-message"></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let products = [];
+        let productCounter = 1;
+        
+        // Form submission
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const productName = document.getElementById('productName').value.trim();
+            const productPrice = parseFloat(document.getElementById('productPrice').value);
+            const updatedPrice = document.getElementById('updatedPrice').value ? 
+                                parseFloat(document.getElementById('updatedPrice').value) : null;
+            
+            if (productName && !isNaN(productPrice)) {
+                addProduct(productName, productPrice, updatedPrice);
+                this.reset();
+                showStatus('Producto agregado exitosamente', 'success');
+            }
+        });
+        
+        function addProduct(name, price, updatedPrice) {
+            const product = {
+                id: productCounter++,
+                name: name,
+                price: price,
+                updatedPrice: updatedPrice
+            };
+            
+            products.push(product);
+            updateTable();
+        }
+        
+        function deleteProduct(id) {
+            products = products.filter(product => product.id !== id);
+            updateTable();
+            showStatus('Producto eliminado', 'warning');
+        }
+        
+        function updateTable() {
+            const tableBody = document.getElementById('productsTableBody');
+            const table = document.getElementById('productsTable');
+            const emptyState = document.getElementById('emptyState');
+            const exportButtons = document.getElementById('exportButtons');
+            
+            if (products.length === 0) {
+                table.style.display = 'none';
+                emptyState.style.display = 'block';
+                exportButtons.style.display = 'none';
+                return;
+            }
+            
+            table.style.display = 'table';
+            emptyState.style.display = 'none';
+            exportButtons.style.display = 'block';
+            
+            tableBody.innerHTML = '';
+            
+            products.forEach((product, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${index + 1}</strong></td>
+                    <td><strong>${product.name}</strong></td>
+                    <td><span class="badge bg-primary">$${product.price.toFixed(2)}</span></td>
+                    <td>${product.updatedPrice ? `<span class="badge bg-success">$${product.updatedPrice.toFixed(2)}</span>` : '<span class="text-muted">-</span>'}</td>
+                    <td>
+                        <button class="btn btn-delete btn-sm" onclick="deleteProduct(${product.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Header
+            doc.setFillColor(0, 122, 255);
+            doc.rect(0, 0, 210, 30, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(20);
+            doc.text('iOS Trade Labels', 105, 20, { align: 'center' });
+            
+            // Date
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(10);
+            doc.text(`Generado: ${new Date().toLocaleDateString('es-ES')}`, 20, 45);
+            
+            // Table header
+            doc.setFillColor(240, 240, 240);
+            doc.rect(20, 55, 170, 10, 'F');
+            
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'bold');
+            doc.text('#', 25, 62);
+            doc.text('Producto', 35, 62);
+            doc.text('Precio Original', 100, 62);
+            doc.text('Precio Actualizado', 140, 62);
+            
+            // Table content
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(10);
+            
+            let yPos = 75;
+            products.forEach((product, index) => {
+                if (index % 2 === 0) {
+                    doc.setFillColor(248, 249, 250);
+                    doc.rect(20, yPos - 5, 170, 10, 'F');
+                }
+                
+                doc.text((index + 1).toString(), 25, yPos);
+                doc.text(product.name, 35, yPos);
+                doc.text(`$${product.price.toFixed(2)}`, 100, yPos);
+                doc.text(product.updatedPrice ? `$${product.updatedPrice.toFixed(2)}` : '-', 140, yPos);
+                
+                yPos += 12;
+                
+                if (yPos > 270) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+            });
+            
+            doc.save('ios-trade-labels.pdf');
+            showStatus('PDF descargado exitosamente', 'success');
+        }
+        
+        function exportToExcel() {
+            const data = [
+                ['#', 'Producto', 'Precio Original', 'Precio Actualizado']
+            ];
+            
+            products.forEach((product, index) => {
+                data.push([
+                    index + 1,
+                    product.name,
+                    product.price,
+                    product.updatedPrice || '-'
+                ]);
+            });
+            
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            
+            // Style the header
+            const headerStyle = {
+                fill: { fgColor: { rgb: "007AFF" } },
+                font: { bold: true, color: { rgb: "FFFFFF" } }
+            };
+            
+            ['A1', 'B1', 'C1', 'D1'].forEach(cell => {
+                if (!ws[cell]) ws[cell] = {};
+                ws[cell].s = headerStyle;
+            });
+            
+            // Auto-size columns
+            const colWidths = [
+                { wch: 5 },  // #
+                { wch: 30 }, // Producto
+                { wch: 15 }, // Precio Original
+                { wch: 18 }  // Precio Actualizado
+            ];
+            ws['!cols'] = colWidths;
+            
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+            
+            XLSX.writeFile(wb, 'ios-trade-labels.xlsx');
+            showStatus('Excel descargado exitosamente', 'success');
+        }
+        
+        function showStatus(message, type) {
+            const statusContainer = document.getElementById('statusContainer');
+            
+            const alertClass = type === 'success' ? 'alert-success' : 
+                             type === 'warning' ? 'alert-warning' : 'alert-info';
+            
+            const icon = type === 'success' ? 'check-circle' : 
+                        type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+            
+            const alert = document.createElement('div');
+            alert.className = `alert ${alertClass} alert-dismissible fade show`;
+            alert.innerHTML = `
+                <i class="fas fa-${icon} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            statusContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

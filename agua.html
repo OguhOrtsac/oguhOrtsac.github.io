@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💧 Agua Fresca vs Coca-Cola 🥤 | Calculadora de Ahorros y Salud</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .calculator-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .benefits-sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .result-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .result-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .chart-container {
+            margin: 30px 0;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefits-list li {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            color: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .benefits-list li:before {
+            content: "✓";
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .health-impact {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .disease-prevention {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .disease-card {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .summary-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .highlight-stat {
+            display: inline-block;
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💧 Agua Fresca vs Coca-Cola 🥤</h1>
+            <p>Descubre cuánto dinero ahorras y cómo mejoras tu salud eligiendo agua fresca natural</p>
+        </div>
+
+        <div class="main-grid">
+            <div class="calculator-section">
+                <h2>🧮 Calculadora de Ahorros</h2>
+                
+                <!-- Tabla de Precios Editable -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; margin-bottom: 25px;">
+                    <h3 style="color: #333; margin-bottom: 15px;">💰 Precios (Editables)</h3>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: linear-gradient(90deg, #4CAF50, #45a049); color: white;">
+                                <th style="padding: 12px; text-align: left; border-radius: 8px 0 0 8px;">Producto</th>
+                                <th style="padding: 12px; text-align: center;">Cantidad</th>
+                                <th style="padding: 12px; text-align: center; border-radius: 0 8px 8px 0;">Precio ($)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: white; border-bottom: 2px solid #e0e0e0;">
+                                <td style="padding: 12px;">
+                                    <input type="text" id="cocaColaName" value="Coca-Cola" style="border: none; background: transparent; font-weight: bold; width: 100%; font-size: 14px;">
+                                </td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <input type="text" id="cocaColaSize" value="2.5 litros" style="border: none; background: transparent; text-align: center; width: 100%; font-size: 14px;">
+                                </td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <input type="number" id="cocaColaPrice" value="38" min="0" step="0.5" style="border: 1px solid #ddd; padding: 5px; border-radius: 5px; text-align: center; width: 80px;">
+                                </td>
+                            </tr>
+                            <tr style="background: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
+                                <td style="padding: 12px;">
+                                    <input type="text" id="tankName" value="Tanque de Agua" style="border: none; background: transparent; font-weight: bold; width: 100%; font-size: 14px;">
+                                </td>
+                                <td style="padding: 12px; text-align: center;">1 uso</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <input type="number" id="tankPrice" value="10" min="0" step="0.5" style="border: 1px solid #ddd; padding: 5px; border-radius: 5px; text-align: center; width: 80px;">
+                                </td>
+                            </tr>
+                            <tr style="background: white; border-bottom: 1px solid #e0e0e0;">
+                                <td style="padding: 12px;">
+                                    <input type="text" id="waterName" value="Agua" style="border: none; background: transparent; font-weight: bold; width: 100%; font-size: 14px;">
+                                </td>
+                                <td style="padding: 12px; text-align: center;">2 litros</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <input type="number" id="waterPrice" value="2" min="0" step="0.5" style="border: 1px solid #ddd; padding: 5px; border-radius: 5px; text-align: center; width: 80px;">
+                                </td>
+                            </tr>
+                            <tr style="background: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
+                                <td style="padding: 12px;">
+                                    <input type="text" id="iceName" value="Hielo" style="border: none; background: transparent; font-weight: bold; width: 100%; font-size: 14px;">
+                                </td>
+                                <td style="padding: 12px; text-align: center;">Suficiente</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <input type="number" id="icePrice" value="2" min="0" step="0.5" style="border: 1px solid #ddd; padding: 5px; border-radius: 5px; text-align: center; width: 80px;">
+                                </td>
+                            </tr>
+                            <tr style="background: linear-gradient(90deg, #2196F3, #1976D2); color: white; font-weight: bold;">
+                                <td style="padding: 12px; border-radius: 0 0 0 8px;">TOTAL Agua Fresca:</td>
+                                <td style="padding: 12px; text-align: center;">~2.5L</td>
+                                <td style="padding: 12px; text-align: center; border-radius: 0 0 8px 0;" id="totalWaterCost">$14</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="input-group">
+                    <label for="cocaColasPerDay">¿Cuántas porciones consumes al día?</label>
+                    <input type="number" id="cocaColasPerDay" value="1" min="0" step="0.5">
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h3>Ahorro Diario</h3>
+                        <div class="value" id="dailySaving">$26.00</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Ahorro Semanal</h3>
+                        <div class="value" id="weeklySaving">$182.00</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Ahorro Mensual</h3>
+                        <div class="value" id="monthlySaving">$780.00</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Ahorro Anual</h3>
+                        <div class="value" id="yearlySaving">$9,490.00</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="savingsChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="caloriesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="benefits-sidebar">
+                <h3>🌟 Beneficios del Agua Fresca</h3>
+                <ul class="benefits-list">
+                    <li>Hidratación natural y saludable</li>
+                    <li>Solo 200 cal vs 1,050 cal de Coca-Cola</li>
+                    <li>Rica en vitaminas naturales</li>
+                    <li>Mejora la digestión</li>
+                    <li>Fortalece el sistema inmune</li>
+                    <li>Piel más saludable</li>
+                    <li>Mayor energía natural</li>
+                    <li>Mejor calidad del sueño</li>
+                </ul>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <h4>📊 Calorías Ahorradas Diariamente</h4>
+                    <div class="highlight-stat" id="caloriesSaved">850 cal</div>
+                    <div style="margin-top: 15px; background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; font-size: 0.85em;">
+                        <div style="margin-bottom: 8px;">🚶‍♂️ <span id="walkingTime">2.4 horas caminando</span></div>
+                        <div style="margin-bottom: 8px;">🏃‍♂️ <span id="runningTime">1.2 horas corriendo</span></div>
+                        <div style="margin-bottom: 8px;">🚶‍♀️ <span id="walkingDistance">12 km caminando</span></div>
+                        <div>🏃‍♀️ <span id="runningDistance">8.5 km corriendo</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="health-impact">
+            <h2>🏥 Enfermedades que Previenes</h2>
+            <div class="disease-prevention">
+                <div class="disease-card">
+                    <h3>Diabetes Tipo 2</h3>
+                    <p>El consumo excesivo de azúcar aumenta el riesgo en 26%</p>
+                </div>
+                <div class="disease-card">
+                    <h3>Obesidad</h3>
+                    <p>Cada Coca-Cola diaria aumenta 15% el riesgo de obesidad</p>
+                </div>
+                <div class="disease-card">
+                    <h3>Caries Dentales</h3>
+                    <p>Los ácidos y azúcares dañan el esmalte dental</p>
+                </div>
+                <div class="disease-card">
+                    <h3>Enfermedades Cardíacas</h3>
+                    <p>Reduce el riesgo de problemas cardiovasculares</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-section">
+            <h2>📋 Resumen de Beneficios</h2>
+            <p style="font-size: 1.2em; margin: 20px 0;">Al elegir agua fresca en lugar de Coca-Cola:</p>
+            
+            <div style="margin: 30px 0;">
+                <span class="highlight-stat" id="yearlyTotal">Ahorras $9,490 al año</span>
+                <span class="highlight-stat" id="caloriesPerYear">Evitas 383,250 calorías anuales</span>
+                <span class="highlight-stat">Reduces visitas al médico</span>
+                <span class="highlight-stat">Mejoras tu energía y vitalidad</span>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white; padding: 25px; border-radius: 15px; margin-top: 30px;">
+                <h3>💡 ¿Sabías que...?</h3>
+                <p>Con el dinero que ahorras en un año comprando agua fresca en lugar de Coca-Cola, podrías:</p>
+                <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                    <li>🏖️ Irte de vacaciones familiares</li>
+                    <li>📱 Comprar un celular nuevo</li>
+                    <li>🎓 Pagar un curso o capacitación</li>
+                    <li>🏠 Invertir en mejoras para tu hogar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Precios y datos (ahora editables)
+        const CALORIES_PER_COCA_COLA = 1050; // calorías por 2.5L de Coca-Cola
+        const CALORIES_PER_AGUA_FRESCA = 200; // calorías por 2.5L de agua fresca con azúcar
+        
+        let savingsChart, caloriesChart;
+
+        function getTotalWaterCost() {
+            const tankPrice = parseFloat(document.getElementById('tankPrice').value) || 0;
+            const waterPrice = parseFloat(document.getElementById('waterPrice').value) || 0;
+            const icePrice = parseFloat(document.getElementById('icePrice').value) || 0;
+            return tankPrice + waterPrice + icePrice;
+        }
+
+        function getCocaColaPrice() {
+            return parseFloat(document.getElementById('cocaColaPrice').value) || 0;
+        }
+
+        function updateTotalWaterCost() {
+            const total = getTotalWaterCost();
+            document.getElementById('totalWaterCost').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function calculateSavings() {
+            const cocaColasPerDay = parseFloat(document.getElementById('cocaColasPerDay').value) || 0;
+            
+            // Costos dinámicos
+            const cocaColaCostPerDay = cocaColasPerDay * getCocaColaPrice();
+            const waterCostPerDay = cocaColasPerDay * getTotalWaterCost();
+            
+            // Ahorros
+            const dailySaving = cocaColaCostPerDay - waterCostPerDay;
+            const weeklySaving = dailySaving * 7;
+            const monthlySaving = dailySaving * 30;
+            const yearlySaving = dailySaving * 365;
+            
+            // Calorías (diferencia entre coca-cola y agua fresca)
+            const caloriesSavedDaily = cocaColasPerDay * (CALORIES_PER_COCA_COLA - CALORIES_PER_AGUA_FRESCA);
+            const caloriesSavedYearly = caloriesSavedDaily * 365;
+            
+            // Actualizar display
+            document.getElementById('dailySaving').textContent = `$${dailySaving.toFixed(2)}`;
+            document.getElementById('weeklySaving').textContent = `$${weeklySaving.toFixed(2)}`;
+            document.getElementById('monthlySaving').textContent = `$${monthlySaving.toFixed(2)}`;
+            document.getElementById('yearlySaving').textContent = `$${yearlySaving.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+            
+            document.getElementById('caloriesSaved').textContent = `${caloriesSavedDaily.toLocaleString()} cal`;
+            document.getElementById('yearlyTotal').textContent = `Ahorras $${yearlySaving.toLocaleString('es-MX', {minimumFractionDigits: 2})} al año`;
+            document.getElementById('caloriesPerYear').textContent = `Evitas ${caloriesSavedYearly.toLocaleString()} calorías anuales`;
+            
+            // Equivalencias de ejercicio más detalladas
+            const walkingHours = (caloriesSavedDaily / 350).toFixed(1); // 350 cal/hora caminando
+            const runningHours = (caloriesSavedDaily / 700).toFixed(1); // 700 cal/hora corriendo
+            const walkingKm = (caloriesSavedDaily / 70).toFixed(1); // ~70 cal/km caminando
+            const runningKm = (caloriesSavedDaily / 100).toFixed(1); // ~100 cal/km corriendo
+            
+            document.getElementById('walkingTime').textContent = `${walkingHours} horas caminando`;
+            document.getElementById('runningTime').textContent = `${runningHours} horas corriendo`;
+            document.getElementById('walkingDistance').textContent = `${walkingKm} km caminando`;
+            document.getElementById('runningDistance').textContent = `${runningKm} km corriendo`;
+            
+            // Actualizar gráficos
+            updateCharts(dailySaving, weeklySaving, monthlySaving, yearlySaving, caloriesSavedDaily);
+        }
+
+        function updateCharts(daily, weekly, monthly, yearly, caloriesSaved) {
+            // Gráfico de ahorros
+            if (savingsChart) {
+                savingsChart.destroy();
+            }
+            
+            const ctx1 = document.getElementById('savingsChart').getContext('2d');
+            savingsChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Diario', 'Semanal', 'Mensual', 'Anual'],
+                    datasets: [{
+                        label: 'Ahorros ($)',
+                        data: [daily, weekly, monthly, yearly],
+                        backgroundColor: [
+                            'rgba(76, 175, 80, 0.8)',
+                            'rgba(33, 150, 243, 0.8)',
+                            'rgba(255, 193, 7, 0.8)',
+                            'rgba(156, 39, 176, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(76, 175, 80, 1)',
+                            'rgba(33, 150, 243, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(156, 39, 176, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '💰 Ahorros por Período'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de calorías comparativo
+            if (caloriesChart) {
+                caloriesChart.destroy();
+            }
+
+            const cocaColasPerDay = parseFloat(document.getElementById('cocaColasPerDay').value) || 0;
+            const aguaFrescaCals = cocaColasPerDay * CALORIES_PER_AGUA_FRESCA;
+            const cocaColaCals = cocaColasPerDay * CALORIES_PER_COCA_COLA;
+
+            const ctx2 = document.getElementById('caloriesChart').getContext('2d');
+            caloriesChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Agua Fresca', 'Coca-Cola'],
+                    datasets: [{
+                        data: [aguaFrescaCals, cocaColaCals],
+                        backgroundColor: [
+                            'rgba(76, 175, 80, 0.8)',
+                            'rgba(244, 67, 54, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(76, 175, 80, 1)',
+                            'rgba(244, 67, 54, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '🍎 Calorías Diarias Comparación'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Event listeners para todos los campos editables
+        document.getElementById('cocaColasPerDay').addEventListener('input', calculateSavings);
+        document.getElementById('cocaColaPrice').addEventListener('input', calculateSavings);
+        document.getElementById('tankPrice').addEventListener('input', function() {
+            updateTotalWaterCost();
+            calculateSavings();
+        });
+        document.getElementById('waterPrice').addEventListener('input', function() {
+            updateTotalWaterCost();
+            calculateSavings();
+        });
+        document.getElementById('icePrice').addEventListener('input', function() {
+            updateTotalWaterCost();
+            calculateSavings();
+        });
+
+        // Inicializar
+        updateTotalWaterCost();
+        calculateSavings();
+
+        // Animación de entrada
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.result-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('pulse');
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

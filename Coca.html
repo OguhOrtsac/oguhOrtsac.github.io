@@ -26,6 +26,22 @@
             padding: 15px;
             border-radius: 10px;
         }
+        .impacto-final {
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .impacto-final h2 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .impacto-final p {
+            font-size: 1.2rem;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body class="container py-4">
@@ -73,9 +89,22 @@
         <p class="resultado text-danger" id="azucar"></p>
     </div>
 
-    <div class="card p-4">
+    <div class="card p-4 mb-4">
         <h4>Visualización del ahorro</h4>
         <canvas id="graficoAhorro"></canvas>
+    </div>
+
+    <div class="card p-4">
+        <h4>Impacto en la salud</h4>
+        <canvas id="graficoSalud"></canvas>
+    </div>
+
+    <div id="impactoFinal" class="impacto-final" style="display:none;">
+        <h2>🎯 ¡Gran Impacto!</h2>
+        <p id="impactoAhorro"></p>
+        <p id="impactoCalorias"></p>
+        <p id="impactoAzucar"></p>
+        <p>💚 Cambiar este hábito no solo cuida tu bolsillo, ¡también tu salud!</p>
     </div>
 
     <script>
@@ -85,8 +114,9 @@
         const kcalPorBotella = 1050;
         const azucarPorBotella = 265; // gramos
 
-        const ctx = document.getElementById('graficoAhorro').getContext('2d');
-        const graficoAhorro = new Chart(ctx, {
+        // Gráfico de ahorro
+        const ctxAhorro = document.getElementById('graficoAhorro').getContext('2d');
+        const graficoAhorro = new Chart(ctxAhorro, {
             type: 'bar',
             data: {
                 labels: ['Diario', 'Semanal', 'Mensual', 'Anual'],
@@ -102,6 +132,32 @@
                     legend: { display: false },
                     tooltip: { callbacks: {
                         label: context => `$${context.parsed.y.toFixed(2)}`
+                    }}
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Gráfico de salud
+        const ctxSalud = document.getElementById('graficoSalud').getContext('2d');
+        const graficoSalud = new Chart(ctxSalud, {
+            type: 'bar',
+            data: {
+                labels: ['Calorías evitadas (kcal)', 'Azúcar evitada (g)'],
+                datasets: [{
+                    label: 'Impacto por semana',
+                    data: [0, 0],
+                    backgroundColor: ['#dc3545', '#fd7e14']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: {
+                        label: context => `${context.parsed.y.toLocaleString()} ${context.dataIndex === 0 ? 'kcal' : 'g'}`
                     }}
                 },
                 scales: {
@@ -131,6 +187,24 @@
 
             graficoAhorro.data.datasets[0].data = [ahorroDia, ahorroSemana, ahorroMes, ahorroAnual];
             graficoAhorro.update();
+
+            graficoSalud.data.datasets[0].data = [caloriasAhorro, azucarAhorro];
+            graficoSalud.update();
+
+            // Actualizar tarjeta final
+            const impactoFinal = document.getElementById('impactoFinal');
+            const impactoAhorro = document.getElementById('impactoAhorro');
+            const impactoCalorias = document.getElementById('impactoCalorias');
+            const impactoAzucar = document.getElementById('impactoAzucar');
+
+            if (vecesDia > 0 && diasSemana > 0) {
+                impactoFinal.style.display = 'block';
+                impactoAhorro.innerText = `💵 Podrías ahorrar hasta $${ahorroAnual.toLocaleString()} al año`;
+                impactoCalorias.innerText = `🔥 Evitarías ${ (caloriasAhorro * 52).toLocaleString() } kcal en un año`;
+                impactoAzucar.innerText = `🍬 Reducirías ${ (azucarAhorro * 52).toLocaleString() } g de azúcar anualmente`;
+            } else {
+                impactoFinal.style.display = 'none';
+            }
         }
 
         document.getElementById('vecesDia').addEventListener('input', calcularAhorro);

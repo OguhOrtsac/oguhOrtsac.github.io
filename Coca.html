@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ahorro: Coca-Cola vs Tang</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .resultado {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .beneficios {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .comparativa {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="container py-4">
+
+    <h1 class="text-center mb-4">💰 Calculadora de Ahorro: Coca-Cola 2.5L vs Tang 2L</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6 comparativa">
+            <h4>Comparativa de precios</h4>
+            <p><strong>Coca-Cola 2.5 L:</strong> $38</p>
+            <p><strong>Tang 2 L:</strong> $10 (sobre) + $2 (agua) = $12</p>
+            <p><strong>Ahorro por unidad:</strong> $26</p>
+        </div>
+        <div class="col-md-6 beneficios">
+            <h4>Beneficios para la salud</h4>
+            <ul>
+                <li>Menos azúcar (Coca-Cola 2.5 L ≈ 265 g azúcar).</li>
+                <li>Menos calorías (≈ 1,050 kcal menos por botella).</li>
+                <li>Menor riesgo de diabetes, obesidad y caries.</li>
+                <li>Mejor hidratación y control de peso.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card p-4 mb-4">
+        <h4>Calcula tu ahorro</h4>
+        <div class="mb-3">
+            <label for="vecesDia" class="form-label">¿Cuántas botellas de 2.5 L consumes al día?</label>
+            <input type="number" id="vecesDia" class="form-control" value="1" min="0">
+        </div>
+        <div class="mb-3">
+            <label for="diasSemana" class="form-label">¿Cuántos días a la semana?</label>
+            <input type="number" id="diasSemana" class="form-control" value="7" min="0" max="7">
+        </div>
+    </div>
+
+    <div class="card p-4 mb-4">
+        <h4>Resultados</h4>
+        <p class="resultado" id="ahorroDia"></p>
+        <p class="resultado" id="ahorroSemana"></p>
+        <p class="resultado" id="ahorroMes"></p>
+        <p class="resultado" id="ahorroAnual"></p>
+        <hr>
+        <p class="resultado text-success" id="calorias"></p>
+        <p class="resultado text-danger" id="azucar"></p>
+    </div>
+
+    <div class="card p-4">
+        <h4>Visualización del ahorro</h4>
+        <canvas id="graficoAhorro"></canvas>
+    </div>
+
+    <script>
+        const precioCoca = 38;
+        const precioTang = 12;
+        const ahorroPorUnidad = precioCoca - precioTang;
+        const kcalPorBotella = 1050;
+        const azucarPorBotella = 265; // gramos
+
+        const ctx = document.getElementById('graficoAhorro').getContext('2d');
+        const graficoAhorro = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Diario', 'Semanal', 'Mensual', 'Anual'],
+                datasets: [{
+                    label: 'Ahorro ($ MXN)',
+                    data: [0, 0, 0, 0],
+                    backgroundColor: ['#28a745', '#ffc107', '#17a2b8', '#007bff']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: {
+                        label: context => `$${context.parsed.y.toFixed(2)}`
+                    }}
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        function calcularAhorro() {
+            const vecesDia = parseFloat(document.getElementById('vecesDia').value) || 0;
+            const diasSemana = parseFloat(document.getElementById('diasSemana').value) || 0;
+
+            const ahorroDia = ahorroPorUnidad * vecesDia;
+            const ahorroSemana = ahorroDia * diasSemana;
+            const ahorroMes = (ahorroSemana / 7) * 30.44;
+            const ahorroAnual = ahorroSemana * 52;
+
+            const caloriasAhorro = kcalPorBotella * vecesDia * diasSemana;
+            const azucarAhorro = azucarPorBotella * vecesDia * diasSemana;
+
+            document.getElementById('ahorroDia').innerText = `Ahorro diario: $${ahorroDia.toFixed(2)}`;
+            document.getElementById('ahorroSemana').innerText = `Ahorro semanal: $${ahorroSemana.toFixed(2)}`;
+            document.getElementById('ahorroMes').innerText = `Ahorro mensual: $${ahorroMes.toFixed(2)}`;
+            document.getElementById('ahorroAnual').innerText = `Ahorro anual: $${ahorroAnual.toFixed(2)}`;
+            document.getElementById('calorias').innerText = `Calorías evitadas: ${caloriasAhorro.toLocaleString()} kcal por semana`;
+            document.getElementById('azucar').innerText = `Azúcar evitada: ${azucarAhorro.toLocaleString()} g por semana`;
+
+            graficoAhorro.data.datasets[0].data = [ahorroDia, ahorroSemana, ahorroMes, ahorroAnual];
+            graficoAhorro.update();
+        }
+
+        document.getElementById('vecesDia').addEventListener('input', calcularAhorro);
+        document.getElementById('diasSemana').addEventListener('input', calcularAhorro);
+
+        calcularAhorro();
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -23,11 +23,12 @@
         #gastos-table th:nth-child(3) { width: 15%; }
         #gastos-table th:nth-child(4) { width: 30%; }
         
-        /* Establecer anchos para las columnas de ingresos */
+        /* Establecer anchos para las columnas de ingresos (las 4 primeras siguen igual) */
         #ingresos-table th:nth-child(1) { width: 40%; }
         #ingresos-table th:nth-child(2) { width: 20%; }
         #ingresos-table th:nth-child(3) { width: 10%; } /* Columna de cantidad más pequeña */
-        #ingresos-table th:nth-child(4) { width: 30%; }
+        #ingresos-table th:nth-child(4) { width: 20%; }
+        /* La 5a columna (Acciones) toma el espacio restante */
         
         .container {
             max-width: 1000px;
@@ -264,6 +265,36 @@
                 text-align: left;
             }
         }
+
+        /* ===== MODAL (simple, inline) ===== */
+        .modal {
+            display: none;
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background: #fff; 
+            margin: 10% auto; 
+            padding: 20px; 
+            border-radius: 8px; 
+            width: 90%; 
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .modal-content h2 { margin-top: 0; color: #3498db; text-align: center; }
+        .modal-content label { display: block; margin-top: 10px; font-weight: bold; }
+        .modal-content input {
+            width: 100%; 
+            margin-top: 5px; 
+            margin-bottom: 15px; 
+            padding: 8px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px;
+        }
+        .close { float: right; font-size: 22px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -355,7 +386,8 @@
                         <th style="width: 40%;">Concepto</th>
                         <th style="width: 20%;">Precio</th>
                         <th style="width: 10%;">Cantidad</th>
-                        <th style="width: 30%;">Total</th>
+                        <th style="width: 20%;">Total</th>
+                        <th style="width: 10%;">Acciones</th> <!-- NUEVA COLUMNA -->
                     </tr>
                 </thead>
                 <tbody>
@@ -364,12 +396,14 @@
                         <td>$15.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="15" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
+                        <td><button type="button" class="delete-row-button" onclick="eliminarFilaIngreso(this)">Eliminar</button></td>
                     </tr>
                     <tr>
                         <td>Garrafones tienda</td>
                         <td>$18.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="18" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
+                        <td><button type="button" class="delete-row-button" onclick="eliminarFilaIngreso(this)">Eliminar</button></td>
                     </tr>
                     
                     <tr>
@@ -377,6 +411,7 @@
                         <td>$20.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="20" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
+                        <td><button type="button" class="delete-row-button" onclick="eliminarFilaIngreso(this)">Eliminar</button></td>
                     </tr>
 
                     <tr>
@@ -384,18 +419,19 @@
                         <td>$100.00</td>
                         <td><input type="number" class="cantidad-input" data-precio="100" onchange="calcularFila(this)" min="0"></td>
                         <td class="total-cell green-text">$0.00</td>
+                        <td><button type="button" class="delete-row-button" onclick="eliminarFilaIngreso(this)">Eliminar</button></td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="text-align: center; padding: 10px;">
-                            <button type="button" class="add-row-button" onclick="agregarFilaIngresos()">+ Agregar ingreso</button>
+                        <td colspan="5" style="text-align: center; padding: 10px;">
+                            <button type="button" class="add-row-button" onclick="abrirModalIngreso()">+ Agregar ingreso</button>
                         </td>
                     </tr>
                     <tr class="total-row">
-                        <td colspan="3">Total de Ingresos:</td>
+                        <td colspan="4">Total de Ingresos:</td>
                         <td id="total-ingresos" class="green-text">$0.00</td>
                     </tr>
                     <tr class="total-row">
-                        <td colspan="3">Total de Garrafones:</td>
+                        <td colspan="4">Total de Garrafones:</td>
                         <td id="total-cantidad">0</td>
                     </tr>
                 </tbody>
@@ -448,17 +484,22 @@
         </div>
     </div>
 
-    <script>
-        // Helper para sanitizar texto al insertar como HTML
-        function escapeHTML(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
+    <!-- ===== Modal para agregar ingreso ===== -->
+    <div id="modalIngreso" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModalIngreso()">&times;</span>
+        <h2>Agregar nuevo ingreso</h2>
+        <label for="concepto">Concepto:</label>
+        <input type="text" id="concepto" placeholder="Ej: Agua alcalina">
+        <label for="precio">Precio unitario:</label>
+        <input type="number" id="precio" placeholder="Ej: 20" min="0" step="0.01">
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" placeholder="Ej: 5" min="0">
+        <button class="add-row-button" onclick="guardarIngreso()">Guardar</button>
+      </div>
+    </div>
 
+    <script>
         // Establecer la fecha actual y actualizar el texto de fecha
         document.addEventListener('DOMContentLoaded', function() {
             const fechaActual = new Date();
@@ -514,12 +555,11 @@
             document.getElementById('fecha-texto').textContent = textoFechaCapitalizado;
         }
         
-        // Eliminar una fila
+        // Eliminar una fila (Gastos) - SE MANTIENE IGUAL
         function eliminarFila(boton) {
             const fila = boton.closest('tr');
             fila.remove();
             calcularTotalGastos();
-            calcularTotalIngresos();
         }
         
         // Marcar como pagado
@@ -570,7 +610,7 @@
             calcularResultadoTotal();
         }
         
-        // Calcular fila de ingresos (precio * cantidad) para filas con precio como texto y data-precio en input
+        // Calcular fila de ingresos (precio * cantidad)
         function calcularFila(input) {
             const fila = input.parentElement.parentElement;
             const precio = parseFloat(input.getAttribute('data-precio'));
@@ -606,13 +646,13 @@
             
             celdas.forEach(celda => {
                 if (celda.textContent !== '$0.00') {
-                    total += parseFloat(celda.textContent.replace('$', ''));
+                    total += parseFloat(celda.textContent.replace('$', '')) || 0;
                 }
             });
             
             cantidades.forEach(cantidad => {
                 if (cantidad.value) {
-                    totalCantidad += parseInt(cantidad.value);
+                    totalCantidad += parseInt(cantidad.value) || 0;
                 }
             });
             
@@ -665,7 +705,7 @@
             }
         }
         
-        // Función para agregar una nueva fila a la tabla de gastos
+        // Función para agregar una nueva fila a la tabla de gastos (SE MANTIENE)
         function agregarFilaGastos() {
             const tabla = document.querySelector('#gastos-table tbody');
             const ultimaFila = document.querySelector('#gastos-table .add-row-button').parentElement.parentElement;
@@ -685,34 +725,70 @@
             tabla.insertBefore(nuevaFila, ultimaFila);
         }
 
-        // >>>>>>>>>>>>> CORREGIDO: Agregar fila de ingresos al lugar correcto y con el mismo formato <<<<<<<<<<<<<
+        // ===== CORREGIDA: agregarFilaIngresos (agrega abajo + botón Eliminar) =====
         function agregarFilaIngresos() {
             const tabla = document.querySelector('#ingresos-table tbody');
             const filaBoton = document.querySelector('#ingresos-table .add-row-button').parentElement.parentElement;
             
-            // Pedimos datos para mantener el mismo formato que las filas base
-            let concepto = prompt('Concepto del ingreso:', 'Ingreso personalizado');
-            if (concepto === null) return; // cancelado
-            concepto = concepto.trim() || 'Ingreso personalizado';
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.innerHTML = `
+                <td><input type="text" class="concepto-input" placeholder="Concepto"></td>
+                <td><input type="number" class="precio-input" min="0" step="0.01" onchange="calcularFilaPersonalizada(this)" placeholder="0.00"></td>
+                <td><input type="number" class="cantidad-input" min="0" onchange="calcularFilaPersonalizada(this)" placeholder="0"></td>
+                <td class="total-cell green-text">$0.00</td>
+                <td><button type="button" class="delete-row-button" onclick="eliminarFilaIngreso(this)">Eliminar</button></td>
+            `;
+            
+            // ✅ Siempre insertar justo antes del botón "+ Agregar ingreso"
+            tabla.insertBefore(nuevaFila, filaBoton);
+        }
 
-            let precioStr = prompt('Precio unitario (solo número):', '0');
-            if (precioStr === null) return; // cancelado
-            let precio = parseFloat(precioStr.replace(',', '.'));
+        // ===== Modal: abrir/cerrar/guardar =====
+        function abrirModalIngreso() {
+            document.getElementById("modalIngreso").style.display = "block";
+        }
+        function cerrarModalIngreso() {
+            document.getElementById("modalIngreso").style.display = "none";
+            document.getElementById("concepto").value = "";
+            document.getElementById("precio").value = "";
+            document.getElementById("cantidad").value = "";
+        }
+        function guardarIngreso() {
+            const concepto = document.getElementById("concepto").value.trim() || "Ingreso personalizado";
+            let precio = parseFloat(document.getElementById("precio").value);
+            let cantidad = parseInt(document.getElementById("cantidad").value);
+
             if (isNaN(precio) || precio < 0) precio = 0;
+            if (isNaN(cantidad) || cantidad < 0) cantidad = 0;
+
+            const total = precio * cantidad;
+
+            const tabla = document.querySelector('#ingresos-table tbody');
+            const filaBoton = document.querySelector('#ingresos-table .add-row-button').parentElement.parentElement;
 
             const nuevaFila = document.createElement('tr');
             nuevaFila.innerHTML = `
-                <td>${escapeHTML(concepto)}</td>
+                <td>${concepto}</td>
                 <td>$${precio.toFixed(2)}</td>
-                <td><input type="number" class="cantidad-input" data-precio="${precio}" min="0" onchange="calcularFila(this)"></td>
-                <td class="total-cell green-text">$0.00</td>
+                <td><input type="number" class="cantidad-input" data-precio="${precio}" value="${cantidad}" min="0" onchange="calcularFila(this)"></td>
+                <td class="total-cell green-text">$${total.toFixed(2)}</td>
+                <td><button type="button" class="delete-row-button" onclick="eliminarFilaIngreso(this)">Eliminar</button></td>
             `;
             
-            // Inserta la nueva fila JUSTO antes del botón "+ Agregar ingreso"
+            // ✅ Insertar justo antes del botón
             tabla.insertBefore(nuevaFila, filaBoton);
-        }
-        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+            calcularTotalIngresos();
+            cerrarModalIngreso();
+        }
+
+        // Eliminar fila (Ingresos) — NUEVA para no tocar la de Gastos
+        function eliminarFilaIngreso(boton) {
+            const fila = boton.closest('tr');
+            fila.remove();
+            calcularTotalIngresos();
+        }
+        
         function generarPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -741,7 +817,10 @@
                 }
                 
                 // Guardar el PDF usando la fecha seleccionada
-                const pdfName = 'Reporte_Financiero_' + (fechaSeleccionada || 'sin_fecha') + '.pdf';
+                const pdfOutput = doc.output('blob');
+                const pdfName = 'Reporte_Financiero_' + fechaSeleccionada + '.pdf';
+                
+                // Descargar el PDF
                 doc.save(pdfName);
             });
         }

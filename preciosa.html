@@ -15,10 +15,52 @@
 
         body {
             font-family: 'Playfair Display', serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 50%, #fff0f5 100%);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+        }
+
+        /* Fondo decorativo */
+        .background-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.3;
+        }
+
+        .teddy-bear {
+            position: absolute;
+            font-size: 40px;
+            animation: gentleFloat 20s infinite linear;
+        }
+
+        .flower-bouquet {
+            position: absolute;
+            font-size: 35px;
+            animation: gentleFloat 25s infinite linear;
+        }
+
+        @keyframes gentleFloat {
+            0% {
+                transform: translateX(-100px) translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateX(calc(100vw + 50px)) translateY(-30px) rotate(90deg);
+            }
+            50% {
+                transform: translateX(calc(100vw + 100px)) translateY(0px) rotate(180deg);
+            }
+            75% {
+                transform: translateX(-50px) translateY(30px) rotate(270deg);
+            }
+            100% {
+                transform: translateX(-100px) translateY(0px) rotate(360deg);
+            }
         }
 
         /* Partículas de fondo */
@@ -69,14 +111,19 @@
         /* Sobre cerrado */
         .envelope {
             position: relative;
-            width: 400px;
-            height: 250px;
+            width: 450px;
+            height: 280px;
             background: linear-gradient(145deg, #fff, #f8f8f8);
             border-radius: 15px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             transform-style: preserve-3d;
+        }
+
+        .envelope.opening {
+            width: 600px;
+            height: 450px;
         }
 
         .envelope:hover {
@@ -100,6 +147,21 @@
 
         .envelope.opening .envelope-flap {
             transform: rotateX(-180deg);
+        }
+
+        .envelope.closed {
+            width: 450px;
+            height: 280px;
+        }
+
+        .envelope.closed .envelope-flap {
+            transform: rotateX(0deg);
+        }
+
+        .envelope.closed .letter {
+            transform: translateY(20px) scale(0.8);
+            opacity: 0;
+            transition-delay: 0s;
         }
 
         /* Moño */
@@ -151,28 +213,29 @@
         /* Carta */
         .letter {
             position: absolute;
-            top: 30px;
-            left: 20px;
-            width: calc(100% - 40px);
-            height: calc(100% - 60px);
+            top: 40px;
+            left: 30px;
+            width: calc(100% - 60px);
+            height: calc(100% - 80px);
             background: linear-gradient(145deg, #fffef7, #faf9f2);
             border-radius: 10px;
-            padding: 30px 25px;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px 20px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1), 0 5px 20px rgba(0,0,0,0.1);
             transform: translateY(20px) scale(0.8);
             opacity: 0;
-            transition: all 1s ease-in-out;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #333;
+            transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 16px;
+            line-height: 1.7;
+            color: #2c3e50;
             overflow-y: auto;
             z-index: 3;
+            border: 2px solid #f8d7da;
         }
 
         .envelope.opening .letter {
             transform: translateY(0) scale(1);
             opacity: 1;
-            transition-delay: 0.8s;
+            transition-delay: 1s;
         }
 
         .letter h1 {
@@ -249,8 +312,6 @@
         /* Mensaje emergente */
         .message-popup {
             position: fixed;
-            top: 50%;
-            left: 50%;
             transform: translate(-50%, -50%) scale(0);
             background: linear-gradient(145deg, #fff, #f8f8f8);
             padding: 20px 30px;
@@ -261,14 +322,16 @@
             color: #ff6b9d;
             text-align: center;
             z-index: 30;
-            animation: popupShow 2s ease-in-out;
+            animation: popupShow 3s ease-in-out;
             pointer-events: none;
+            border: 2px solid #ff6b9d;
         }
 
         @keyframes popupShow {
             0% { transform: translate(-50%, -50%) scale(0); }
-            20% { transform: translate(-50%, -50%) scale(1.2); }
-            40% { transform: translate(-50%, -50%) scale(1); }
+            15% { transform: translate(-50%, -50%) scale(1.3); }
+            30% { transform: translate(-50%, -50%) scale(1); }
+            85% { transform: translate(-50%, -50%) scale(1); }
             100% { transform: translate(-50%, -50%) scale(0); }
         }
 
@@ -280,19 +343,26 @@
                 height: 220px;
             }
             
+            .envelope.opening {
+                width: 95vw;
+                max-width: 400px;
+                height: 350px;
+            }
+            
             .letter {
-                font-size: 12px;
-                padding: 20px 15px;
+                font-size: 13px;
+                padding: 15px 12px;
             }
             
             .letter h1 {
-                font-size: 24px;
+                font-size: 22px;
             }
         }
     </style>
 </head>
 <body>
     <div class="background-hearts" id="backgroundHearts"></div>
+    <div class="background-decoration" id="backgroundDecoration"></div>
     
     <div class="container">
         <div class="envelope" id="envelope">
@@ -331,8 +401,42 @@
             "linda 😊"
         ];
 
-        let isOpened = false;
-        let heartCount = 0;
+        // Crear decoraciones de fondo
+        function createBackgroundDecorations() {
+            const container = document.getElementById('backgroundDecoration');
+            
+            // Crear ositos
+            setInterval(() => {
+                const bear = document.createElement('div');
+                bear.className = 'teddy-bear';
+                const bears = ['🧸', '🐻', '🧸'];
+                bear.innerHTML = bears[Math.floor(Math.random() * bears.length)];
+                bear.style.top = Math.random() * 80 + 10 + '%';
+                bear.style.left = '-100px';
+                bear.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                container.appendChild(bear);
+                
+                setTimeout(() => {
+                    bear.remove();
+                }, 25000);
+            }, 8000);
+            
+            // Crear arreglos florales
+            setInterval(() => {
+                const flower = document.createElement('div');
+                flower.className = 'flower-bouquet';
+                const flowers = ['💐', '🌸', '🌺', '🌻', '🌷', '🌹'];
+                flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+                flower.style.top = Math.random() * 80 + 10 + '%';
+                flower.style.left = '-100px';
+                flower.style.animationDuration = (Math.random() * 10 + 20) + 's';
+                container.appendChild(flower);
+                
+                setTimeout(() => {
+                    flower.remove();
+                }, 30000);
+            }, 12000);
+        }
 
         // Crear corazones de fondo
         function createBackgroundHearts() {
@@ -351,15 +455,26 @@
             }, 2000);
         }
 
-        // Abrir sobre
+        let isOpened = false;
+        let heartCount = 0;
+
+        // Abrir/cerrar sobre
         document.getElementById('envelope').addEventListener('click', function() {
             if (!isOpened) {
                 this.classList.add('opening');
+                this.classList.remove('closed');
                 isOpened = true;
                 
                 setTimeout(() => {
                     createFloatingHearts();
                 }, 1500);
+            } else {
+                this.classList.remove('opening');
+                this.classList.add('closed');
+                isOpened = false;
+                
+                // Limpiar corazones flotantes
+                document.getElementById('floatingHearts').innerHTML = '';
             }
         });
 
@@ -393,7 +508,7 @@
             
             heart.addEventListener('click', function(e) {
                 explodeHeart(e.pageX, e.pageY);
-                showMessage();
+                showMessage(e.pageX, e.pageY);
                 this.remove();
                 
                 // Crear nuevo corazón después de un tiempo
@@ -447,21 +562,24 @@
             }, 1000);
         }
 
-        // Mostrar mensaje
-        function showMessage() {
+        // Mostrar mensaje en el lugar de la explosión
+        function showMessage(x, y) {
             const message = document.createElement('div');
             message.className = 'message-popup';
             message.innerHTML = heartMessages[Math.floor(Math.random() * heartMessages.length)];
+            message.style.left = x + 'px';
+            message.style.top = y + 'px';
             
             document.body.appendChild(message);
             
             setTimeout(() => {
                 message.remove();
-            }, 2000);
+            }, 3000);
         }
 
         // Inicializar
         createBackgroundHearts();
+        createBackgroundDecorations();
         
         // Agregar más interactividad
         document.addEventListener('mousemove', function(e) {

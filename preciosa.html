@@ -24,42 +24,35 @@
         /* Fondo decorativo */
         .background-decoration {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 200px;
             pointer-events: none;
             z-index: 2;
-            opacity: 0.3;
+            opacity: 0.6;
         }
 
         .teddy-bear {
             position: absolute;
-            font-size: 40px;
-            animation: gentleFloat 20s infinite linear;
+            bottom: 20px;
+            font-size: 80px;
+            animation: gentleFloat 8s ease-in-out infinite;
         }
 
         .flower-bouquet {
             position: absolute;
-            font-size: 35px;
-            animation: gentleFloat 25s infinite linear;
+            bottom: 15px;
+            font-size: 75px;
+            animation: gentleFloat 10s ease-in-out infinite;
         }
 
         @keyframes gentleFloat {
-            0% {
-                transform: translateX(-100px) translateY(0px) rotate(0deg);
-            }
-            25% {
-                transform: translateX(calc(100vw + 50px)) translateY(-30px) rotate(90deg);
+            0%, 100% {
+                transform: translateY(0px) rotate(-2deg);
             }
             50% {
-                transform: translateX(calc(100vw + 100px)) translateY(0px) rotate(180deg);
-            }
-            75% {
-                transform: translateX(-50px) translateY(30px) rotate(270deg);
-            }
-            100% {
-                transform: translateX(-100px) translateY(0px) rotate(360deg);
+                transform: translateY(-15px) rotate(2deg);
             }
         }
 
@@ -217,7 +210,7 @@
             left: 30px;
             width: calc(100% - 60px);
             height: calc(100% - 80px);
-            background: linear-gradient(145deg, #fffef7, #faf9f2);
+            background: linear-gradient(145deg, #ffe6e8, #ffb3ba);
             border-radius: 10px;
             padding: 25px 20px;
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.1), 0 5px 20px rgba(0,0,0,0.1);
@@ -226,10 +219,10 @@
             transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             font-size: 16px;
             line-height: 1.7;
-            color: #2c3e50;
+            color: #8b1538;
             overflow-y: auto;
             z-index: 3;
-            border: 2px solid #f8d7da;
+            border: 2px solid #ff6b9d;
         }
 
         .envelope.opening .letter {
@@ -241,7 +234,7 @@
         .letter h1 {
             font-family: 'Dancing Script', cursive;
             font-size: 32px;
-            color: #ff6b9d;
+            color: #c41e3a;
             text-align: center;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
@@ -362,7 +355,6 @@
 </head>
 <body>
     <div class="background-hearts" id="backgroundHearts"></div>
-    <div class="background-decoration" id="backgroundDecoration"></div>
     
     <div class="container">
         <div class="envelope" id="envelope">
@@ -401,42 +393,8 @@
             "linda 😊"
         ];
 
-        // Crear decoraciones de fondo
-        function createBackgroundDecorations() {
-            const container = document.getElementById('backgroundDecoration');
-            
-            // Crear ositos
-            setInterval(() => {
-                const bear = document.createElement('div');
-                bear.className = 'teddy-bear';
-                const bears = ['🧸', '🐻', '🧸'];
-                bear.innerHTML = bears[Math.floor(Math.random() * bears.length)];
-                bear.style.top = Math.random() * 80 + 10 + '%';
-                bear.style.left = '-100px';
-                bear.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                container.appendChild(bear);
-                
-                setTimeout(() => {
-                    bear.remove();
-                }, 25000);
-            }, 8000);
-            
-            // Crear arreglos florales
-            setInterval(() => {
-                const flower = document.createElement('div');
-                flower.className = 'flower-bouquet';
-                const flowers = ['💐', '🌸', '🌺', '🌻', '🌷', '🌹'];
-                flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
-                flower.style.top = Math.random() * 80 + 10 + '%';
-                flower.style.left = '-100px';
-                flower.style.animationDuration = (Math.random() * 10 + 20) + 's';
-                container.appendChild(flower);
-                
-                setTimeout(() => {
-                    flower.remove();
-                }, 30000);
-            }, 12000);
-        }
+        let isOpened = false;
+        let heartCount = 0;
 
         // Crear corazones de fondo
         function createBackgroundHearts() {
@@ -455,26 +413,15 @@
             }, 2000);
         }
 
-        let isOpened = false;
-        let heartCount = 0;
-
-        // Abrir/cerrar sobre
+        // Abrir sobre
         document.getElementById('envelope').addEventListener('click', function() {
             if (!isOpened) {
                 this.classList.add('opening');
-                this.classList.remove('closed');
                 isOpened = true;
                 
                 setTimeout(() => {
                     createFloatingHearts();
                 }, 1500);
-            } else {
-                this.classList.remove('opening');
-                this.classList.add('closed');
-                isOpened = false;
-                
-                // Limpiar corazones flotantes
-                document.getElementById('floatingHearts').innerHTML = '';
             }
         });
 
@@ -508,7 +455,7 @@
             
             heart.addEventListener('click', function(e) {
                 explodeHeart(e.pageX, e.pageY);
-                showMessage(e.pageX, e.pageY);
+                showMessage();
                 this.remove();
                 
                 // Crear nuevo corazón después de un tiempo
@@ -562,24 +509,21 @@
             }, 1000);
         }
 
-        // Mostrar mensaje en el lugar de la explosión
-        function showMessage(x, y) {
+        // Mostrar mensaje
+        function showMessage() {
             const message = document.createElement('div');
             message.className = 'message-popup';
             message.innerHTML = heartMessages[Math.floor(Math.random() * heartMessages.length)];
-            message.style.left = x + 'px';
-            message.style.top = y + 'px';
             
             document.body.appendChild(message);
             
             setTimeout(() => {
                 message.remove();
-            }, 3000);
+            }, 2000);
         }
 
         // Inicializar
         createBackgroundHearts();
-        createBackgroundDecorations();
         
         // Agregar más interactividad
         document.addEventListener('mousemove', function(e) {

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organización de Deudas</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #ff9a8b;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .table-responsive {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        table {
+            margin-bottom: 0;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        thead th {
+            color: #555;
+            font-weight: 600;
+            border: none !important;
+            padding: 15px;
+            vertical-align: middle;
+        }
+        
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        tbody tr:hover {
+            background-color: #fff5f7;
+            transform: scale(1.01);
+        }
+        
+        tbody td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+        
+        .form-control {
+            border: 2px solid #ffe0e9;
+            border-radius: 10px;
+            padding: 8px 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #ffb3c6;
+            box-shadow: 0 0 0 0.2rem rgba(255, 179, 198, 0.25);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            color: white;
+            border-radius: 10px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-delete:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+        
+        .btn-add {
+            background: linear-gradient(135deg, #a8edea 0%, #6dd5ed 100%);
+            border: none;
+            color: white;
+            border-radius: 15px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 20px 10px;
+        }
+        
+        .btn-add:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(109, 213, 237, 0.4);
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border: none;
+            color: #555;
+            border-radius: 15px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 20px 10px;
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(252, 182, 159, 0.4);
+        }
+        
+        .total-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .total-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ff6b6b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .badge-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-soon {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .total-amount {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-money-bill-wave"></i> Organización de Deudas</h1>
+        
+        <div class="table-responsive">
+            <table class="table table-hover" id="debtTable">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 25%;">Nombre</th>
+                        <th style="width: 20%;">Monto ($)</th>
+                        <th style="width: 20%;">Fecha a Pagar</th>
+                        <th style="width: 20%;">Estado</th>
+                        <th style="width: 10%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="debtTableBody">
+                    <!-- Las filas se generarán con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="button-container">
+            <button class="btn btn-add" onclick="addRow()">
+                <i class="fas fa-plus-circle"></i> Agregar Fila
+            </button>
+            <button class="btn btn-download" onclick="downloadCSV()">
+                <i class="fas fa-download"></i> Descargar CSV
+            </button>
+        </div>
+        
+        <div class="total-section">
+            <h3 style="color: #555; margin-bottom: 10px;">Total de Deudas</h3>
+            <div class="total-amount" id="totalAmount">$0.00</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let rowCount = 0;
+
+        // Inicializar con 10 filas
+        function initializeTable() {
+            for (let i = 0; i < 10; i++) {
+                addRow();
+            }
+        }
+
+        function addRow() {
+            rowCount++;
+            const tbody = document.getElementById('debtTableBody');
+            const row = document.createElement('tr');
+            row.id = `row-${rowCount}`;
+            
+            row.innerHTML = `
+                <td class="text-center">${rowCount}</td>
+                <td><input type="text" class="form-control" placeholder="Nombre del acreedor"></td>
+                <td><input type="number" class="form-control money-input" placeholder="0.00" step="0.01" min="0" oninput="calculateTotal()"></td>
+                <td><input type="date" class="form-control date-input" onchange="updateStatus(this)"></td>
+                <td class="status-cell"><span class="badge status-pending">Pendiente</span></td>
+                <td class="text-center">
+                    <button class="btn btn-delete btn-sm" onclick="deleteRow('row-${rowCount}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            
+            tbody.appendChild(row);
+            updateRowNumbers();
+        }
+
+        function deleteRow(rowId) {
+            const row = document.getElementById(rowId);
+            if (row) {
+                row.remove();
+                updateRowNumbers();
+                calculateTotal();
+            }
+        }
+
+        function updateRowNumbers() {
+            const rows = document.querySelectorAll('#debtTableBody tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td:first-child').textContent = index + 1;
+            });
+        }
+
+        function calculateTotal() {
+            const moneyInputs = document.querySelectorAll('.money-input');
+            let total = 0;
+            
+            moneyInputs.forEach(input => {
+                const value = parseFloat(input.value) || 0;
+                total += value;
+            });
+            
+            document.getElementById('totalAmount').textContent = 
+                `$${total.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        function updateStatus(dateInput) {
+            const row = dateInput.closest('tr');
+            const statusCell = row.querySelector('.status-cell');
+            const selectedDate = new Date(dateInput.value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const diffTime = selectedDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            let statusHTML = '';
+            if (diffDays < 0) {
+                statusHTML = '<span class="badge bg-danger">Vencida</span>';
+            } else if (diffDays <= 7) {
+                statusHTML = '<span class="badge status-soon">Próxima</span>';
+            } else {
+                statusHTML = '<span class="badge status-pending">Pendiente</span>';
+            }
+            
+            statusCell.innerHTML = statusHTML;
+        }
+
+        function downloadCSV() {
+            const rows = document.querySelectorAll('#debtTableBody tr');
+            let csvContent = 'Número,Nombre,Monto,Fecha a Pagar,Estado\n';
+            
+            rows.forEach((row, index) => {
+                const nombre = row.querySelector('input[type="text"]').value || '';
+                const monto = row.querySelector('.money-input').value || '0';
+                const fecha = row.querySelector('.date-input').value || '';
+                const estado = row.querySelector('.status-cell').textContent.trim() || 'Pendiente';
+                
+                csvContent += `${index + 1},"${nombre}",${monto},${fecha},"${estado}"\n`;
+            });
+            
+            // Agregar total al final
+            const totalAmount = document.getElementById('totalAmount').textContent;
+            csvContent += `\n,Total,${totalAmount.replace('$', '').replace(/,/g, '')},,\n`;
+            
+            // Crear y descargar archivo
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            const today = new Date().toISOString().split('T')[0];
+            link.setAttribute('href', url);
+            link.setAttribute('download', `deudas_${today}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Inicializar la tabla cuando se carga la página
+        window.onload = function() {
+            initializeTable();
+        };
+    </script>
+</body>
+</html>

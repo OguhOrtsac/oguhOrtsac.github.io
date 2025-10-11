@@ -15,7 +15,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             background: white;
             border-radius: 20px;
             padding: 30px;
@@ -28,6 +28,13 @@
             text-align: center;
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #6dd5ed;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 20px;
         }
         
         .table-responsive {
@@ -60,6 +67,11 @@
             background-color: #fff5f7;
             transform: scale(1.01);
         }
+
+        tbody tr.non-necessary {
+            background-color: #f0f8ff;
+            opacity: 0.7;
+        }
         
         tbody td {
             padding: 12px;
@@ -90,6 +102,26 @@
         .btn-delete:hover {
             transform: scale(1.1);
             box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-toggle {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border: none;
+            color: #555;
+            border-radius: 10px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(252, 182, 159, 0.4);
+        }
+
+        .btn-toggle.non-necessary {
+            background: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%);
         }
         
         .btn-add {
@@ -129,14 +161,37 @@
             padding: 20px;
             border-radius: 15px;
             margin-top: 20px;
+        }
+
+        .total-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             text-align: center;
+        }
+
+        .total-item h4 {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 10px;
         }
         
         .total-amount {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: #ff6b6b;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .amount-necessary {
+            color: #ff6b6b;
+        }
+
+        .amount-pending {
+            color: #ffa726;
+        }
+
+        .amount-assets {
+            color: #66bb6a;
         }
         
         .button-container {
@@ -159,6 +214,10 @@
             background-color: #f8d7da;
             color: #721c24;
         }
+
+        .assets-table thead {
+            background: linear-gradient(135deg, #c3fbbe 0%, #b3e5fc 100%);
+        }
         
         @media (max-width: 768px) {
             .container {
@@ -170,7 +229,11 @@
             }
             
             .total-amount {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+            }
+
+            .total-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -183,11 +246,12 @@
             <table class="table table-hover" id="debtTable">
                 <thead>
                     <tr>
-                        <th style="width: 5%;">#</th>
-                        <th style="width: 25%;">Nombre</th>
-                        <th style="width: 20%;">Monto ($)</th>
-                        <th style="width: 20%;">Fecha a Pagar</th>
-                        <th style="width: 20%;">Estado</th>
+                        <th style="width: 4%;">#</th>
+                        <th style="width: 22%;">Nombre</th>
+                        <th style="width: 15%;">Monto ($)</th>
+                        <th style="width: 15%;">Fecha a Pagar</th>
+                        <th style="width: 14%;">Estado</th>
+                        <th style="width: 15%;">Tipo</th>
                         <th style="width: 10%;">Acciones</th>
                     </tr>
                 </thead>
@@ -198,7 +262,7 @@
         </div>
         
         <div class="button-container">
-            <button class="btn btn-add" onclick="addRow()">
+            <button class="btn btn-add" onclick="addDebtRow()">
                 <i class="fas fa-plus-circle"></i> Agregar Fila
             </button>
             <button class="btn btn-download" onclick="downloadCSV()">
@@ -207,72 +271,182 @@
         </div>
         
         <div class="total-section">
-            <h3 style="color: #555; margin-bottom: 10px;">Total de Deudas</h3>
-            <div class="total-amount" id="totalAmount">$0.00</div>
+            <div class="total-grid">
+                <div class="total-item">
+                    <h4>Deuda Necesaria</h4>
+                    <div class="total-amount amount-necessary" id="totalNecessary">$0.00</div>
+                </div>
+                <div class="total-item">
+                    <h4>Deuda Pendiente (No Necesaria)</h4>
+                    <div class="total-amount amount-pending" id="totalPending">$0.00</div>
+                </div>
+                <div class="total-item">
+                    <h4>Total en Activos</h4>
+                    <div class="total-amount amount-assets" id="totalAssets">$0.00</div>
+                </div>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-wallet"></i> Lo Que Tengo</h2>
+        
+        <div class="table-responsive">
+            <table class="table table-hover assets-table" id="assetsTable">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 35%;">Cuenta</th>
+                        <th style="width: 30%;">¿Dónde lo tengo?</th>
+                        <th style="width: 20%;">Cantidad ($)</th>
+                        <th style="width: 10%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="assetsTableBody">
+                    <!-- Las filas se generarán con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="button-container">
+            <button class="btn btn-add" onclick="addAssetRow()">
+                <i class="fas fa-plus-circle"></i> Agregar Fila
+            </button>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        let rowCount = 0;
+        let debtRowCount = 0;
+        let assetRowCount = 0;
 
-        // Inicializar con 10 filas
-        function initializeTable() {
+        // Inicializar con 10 filas de deudas y 3 de activos
+        function initializeTables() {
             for (let i = 0; i < 10; i++) {
-                addRow();
+                addDebtRow();
+            }
+            for (let i = 0; i < 3; i++) {
+                addAssetRow();
             }
         }
 
-        function addRow() {
-            rowCount++;
+        function addDebtRow() {
+            debtRowCount++;
             const tbody = document.getElementById('debtTableBody');
             const row = document.createElement('tr');
-            row.id = `row-${rowCount}`;
+            row.id = `debt-row-${debtRowCount}`;
+            row.dataset.necessary = 'true';
             
             row.innerHTML = `
-                <td class="text-center">${rowCount}</td>
+                <td class="text-center">${debtRowCount}</td>
                 <td><input type="text" class="form-control" placeholder="Nombre del acreedor"></td>
-                <td><input type="number" class="form-control money-input" placeholder="0.00" step="0.01" min="0" oninput="calculateTotal()"></td>
+                <td><input type="number" class="form-control money-input" placeholder="0.00" step="0.01" min="0" oninput="calculateTotals()"></td>
                 <td><input type="date" class="form-control date-input" onchange="updateStatus(this)"></td>
                 <td class="status-cell"><span class="badge status-pending">Pendiente</span></td>
                 <td class="text-center">
-                    <button class="btn btn-delete btn-sm" onclick="deleteRow('row-${rowCount}')">
+                    <button class="btn btn-toggle btn-sm" onclick="toggleNecessary('debt-row-${debtRowCount}')">
+                        Necesario
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-delete btn-sm" onclick="deleteRow('debt-row-${debtRowCount}', 'debt')">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
             `;
             
             tbody.appendChild(row);
-            updateRowNumbers();
+            updateRowNumbers('debt');
         }
 
-        function deleteRow(rowId) {
+        function addAssetRow() {
+            assetRowCount++;
+            const tbody = document.getElementById('assetsTableBody');
+            const row = document.createElement('tr');
+            row.id = `asset-row-${assetRowCount}`;
+            
+            row.innerHTML = `
+                <td class="text-center">${assetRowCount}</td>
+                <td><input type="text" class="form-control" placeholder="Nombre de la cuenta"></td>
+                <td><input type="text" class="form-control" placeholder="Banco, efectivo, etc."></td>
+                <td><input type="number" class="form-control asset-input" placeholder="0.00" step="0.01" min="0" oninput="calculateTotals()"></td>
+                <td class="text-center">
+                    <button class="btn btn-delete btn-sm" onclick="deleteRow('asset-row-${assetRowCount}', 'asset')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            
+            tbody.appendChild(row);
+            updateRowNumbers('asset');
+        }
+
+        function toggleNecessary(rowId) {
+            const row = document.getElementById(rowId);
+            const button = row.querySelector('.btn-toggle');
+            const isNecessary = row.dataset.necessary === 'true';
+            
+            if (isNecessary) {
+                row.dataset.necessary = 'false';
+                row.classList.add('non-necessary');
+                button.classList.add('non-necessary');
+                button.textContent = 'No Necesario';
+            } else {
+                row.dataset.necessary = 'true';
+                row.classList.remove('non-necessary');
+                button.classList.remove('non-necessary');
+                button.textContent = 'Necesario';
+            }
+            
+            calculateTotals();
+        }
+
+        function deleteRow(rowId, type) {
             const row = document.getElementById(rowId);
             if (row) {
                 row.remove();
-                updateRowNumbers();
-                calculateTotal();
+                updateRowNumbers(type);
+                calculateTotals();
             }
         }
 
-        function updateRowNumbers() {
-            const rows = document.querySelectorAll('#debtTableBody tr');
+        function updateRowNumbers(type) {
+            const selector = type === 'debt' ? '#debtTableBody tr' : '#assetsTableBody tr';
+            const rows = document.querySelectorAll(selector);
             rows.forEach((row, index) => {
                 row.querySelector('td:first-child').textContent = index + 1;
             });
         }
 
-        function calculateTotal() {
-            const moneyInputs = document.querySelectorAll('.money-input');
-            let total = 0;
+        function calculateTotals() {
+            const debtRows = document.querySelectorAll('#debtTableBody tr');
+            let totalNecessary = 0;
+            let totalPending = 0;
             
-            moneyInputs.forEach(input => {
+            debtRows.forEach(row => {
+                const input = row.querySelector('.money-input');
                 const value = parseFloat(input.value) || 0;
-                total += value;
+                const isNecessary = row.dataset.necessary === 'true';
+                
+                if (isNecessary) {
+                    totalNecessary += value;
+                } else {
+                    totalPending += value;
+                }
+            });
+
+            const assetInputs = document.querySelectorAll('.asset-input');
+            let totalAssets = 0;
+            
+            assetInputs.forEach(input => {
+                const value = parseFloat(input.value) || 0;
+                totalAssets += value;
             });
             
-            document.getElementById('totalAmount').textContent = 
-                `$${total.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalNecessary').textContent = 
+                `$${totalNecessary.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalPending').textContent = 
+                `$${totalPending.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalAssets').textContent = 
+                `$${totalAssets.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         }
 
         function updateStatus(dateInput) {
@@ -298,21 +472,37 @@
         }
 
         function downloadCSV() {
-            const rows = document.querySelectorAll('#debtTableBody tr');
-            let csvContent = 'Número,Nombre,Monto,Fecha a Pagar,Estado\n';
+            let csvContent = '=== DEUDAS ===\n';
+            csvContent += 'Número,Nombre,Monto,Fecha a Pagar,Estado,Tipo\n';
             
-            rows.forEach((row, index) => {
-                const nombre = row.querySelector('input[type="text"]').value || '';
+            const debtRows = document.querySelectorAll('#debtTableBody tr');
+            debtRows.forEach((row, index) => {
+                const nombre = row.querySelectorAll('input')[0].value || '';
                 const monto = row.querySelector('.money-input').value || '0';
                 const fecha = row.querySelector('.date-input').value || '';
                 const estado = row.querySelector('.status-cell').textContent.trim() || 'Pendiente';
+                const tipo = row.dataset.necessary === 'true' ? 'Necesario' : 'No Necesario';
                 
-                csvContent += `${index + 1},"${nombre}",${monto},${fecha},"${estado}"\n`;
+                csvContent += `${index + 1},"${nombre}",${monto},${fecha},"${estado}","${tipo}"\n`;
             });
             
-            // Agregar total al final
-            const totalAmount = document.getElementById('totalAmount').textContent;
-            csvContent += `\n,Total,${totalAmount.replace('$', '').replace(/,/g, '')},,\n`;
+            csvContent += `\nDeuda Necesaria,${document.getElementById('totalNecessary').textContent.replace('$', '').replace(/,/g, '')}\n`;
+            csvContent += `Deuda Pendiente,${document.getElementById('totalPending').textContent.replace('$', '').replace(/,/g, '')}\n\n`;
+            
+            csvContent += '=== LO QUE TENGO ===\n';
+            csvContent += 'Número,Cuenta,Dónde lo tengo,Cantidad\n';
+            
+            const assetRows = document.querySelectorAll('#assetsTableBody tr');
+            assetRows.forEach((row, index) => {
+                const inputs = row.querySelectorAll('input');
+                const cuenta = inputs[0].value || '';
+                const donde = inputs[1].value || '';
+                const cantidad = inputs[2].value || '0';
+                
+                csvContent += `${index + 1},"${cuenta}","${donde}",${cantidad}\n`;
+            });
+            
+            csvContent += `\nTotal en Activos,${document.getElementById('totalAssets').textContent.replace('$', '').replace(/,/g, '')}\n`;
             
             // Crear y descargar archivo
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -321,7 +511,7 @@
             
             const today = new Date().toISOString().split('T')[0];
             link.setAttribute('href', url);
-            link.setAttribute('download', `deudas_${today}.csv`);
+            link.setAttribute('download', `finanzas_${today}.csv`);
             link.style.visibility = 'hidden';
             
             document.body.appendChild(link);
@@ -329,9 +519,9 @@
             document.body.removeChild(link);
         }
 
-        // Inicializar la tabla cuando se carga la página
+        // Inicializar las tablas cuando se carga la página
         window.onload = function() {
-            initializeTable();
+            initializeTables();
         };
     </script>
 </body>

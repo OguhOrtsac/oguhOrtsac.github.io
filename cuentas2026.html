@@ -1,436 +1,644 @@
-import React, { useState } from 'react';
-import { Plus, Trash2, Calculator, FileDown } from 'lucide-react';
-
-export default function CuentasPurificadora() {
-  const [fecha, setFecha] = useState(new Date().toLocaleDateString('es-MX', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  }));
-  const [filas, setFilas] = useState([
-    { id: 1, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 2, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 3, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 4, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 5, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 6, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 7, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 8, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 9, fecha: '', concepto: '', nombre: '', monto: 0 },
-    { id: 10, fecha: '', concepto: '', nombre: '', monto: 0 },
-  ]);
-
-  const agregarFila = () => {
-    const nuevaFila = {
-      id: Math.max(...filas.map(f => f.id)) + 1,
-      fecha: '',
-      concepto: '',
-      nombre: '',
-      monto: 0
-    };
-    setFilas([...filas, nuevaFila]);
-  };
-
-  const eliminarFila = (id) => {
-    if (filas.length > 1) {
-      setFilas(filas.filter(f => f.id !== id));
-    }
-  };
-
-  const actualizarFila = (id, campo, valor) => {
-    setFilas(filas.map(f => 
-      f.id === id ? { ...f, [campo]: campo === 'monto' ? parseFloat(valor) || 0 : valor } : f
-    ));
-  };
-
-  const calcularTotal = () => {
-    return filas.reduce((sum, fila) => sum + (fila.monto || 0), 0);
-  };
-
-  const generarPDF = () => {
-    const total = calcularTotal();
-    
-    // Crear ventana de impresión
-    const ventanaImpresion = window.open('', '_blank');
-    
-    const contenidoHTML = `
-      <!DOCTYPE html>
-      <html lang="es">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Cuentas Purificadora - ${fecha}</title>
-        <style>
-          @page {
-            size: letter;
-            margin: 1cm;
-          }
-          
-          * {
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuentas Purificadora</title>
+    <style>
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-          }
-          
-          body {
+        }
+
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            line-height: 1.4;
-          }
-          
-          .container {
-            max-width: 100%;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #cffafe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
             margin: 0 auto;
-          }
-          
-          .header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #2563eb;
-          }
-          
-          .header h1 {
-            color: #2563eb;
+        }
+
+        .header {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 24px;
+            border-top: 4px solid #2563eb;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-box {
+            background: #2563eb;
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-box svg {
+            width: 32px;
+            height: 32px;
+            color: white;
+        }
+
+        h1 {
+            color: #1e293b;
             font-size: 28px;
-            margin-bottom: 8px;
             font-weight: 700;
-          }
-          
-          .header .fecha {
+        }
+
+        .subtitle {
+            color: #64748b;
             font-size: 14px;
-            color: #666;
-            font-weight: 500;
-          }
-          
-          table {
+            margin-top: 5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .fecha-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fecha-input-group label {
+            font-weight: 600;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .fecha-principal {
+            padding: 10px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+            min-width: 200px;
+        }
+
+        .fecha-principal:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-pdf {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-pdf:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-          }
-          
-          thead {
+        }
+
+        thead {
             background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+        }
+
+        thead th {
             color: white;
-          }
-          
-          th {
-            padding: 12px 10px;
+            padding: 16px;
             text-align: left;
             font-weight: 600;
             font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-          }
-          
-          td {
-            padding: 10px;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 12px;
-          }
-          
-          tbody tr:nth-child(even) {
+        }
+
+        tbody tr {
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:nth-child(even) {
             background-color: #f9fafb;
-          }
-          
-          tbody tr:hover {
+        }
+
+        tbody tr:hover {
             background-color: #f3f4f6;
-          }
-          
-          .monto-positivo {
-            color: #059669;
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .monto-input {
             font-weight: 600;
+        }
+
+        .monto-positivo {
             background-color: #d1fae5;
-            padding: 5px 8px;
-            border-radius: 4px;
-            display: inline-block;
-          }
-          
-          .monto-negativo {
-            color: #dc2626;
-            font-weight: 600;
+            border-color: #6ee7b7;
+            color: #065f46;
+        }
+
+        .monto-positivo:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .monto-negativo {
             background-color: #fee2e2;
-            padding: 5px 8px;
-            border-radius: 4px;
-            display: inline-block;
-          }
-          
-          .monto-cero {
-            color: #6b7280;
-            font-weight: 500;
-          }
-          
-          .total-section {
-            margin-top: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border-color: #fca5a5;
+            color: #991b1b;
+        }
+
+        .monto-negativo:focus {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-delete:hover:not(:disabled) {
+            background-color: #fee2e2;
+        }
+
+        .btn-delete:disabled {
+            color: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        .actions-cell {
+            text-align: center;
+        }
+
+        .add-row-section {
+            padding: 16px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .btn-add {
+            background: #2563eb;
             color: white;
+            border: none;
+            padding: 10px 16px;
             border-radius: 8px;
-          }
-          
-          .total-section .total-label {
-            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-          }
-          
-          .total-section .total-monto {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #1d4ed8;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .total-amount {
             font-size: 32px;
             font-weight: 700;
-            padding: 15px 25px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-top: 10px;
-          }
-          
-          .total-positivo {
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .total-positivo {
             background-color: #10b981;
-            color: white;
-          }
-          
-          .total-negativo {
+        }
+
+        .total-negativo {
             background-color: #ef4444;
-            color: white;
-          }
-          
-          .total-cero {
+        }
+
+        .total-cero {
             background-color: #6b7280;
-            color: white;
-          }
-          
-          .footer {
-            margin-top: 40px;
+        }
+
+        .footer {
             text-align: center;
-            font-size: 11px;
-            color: #9ca3af;
-            padding-top: 15px;
-            border-top: 1px solid #e5e7eb;
-          }
-          
-          @media print {
-            body {
-              print-color-adjust: exact;
-              -webkit-print-color-adjust: exact;
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
             }
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>CUENTAS PURIFICADORA</h1>
-            <div class="fecha">${fecha}</div>
-          </div>
-          
-          <table>
-            <thead>
-              <tr>
+
+            .header-right {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-pdf {
+                justify-content: center;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            thead th {
+                padding: 12px 8px;
+                font-size: 11px;
+            }
+
+            tbody td {
+                padding: 10px 8px;
+            }
+
+            input[type="text"],
+            input[type="number"] {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1>Cuentas Purificadora</h1>
+                        <p class="subtitle">Sistema de Gestión Administrativa</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="fecha-input-group">
+                        <label>Fecha:</label>
+                        <input type="text" id="fechaPrincipal" class="fecha-principal" placeholder="Ej: 8 de enero de 2026">
+                    </div>
+                    <button class="btn-pdf" onclick="generarPDF()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Generar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Fecha</th>
+                        <th style="width: 30%;">Concepto</th>
+                        <th style="width: 30%;">Nombre</th>
+                        <th style="width: 18%;">Monto</th>
+                        <th style="width: 7%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCuerpo">
+                </tbody>
+            </table>
+
+            <div class="add-row-section">
+                <button class="btn-add" onclick="agregarFila()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Agregar Nueva Fila
+                </button>
+            </div>
+
+            <div class="total-section">
+                <span class="total-label">TOTAL:</span>
+                <span id="totalAmount" class="total-amount total-cero">$0.00</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Sistema desarrollado para Cuentas Purificadora • <span id="anio"></span></p>
+        </div>
+    </div>
+
+    <script>
+        let filas = [];
+        let contadorId = 1;
+
+        // Inicializar fecha principal
+        function inicializarFecha() {
+            const hoy = new Date();
+            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+            const fechaFormateada = hoy.toLocaleDateString('es-MX', opciones);
+            document.getElementById('fechaPrincipal').value = fechaFormateada;
+            document.getElementById('anio').textContent = hoy.getFullYear();
+        }
+
+        // Crear filas iniciales
+        function inicializarFilas() {
+            for (let i = 0; i < 10; i++) {
+                filas.push({
+                    id: contadorId++,
+                    fecha: '',
+                    concepto: '',
+                    nombre: '',
+                    monto: 0
+                });
+            }
+            renderizarTabla();
+        }
+
+        // Renderizar toda la tabla
+        function renderizarTabla() {
+            const tbody = document.getElementById('tablaCuerpo');
+            tbody.innerHTML = '';
+
+            filas.forEach((fila, index) => {
+                const tr = document.createElement('tr');
+                
+                // Determinar clase del monto
+                let montoClase = 'monto-input';
+                if (fila.monto < 0) montoClase += ' monto-negativo';
+                else if (fila.monto > 0) montoClase += ' monto-positivo';
+
+                tr.innerHTML = `
+                    <td>
+                        <input type="text" value="${fila.fecha}" 
+                               onchange="actualizarFila(${fila.id}, 'fecha', this.value)"
+                               placeholder="Ej: 08/01">
+                    </td>
+                    <td>
+                        <input type="text" value="${fila.concepto}" 
+                               onchange="actualizarFila(${fila.id}, 'concepto', this.value)"
+                               placeholder="Ingrese concepto">
+                    </td>
+                    <td>
+                        <input type="text" value="${fila.nombre}" 
+                               onchange="actualizarFila(${fila.id}, 'nombre', this.value)"
+                               placeholder="Ingrese nombre">
+                    </td>
+                    <td>
+                        <input type="number" step="0.01" value="${fila.monto}" 
+                               class="${montoClase}"
+                               onchange="actualizarFila(${fila.id}, 'monto', this.value)">
+                    </td>
+                    <td class="actions-cell">
+                        <button class="btn-delete" onclick="eliminarFila(${fila.id})" 
+                                ${filas.length === 1 ? 'disabled' : ''}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+
+            actualizarTotal();
+        }
+
+        // Actualizar campo de una fila
+        function actualizarFila(id, campo, valor) {
+            const fila = filas.find(f => f.id === id);
+            if (fila) {
+                if (campo === 'monto') {
+                    fila[campo] = parseFloat(valor) || 0;
+                } else {
+                    fila[campo] = valor;
+                }
+                renderizarTabla();
+            }
+        }
+
+        // Agregar nueva fila
+        function agregarFila() {
+            filas.push({
+                id: contadorId++,
+                fecha: '',
+                concepto: '',
+                nombre: '',
+                monto: 0
+            });
+            renderizarTabla();
+        }
+
+        // Eliminar fila
+        function eliminarFila(id) {
+            if (filas.length > 1) {
+                filas = filas.filter(f => f.id !== id);
+                renderizarTabla();
+            }
+        }
+
+        // Calcular y actualizar total
+        function actualizarTotal() {
+            const total = filas.reduce((sum, fila) => sum + (fila.monto || 0), 0);
+            const totalElement = document.getElementById('totalAmount');
+            
+            totalElement.textContent = `$${total.toFixed(2)}`;
+            
+            // Actualizar clase según el valor
+            totalElement.className = 'total-amount';
+            if (total < 0) {
+                totalElement.classList.add('total-negativo');
+            } else if (total > 0) {
+                totalElement.classList.add('total-positivo');
+            } else {
+                totalElement.classList.add('total-cero');
+            }
+        }
+
+        // Generar PDF
+        function generarPDF() {
+            const fechaPrincipal = document.getElementById('fechaPrincipal').value;
+            const total = filas.reduce((sum, fila) => sum + (fila.monto || 0), 0);
+            
+            const ventana = window.open('', '_blank');
+            
+            const html = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuentas Purificadora - ${fechaPrincipal}</title>
+    <style>
+        @page { size: letter; margin: 1cm; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.4; }
+        .header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid #2563eb; }
+        .header h1 { color: #2563eb; font-size: 28px; margin-bottom: 8px; font-weight: 700; }
+        .header .fecha { font-size: 14px; color: #666; font-weight: 500; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        thead { background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%); color: white; }
+        th { padding: 12px 10px; text-align: left; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 10px; border-bottom: 1px solid #e5e7eb; font-size: 12px; }
+        tbody tr:nth-child(even) { background-color: #f9fafb; }
+        .monto-positivo { color: #059669; font-weight: 600; background-color: #d1fae5; padding: 5px 8px; border-radius: 4px; display: inline-block; }
+        .monto-negativo { color: #dc2626; font-weight: 600; background-color: #fee2e2; padding: 5px 8px; border-radius: 4px; display: inline-block; }
+        .monto-cero { color: #6b7280; font-weight: 500; }
+        .total-section { margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #1f2937 0%, #111827 100%); color: white; border-radius: 8px; }
+        .total-label { font-size: 16px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .total-monto { font-size: 32px; font-weight: 700; padding: 15px 25px; border-radius: 6px; display: inline-block; margin-top: 10px; }
+        .total-positivo { background-color: #10b981; color: white; }
+        .total-negativo { background-color: #ef4444; color: white; }
+        .total-cero { background-color: #6b7280; color: white; }
+        .footer { margin-top: 40px; text-align: center; font-size: 11px; color: #9ca3af; padding-top: 15px; border-top: 1px solid #e5e7eb; }
+        @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CUENTAS PURIFICADORA</h1>
+        <div class="fecha">${fechaPrincipal}</div>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
                 <th style="width: 15%;">Fecha</th>
                 <th style="width: 30%;">Concepto</th>
                 <th style="width: 30%;">Nombre</th>
                 <th style="width: 25%;">Monto</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${filas.map(fila => `
+            </tr>
+        </thead>
+        <tbody>
+            ${filas.map(fila => `
                 <tr>
-                  <td>${fila.fecha || '-'}</td>
-                  <td>${fila.concepto || '-'}</td>
-                  <td>${fila.nombre || '-'}</td>
-                  <td>
-                    <span class="${
-                      fila.monto < 0 ? 'monto-negativo' : 
-                      fila.monto > 0 ? 'monto-positivo' : 
-                      'monto-cero'
-                    }">
-                      $${fila.monto.toFixed(2)}
-                    </span>
-                  </td>
+                    <td>${fila.fecha || '-'}</td>
+                    <td>${fila.concepto || '-'}</td>
+                    <td>${fila.nombre || '-'}</td>
+                    <td>
+                        <span class="${fila.monto < 0 ? 'monto-negativo' : fila.monto > 0 ? 'monto-positivo' : 'monto-cero'}">
+                            $${fila.monto.toFixed(2)}
+                        </span>
+                    </td>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
-          
-          <div class="total-section">
-            <div class="total-label">Total General:</div>
-            <div class="total-monto ${
-              total < 0 ? 'total-negativo' : 
-              total > 0 ? 'total-positivo' : 
-              'total-cero'
-            }">
-              $${total.toFixed(2)}
-            </div>
-          </div>
-          
-          <div class="footer">
-            Sistema de Gestión Administrativa - Cuentas Purificadora © ${new Date().getFullYear()}
-          </div>
-        </div>
-      </body>
-      </html>
-    `;
+            `).join('')}
+        </tbody>
+    </table>
     
-    ventanaImpresion.document.write(contenidoHTML);
-    ventanaImpresion.document.close();
-    
-    // Esperar a que cargue y luego imprimir
-    setTimeout(() => {
-      ventanaImpresion.print();
-    }, 250);
-  };
-
-  const total = calcularTotal();
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 py-8 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6 border-t-4 border-blue-600">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-blue-600 p-3 rounded-xl">
-                <Calculator className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800">Cuentas Purificadora</h1>
-                <p className="text-gray-500 text-sm mt-1">Sistema de Gestión Administrativa</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">Fecha:</label>
-                <input
-                  type="text"
-                  value={fecha}
-                  onChange={(e) => setFecha(e.target.value)}
-                  placeholder="Ej: 8 de enero de 2026"
-                  className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <button
-                onClick={generarPDF}
-                className="flex items-center gap-2 px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium shadow-lg hover:shadow-xl"
-              >
-                <FileDown className="w-5 h-5" />
-                Generar PDF
-              </button>
-            </div>
-          </div>
+    <div class="total-section">
+        <div class="total-label">Total General:</div>
+        <div class="total-monto ${total < 0 ? 'total-negativo' : total > 0 ? 'total-positivo' : 'total-cero'}">
+            $${total.toFixed(2)}
         </div>
-
-        {/* Tabla */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white">
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Fecha</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Concepto</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Nombre</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Monto</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold">Acciones</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {filas.map((fila, index) => (
-                  <tr key={fila.id} className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
-                    <td className="px-6 py-4">
-                      <input
-                        type="text"
-                        value={fila.fecha}
-                        onChange={(e) => actualizarFila(fila.id, 'fecha', e.target.value)}
-                        placeholder="Ej: 08/01"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </td>
-                    <td className="px-6 py-4">
-                      <input
-                        type="text"
-                        value={fila.concepto}
-                        onChange={(e) => actualizarFila(fila.id, 'concepto', e.target.value)}
-                        placeholder="Ingrese concepto"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </td>
-                    <td className="px-6 py-4">
-                      <input
-                        type="text"
-                        value={fila.nombre}
-                        onChange={(e) => actualizarFila(fila.id, 'nombre', e.target.value)}
-                        placeholder="Ingrese nombre"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </td>
-                    <td className="px-6 py-4">
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={fila.monto}
-                        onChange={(e) => actualizarFila(fila.id, 'monto', e.target.value)}
-                        className={`w-full px-3 py-2 border-2 rounded-lg focus:outline-none focus:ring-2 text-sm font-semibold ${
-                          fila.monto < 0 
-                            ? 'bg-red-50 border-red-300 text-red-700 focus:ring-red-500' 
-                            : fila.monto > 0
-                            ? 'bg-green-50 border-green-300 text-green-700 focus:ring-green-500'
-                            : 'border-gray-300 focus:ring-blue-500'
-                        }`}
-                      />
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <button
-                        onClick={() => eliminarFila(fila.id)}
-                        disabled={filas.length === 1}
-                        className={`p-2 rounded-lg transition-colors ${
-                          filas.length === 1
-                            ? 'text-gray-300 cursor-not-allowed'
-                            : 'text-red-600 hover:bg-red-50'
-                        }`}
-                        title="Eliminar fila"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Botón Agregar Fila */}
-          <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-            <button
-              onClick={agregarFila}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              <Plus className="w-5 h-5" />
-              Agregar Nueva Fila
-            </button>
-          </div>
-
-          {/* Total */}
-          <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-6">
-            <div className="flex items-center justify-between">
-              <span className="text-xl font-bold text-white">TOTAL:</span>
-              <span className={`text-3xl font-bold px-6 py-3 rounded-lg ${
-                total < 0 
-                  ? 'bg-red-500 text-white' 
-                  : total > 0
-                  ? 'bg-green-500 text-white'
-                  : 'bg-gray-600 text-white'
-              }`}>
-                ${total.toFixed(2)}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-6 text-center text-gray-500 text-sm">
-          <p>Sistema desarrollado para Cuentas Purificadora • {new Date().getFullYear()}</p>
-        </div>
-      </div>
     </div>
-  );
-}
+    
+    <div class="footer">
+        Sistema de Gestión Administrativa - Cuentas Purificadora © ${new Date().getFullYear()}
+    </div>
+    
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                window.print();
+            }, 250);
+        };
+    <\/script>
+</body>
+</html>
+            `;
+            
+            ventana.document.write(html);
+            ventana.document.close();
+        }
+
+        // Inicializar al cargar la página
+        window.onload = function() {
+            inicializarFecha();
+            inicializarFilas();
+        };
+    </script>
+</body>
+</html>

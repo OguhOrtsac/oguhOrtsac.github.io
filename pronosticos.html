@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chivas vs Cruz Azul · Semifinal Vuelta · Clausura 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Space+Mono:wght@400;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rojo: #D32F2F;
+    --rojo-vivo: #FF1744;
+    --rojo-suave: rgba(211,47,47,0.15);
+    --azul: #1565C0;
+    --azul-vivo: #2979FF;
+    --azul-suave: rgba(21,101,192,0.15);
+    --dorado: #FFB300;
+    --verde: #00C853;
+    --naranja: #FF6D00;
+    --fondo: #0A0A0E;
+    --fondo2: #111118;
+    --fondo3: #1A1A24;
+    --borde: rgba(255,255,255,0.07);
+    --texto: #E8E8EE;
+    --texto-dim: #888899;
+    --texto-dimmer: #555566;
+    --card: rgba(255,255,255,0.04);
+    --card-hover: rgba(255,255,255,0.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    background: linear-gradient(160deg, #0A0A0E 0%, #0D0D1A 40%, #0A0A0E 100%);
+    border-bottom: 1px solid var(--borde);
+    padding: 60px 24px 48px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 50% 60% at 20% 50%, rgba(211,47,47,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 50%, rgba(21,101,192,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--dorado), transparent);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,179,0,0.1);
+    border: 1px solid rgba(255,179,0,0.3);
+    border-radius: 2px;
+    padding: 4px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--dorado);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .badge::before { content: '◆'; font-size: 8px; }
+
+  .vs-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .team-block { text-align: center; }
+  .team-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 8vw, 72px);
+    line-height: 1;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+  }
+  .team-name.chivas { color: var(--rojo-vivo); text-shadow: 0 0 40px rgba(255,23,68,0.4); }
+  .team-name.cruzazul { color: var(--azul-vivo); text-shadow: 0 0 40px rgba(41,121,255,0.4); }
+  .team-sub {
+    font-size: 11px;
+    color: var(--texto-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .vs-center { text-align: center; }
+  .vs-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 6vw, 56px);
+    color: var(--dorado);
+    display: block;
+  }
+  .score-ida {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--texto-dim);
+    letter-spacing: 1px;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .meta-item {
+    text-align: center;
+  }
+  .meta-label {
+    font-size: 10px;
+    color: var(--texto-dimmer);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .meta-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--texto);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── ADVANTAGE BANNER ── */
+  .advantage-banner {
+    background: linear-gradient(90deg, rgba(0,200,83,0.08), rgba(0,200,83,0.14), rgba(0,200,83,0.08));
+    border-top: 1px solid rgba(0,200,83,0.25);
+    border-bottom: 1px solid rgba(0,200,83,0.25);
+    padding: 12px 24px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--verde);
+    letter-spacing: 1.5px;
+  }
+  .advantage-banner strong { color: #fff; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  .main { padding: 40px 0 80px; }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    margin-top: 44px;
+  }
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section-icon.red { background: var(--rojo-suave); border: 1px solid rgba(211,47,47,0.3); }
+  .section-icon.blue { background: var(--azul-suave); border: 1px solid rgba(21,101,192,0.3); }
+  .section-icon.gold { background: rgba(255,179,0,0.1); border: 1px solid rgba(255,179,0,0.3); }
+  .section-icon.green { background: rgba(0,200,83,0.08); border: 1px solid rgba(0,200,83,0.25); }
+  .section-icon.purple { background: rgba(156,39,176,0.1); border: 1px solid rgba(156,39,176,0.3); }
+  .section-icon.orange { background: rgba(255,109,0,0.1); border: 1px solid rgba(255,109,0,0.3); }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--texto);
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--borde), transparent);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 12px;
+    transition: background .2s;
+  }
+  .card:hover { background: var(--card-hover); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .three-col { grid-template-columns: 1fr 1fr; }
+  }
+
+  .card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--texto-dimmer);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--texto);
+    margin-bottom: 4px;
+  }
+  .card-body {
+    font-size: 13px;
+    color: var(--texto-dim);
+    line-height: 1.6;
+  }
+
+  /* ── STAT BAR ── */
+  .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--texto-dim);
+    min-width: 150px;
+    flex-shrink: 0;
+  }
+  .stat-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width .8s ease;
+  }
+  .stat-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--texto);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* ── CONFIDENCE ── */
+  .confidence-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .conf-label { font-size: 12px; color: var(--texto-dim); flex-shrink: 0; }
+  .conf-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .conf-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--dorado), #FF8F00);
+  }
+  .conf-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    min-width: 44px;
+    text-align: right;
+  }
+
+  /* ── TRAP WARNING ── */
+  .trap-box {
+    background: rgba(255,109,0,0.08);
+    border: 1px solid rgba(255,109,0,0.3);
+    border-left: 3px solid var(--naranja);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .trap-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .trap-text { font-size: 13px; color: var(--texto-dim); }
+  .trap-text strong { color: #FF8A65; }
+
+  /* ── GOAL TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 20px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--borde), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 10px 0 10px 24px;
+    border-bottom: 1px solid var(--borde);
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px; top: 50%; transform: translateY(-50%);
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 2px solid;
+  }
+  .timeline-item.chivas::before { border-color: var(--rojo-vivo); background: var(--rojo-suave); }
+  .timeline-item.azul::before { border-color: var(--azul-vivo); background: var(--azul-suave); }
+  .timeline-item.neutral::before { border-color: var(--dorado); background: rgba(255,179,0,0.1); }
+
+  .tl-time {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--texto-dimmer);
+    margin-bottom: 3px;
+  }
+  .tl-event {
+    font-size: 13px;
+    color: var(--texto);
+    font-weight: 600;
+  }
+  .tl-detail {
+    font-size: 12px;
+    color: var(--texto-dim);
+    margin-top: 2px;
+  }
+
+  /* ── PARLAY CARDS ── */
+  .parlay-tier {
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    border: 1px solid var(--borde);
+  }
+  .parlay-head {
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .parlay-head.tier1 { background: rgba(0,200,83,0.12); border-bottom: 1px solid rgba(0,200,83,0.2); }
+  .parlay-head.tier2 { background: rgba(255,179,0,0.08); border-bottom: 1px solid rgba(255,179,0,0.2); }
+  .parlay-head.tier3 { background: rgba(255,109,0,0.08); border-bottom: 1px solid rgba(255,109,0,0.2); }
+
+  .parlay-tier-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tier1 .parlay-tier-name { color: var(--verde); }
+  .tier2 .parlay-tier-name { color: var(--dorado); }
+  .tier3 .parlay-tier-name { color: var(--naranja); }
+
+  .parlay-odds-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+  .tier1 .parlay-odds-tag { background: rgba(0,200,83,0.15); color: var(--verde); }
+  .tier2 .parlay-odds-tag { background: rgba(255,179,0,0.12); color: var(--dorado); }
+  .tier3 .parlay-odds-tag { background: rgba(255,109,0,0.12); color: var(--naranja); }
+
+  .parlay-body { background: var(--fondo2); padding: 14px 18px; }
+  .parlay-pick {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--borde);
+    gap: 12px;
+  }
+  .parlay-pick:last-child { border-bottom: none; }
+  .pick-desc { font-size: 13px; color: var(--texto); }
+  .pick-meta { font-size: 11px; color: var(--texto-dim); margin-top: 2px; }
+  .pick-odd {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    white-space: nowrap;
+    text-align: right;
+  }
+  .pick-odd .dec { color: var(--texto); font-weight: 700; }
+  .pick-odd .ame { color: var(--texto-dim); font-size: 10px; display: block; }
+
+  /* ── PREDICTION BOX ── */
+  .prediction-hero {
+    background: linear-gradient(135deg, rgba(211,47,47,0.1), rgba(21,101,192,0.1));
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .prediction-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,179,0,0.05), transparent);
+    pointer-events: none;
+  }
+  .pred-score {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(48px, 12vw, 96px);
+    letter-spacing: -2px;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--rojo-vivo), var(--dorado), var(--azul-vivo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .pred-verdict {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--verde);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pred-context {
+    font-size: 13px;
+    color: var(--texto-dim);
+  }
+
+  /* ── STAT GRID ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .stat-grid-item {
+    background: var(--card);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-grid-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 1;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .stat-grid-label {
+    font-size: 11px;
+    color: var(--texto-dim);
+    line-height: 1.3;
+    font-family: 'Space Mono', monospace;
+  }
+  .num-red { color: var(--rojo-vivo); }
+  .num-blue { color: var(--azul-vivo); }
+  .num-gold { color: var(--dorado); }
+  .num-green { color: var(--verde); }
+  .num-orange { color: var(--naranja); }
+  .num-white { color: #fff; }
+
+  /* ── H2H TABLE ── */
+  .h2h-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .h2h-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--texto-dimmer);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--borde);
+  }
+  .h2h-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .h2h-table tr:last-child td { border-bottom: none; }
+  .h2h-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .res-w { color: var(--verde); font-weight: 700; }
+  .res-d { color: var(--dorado); font-weight: 700; }
+  .res-l { color: var(--rojo-vivo); font-weight: 700; }
+  .tag-c { 
+    background: rgba(211,47,47,0.15); color: var(--rojo-vivo);
+    font-size: 10px; padding: 2px 7px; border-radius: 2px;
+    font-family: 'Space Mono', monospace; white-space: nowrap;
+  }
+  .tag-a {
+    background: rgba(21,101,192,0.15); color: var(--azul-vivo);
+    font-size: 10px; padding: 2px 7px; border-radius: 2px;
+    font-family: 'Space Mono', monospace; white-space: nowrap;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--borde);
+    padding: 24px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--texto-dimmer);
+    letter-spacing: 1px;
+  }
+
+  /* ── PILL TAGS ── */
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    margin: 3px 3px 3px 0;
+  }
+  .pill-red { background: rgba(211,47,47,0.15); color: #EF9A9A; border: 1px solid rgba(211,47,47,0.2); }
+  .pill-blue { background: rgba(21,101,192,0.15); color: #90CAF9; border: 1px solid rgba(21,101,192,0.2); }
+  .pill-green { background: rgba(0,200,83,0.1); color: #69F0AE; border: 1px solid rgba(0,200,83,0.2); }
+  .pill-gold { background: rgba(255,179,0,0.1); color: #FFD54F; border: 1px solid rgba(255,179,0,0.2); }
+  .pill-gray { background: rgba(255,255,255,0.06); color: var(--texto-dim); border: 1px solid var(--borde); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--borde), transparent);
+    margin: 8px 0;
+  }
+
+  /* highlight text */
+  .hl-red { color: var(--rojo-vivo); font-weight: 600; }
+  .hl-blue { color: var(--azul-vivo); font-weight: 600; }
+  .hl-gold { color: var(--dorado); font-weight: 600; }
+  .hl-green { color: var(--verde); font-weight: 600; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate { animation: slideUp .5s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="badge">Análisis de Pronóstico · Semifinal Vuelta · Clausura 2026</div>
+  <div class="vs-row">
+    <div class="team-block">
+      <div class="team-name chivas">Chivas</div>
+      <div class="team-sub">Guadalajara · LOCAL</div>
+    </div>
+    <div class="vs-center">
+      <span class="vs-text">VS</span>
+      <span class="score-ida">IDA: 2 – 2 · CHIVAS AVANZA CON EMPATE</span>
+    </div>
+    <div class="team-block">
+      <div class="team-name cruzazul">Cruz Azul</div>
+      <div class="team-sub">La Máquina · VISITANTE</div>
+    </div>
+  </div>
+  <div class="meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Fecha</span>
+      <span class="meta-value">Sáb 16 Mayo 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Hora</span>
+      <span class="meta-value">19:07 hrs CDT</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Estadio</span>
+      <span class="meta-value">Jalisco, GDL</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Árbitro</span>
+      <span class="meta-value">C. A. Ramos</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Transmisión</span>
+      <span class="meta-value">Amazon Prime</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADVANTAGE BANNER ── -->
+<div class="advantage-banner">
+  ⚑ &nbsp;<strong>Chivas avanza a la Final</strong>&nbsp; si el global queda empatado (mejor posición tabla general: 2° lugar)&nbsp; ⚑
+</div>
+
+<!-- ── MAIN ── -->
+<div class="container">
+<div class="main">
+
+  <!-- ═══════════════════════════════════════
+       PREDICCIÓN PRINCIPAL
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon gold">🏆</div>
+    <div class="section-title">Predicción Final</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="prediction-hero">
+    <span class="pred-score">1 – 1</span>
+    <div class="pred-verdict">✓ Chivas avanza a la Final del Clausura 2026</div>
+    <div class="pred-context">Empate que clasifica al Rebaño · Cruz Azul sin poder romper la defensa en bloque · Gestión táctica de Milito superior</div>
+  </div>
+
+  <div class="confidence-block" style="margin-top:16px;">
+    <span class="conf-label">Confianza global</span>
+    <div class="conf-bar"><div class="conf-fill" style="width:68%"></div></div>
+    <span class="conf-val" style="color:var(--dorado);">68%</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       ESTADIO JALISCO
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon gold">🏟️</div>
+    <div class="section-title">Estadio Jalisco · Análisis del Recinto</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-icon">⚠️</div>
+    <div class="trap-text"><strong>¿Por qué el Jalisco y no el Akron?</strong> El Estadio Akron fue entregado a la FIFA para adecuaciones previas al Mundial 2026 (donde se llamará "Estadio Guadalajara"). Chivas usa el Jalisco como cancha temporal durante toda la liguilla. Esto <strong>modifica el ambiente pero no invalida la localía</strong> — la afición rojiblanca llena el Jalisco por tradición histórica.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <span class="card-label">Datos del Estadio</span>
+      <div style="margin-top:6px;">
+        <div class="stat-row">
+          <span class="stat-label">Capacidad</span>
+          <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:82%; background:var(--dorado);"></div></div>
+          <span class="stat-val">~55,000</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Largo cancha</span>
+          <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:100%; background:var(--azul-vivo);"></div></div>
+          <span class="stat-val">105 m</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Ancho cancha</span>
+          <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:65%; background:var(--azul-vivo);"></div></div>
+          <span class="stat-val">68 m</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Pasto</span>
+          <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:55%; background:var(--verde);"></div></div>
+          <span class="stat-val">Kicullo</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-label">Impacto táctico de la cancha</span>
+      <div class="card-body" style="margin-top:8px;">
+        <p style="margin-bottom:8px;">✅ Cancha <strong class="hl-gold">estándar FIFA (105×68m)</strong> — ligeramente más ancha que recintos chicos, lo que <strong>beneficia el juego de carrileros</strong> de Milito (3-5-2).</p>
+        <p style="margin-bottom:8px;">✅ El Jalisco tiene <strong>pasto más lento</strong> (kicullo natural) vs el híbrido del Akron — el juego puede ser algo más físico.</p>
+        <p>✅ Tribuna encima del campo (diseño clásico) = <strong>ruido ensordecedor</strong> en zona de afición rojiblanca. Presión psicológica real sobre Cruz Azul.</p>
+        <p style="margin-top:8px;">⚠️ Cruz Azul ya jugó en este recinto en finales históricas. <strong>No es terreno desconocido para ellos.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       ÁRBITRO
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon purple">🟡</div>
+    <div class="section-title">Árbitro: César Arturo Ramos Palazuelos</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="card" style="border-color: rgba(156,39,176,0.2); background: rgba(156,39,176,0.05);">
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:200px;">
+        <div class="card-label">Perfil</div>
+        <div class="card-title" style="font-size:18px; margin-bottom:8px;">🟣 Árbitro FIFA · Mundialista</div>
+        <div class="card-body">
+          <p>Originario de <strong>Culiacán, Sinaloa</strong>. Árbitro FIFA desde 2014. Ha dirigido en <strong>Qatar 2022</strong> y fue seleccionado para <strong>México 2026</strong>. Dirigió la final del Club World Cup 2017 (Real Madrid vs Grêmio) y recibió el premio <strong>"Árbitro del Año" de la CONCACAF</strong>.</p>
+          <br>
+          <p>En este torneo ya pitó a Chivas en el <strong>Clásico Nacional vs América (1-0)</strong> y en la goleada <strong>5-0 vs Puebla</strong>. <span class="hl-gold">Primera vez que dirige a Cruz Azul en 2026.</span></p>
+        </div>
+      </div>
+      <div style="flex:1; min-width:200px;">
+        <div class="card-label">Estadísticas 2025/26 (Liga MX)</div>
+        <div style="margin-top:6px;">
+          <div class="stat-row">
+            <span class="stat-label">Amarillas/partido</span>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:76%; background:#FFD54F;"></div></div>
+            <span class="stat-val">5.75</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Rojas/partido</span>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:25%; background:var(--rojo-vivo);"></div></div>
+            <span class="stat-val">0.50</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Penales/partido</span>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:50%; background:var(--verde);"></div></div>
+            <span class="stat-val">0.50</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Faltas/partido (hist.)</span>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:85%; background:var(--azul-vivo);"></div></div>
+            <span class="stat-val">25.5</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Roja en partido (%)</span>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:35%; background:var(--rojo-vivo);"></div></div>
+            <span class="stat-val">35%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left: 3px solid #9C27B0;">
+    <span class="card-label">¿Corta el juego o deja fluir?</span>
+    <div class="card-body" style="margin-top:8px;">
+      <p>Ramos es un árbitro que <strong class="hl-gold">mantiene el flujo del partido</strong> sin caer en excesivas interrupciones. Su descripción oficial lo define con "firmeza en decisiones y capacidad para no interrumpir el juego innecesariamente". No es de los que paran cada contacto. <strong>Deja jugar en zona media, pero no tolera la violencia clara.</strong></p>
+      <br>
+      <p>En un partido de <strong>alta tensión como este</strong> (Liguilla, historial de polémica en la ida, presión mediática), se espera que sea más estricto de lo habitual. La ida tuvo polémica por un penal polémico con el árbitro Quintero — Ramos buscará no repetir controversias.</p>
+      <br>
+      <p><span class="hl-red">⚠️ Factor VAR:</span> Erick Yair Miranda estará en el VAR — otro mundialista. Panel de alto nivel = revisiones más rigurosas y correctas.</p>
+    </div>
+  </div>
+
+  <!-- PREDICCIÓN DE FALTAS Y TARJETAS -->
+  <div class="section-header">
+    <div class="section-icon orange">📋</div>
+    <div class="section-title">Proyección: Faltas · Tarjetas · Penales</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-red">14–16</span>
+      <span class="stat-grid-label">FALTAS<br>Chivas</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-blue">12–14</span>
+      <span class="stat-grid-label">FALTAS<br>Cruz Azul</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-gold">3–4</span>
+      <span class="stat-grid-label">AMARILLAS<br>Chivas</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-gold">3–4</span>
+      <span class="stat-grid-label">AMARILLAS<br>Cruz Azul</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-orange">30%</span>
+      <span class="stat-grid-label">PROB<br>Tarjeta Roja</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-green">40%</span>
+      <span class="stat-grid-label">PROB<br>Penal (VAR)</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <span class="card-label">Razonamiento Faltas Chivas</span>
+      <div class="card-body" style="margin-top:8px;">
+        Chivas <strong>defenderá más que atacará</strong> (les sirve el empate). Un bloque defensivo bajo genera más faltas por desesperación cuando el rival entra. Su sistema de <strong>5 líneas en transición</strong> (3 centrales + 2 carrileros) implica empujar y cargar marcas. Promedio histórico de ~14 faltas en liguilla.
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-label">Razonamiento Faltas Cruz Azul</span>
+      <div class="card-body" style="margin-top:8px;">
+        Cruz Azul <strong>NECESITA ganar</strong>, por lo que atacará y generará situaciones de ataque. Las faltas en zonas ofensivas suelen ser menos. Pero cuando Chivas salga en transición rápida, los defensas cementeros cometerán faltas tácticas para frenar. Palavecino y Rodríguez con tendencia a cometer faltas en mediocampo.
+      </div>
+    </div>
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-icon">⚠️</div>
+    <div class="trap-text"><strong>Trampa de tarjetas:</strong> Varias figuras clave ya tienen amarilla acumulada de rondas anteriores. Un partido de este nivel con Ramos garantiza al menos <strong>6-8 amarillas totales</strong>. Apostar a menos de 4 tarjetas sería alto riesgo. La segunda mitad acumula más faltas cuando la urgencia aprieta — especialmente entre los min 60–85.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TÉCNICOS
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon gold">🧠</div>
+    <div class="section-title">Técnicos y Estilos de Juego</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card" style="border-top: 3px solid var(--rojo-vivo);">
+      <span class="card-label">Chivas</span>
+      <div class="card-title" style="color:var(--rojo-vivo); margin-bottom:6px;">Gabriel Milito</div>
+      <div class="card-body">
+        <p style="margin-bottom:8px;"><strong>Formación:</strong> 3-5-2 / 5-3-2 en defensa</p>
+        <p style="margin-bottom:8px;"><strong>Sello:</strong> Posesión dominante, presión alta, transiciones rápidas. No usa extremos — usa carrileros con desdoblamiento. Saques de banda en área rival (táctica argentina).</p>
+        <p style="margin-bottom:8px;"><strong>Fortaleza:</strong> Mejor técnico del torneo (reconocido por Ferretti y Carrillo). Adaptación táctica según rival. Manejo del grupo excepcional.</p>
+        <p style="margin-bottom:8px;"><strong>Debilidad:</strong> Chivas sin Milito no ha ganado a Cruz Azul en los últimos 4 encuentros combinados. Richard Ledezma y Efraín Álvarez salieron tocados de la ida.</p>
+        <p><strong>Contexto de hoy:</strong> Con el empate le sirve — <span class="hl-green">jugará inteligente, no especulará pero sí administrará riesgos.</span></p>
+      </div>
+      <div style="margin-top:12px;">
+        <span class="pill pill-red">3 centrales</span>
+        <span class="pill pill-red">Posesión</span>
+        <span class="pill pill-red">Presión alta</span>
+        <span class="pill pill-gray">Saques tácticos</span>
+      </div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--azul-vivo);">
+      <span class="card-label">Cruz Azul</span>
+      <div class="card-title" style="color:var(--azul-vivo); margin-bottom:6px;">Joel Huiqui (Interino)</div>
+      <div class="card-body">
+        <p style="margin-bottom:8px;"><strong>Formación:</strong> 4-4-2 / 4-3-3 (rompió con la línea de 3 de Larcamón)</p>
+        <p style="margin-bottom:8px;"><strong>Sello:</strong> Juego por bandas ("meter juego por fuera"). Liberó a Rotondi en posición ofensiva. Apostó por Kevin Mier en portería. Flexibilidad táctica según lo disponible.</p>
+        <p style="margin-bottom:8px;"><strong>Fortaleza:</strong> Revitalizó el vestidor en emergencia. Cruz Azul tiene calidad individual (Ebere, Charly Rodríguez, Palavecino).</p>
+        <p style="margin-bottom:8px;"><strong>Debilidad:</strong> Interino sin experiencia en Primera División. Bajas de Nico Ibáñez, Gabriel "Toro" Fernández y <strong>Erik Lira</strong> (columna del mediocampo) son críticas.</p>
+        <p><strong>Contexto de hoy:</strong> <span class="hl-blue">Obligado a ganar</span> — pero no debe "desbocar" el equipo desde el inicio según Javier Alarcón.</p>
+      </div>
+      <div style="margin-top:12px;">
+        <span class="pill pill-blue">4 defensas</span>
+        <span class="pill pill-blue">Bandas</span>
+        <span class="pill pill-blue">Interino</span>
+        <span class="pill pill-gray">Sin Lira</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       ALINEACIONES PROBABLES
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon red">👕</div>
+    <div class="section-title">Alineaciones Probables</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card" style="border-color:rgba(211,47,47,0.25);">
+      <span class="card-label" style="color:var(--rojo-vivo);">Chivas · 3-5-2</span>
+      <div style="margin-top:10px; font-size:13px; line-height:2;">
+        <div style="text-align:center; color:var(--texto-dim); letter-spacing:1px; font-size:11px; margin-bottom:8px;">— PORTERO —</div>
+        <div style="text-align:center;"><span class="pill pill-red">Óscar Whalley</span></div>
+        <div style="text-align:center; color:var(--texto-dim); letter-spacing:1px; font-size:11px; margin:6px 0;">— DEFENSA (3) —</div>
+        <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+          <span class="pill pill-red">Castillo</span>
+          <span class="pill pill-red">Bryan González</span>
+          <span class="pill pill-red">Campillo</span>
+        </div>
+        <div style="text-align:center; color:var(--texto-dim); letter-spacing:1px; font-size:11px; margin:6px 0;">— CARRILEROS / MEDIOCAMPO —</div>
+        <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+          <span class="pill pill-red">Ledezma</span>
+          <span class="pill pill-red">Govea</span>
+          <span class="pill pill-red">Oso González</span>
+          <span class="pill pill-red">Santi Sandoval</span>
+          <span class="pill pill-red">Efraín Álvarez</span>
+        </div>
+        <div style="text-align:center; color:var(--texto-dim); letter-spacing:1px; font-size:11px; margin:6px 0;">— DELANTEROS —</div>
+        <div style="display:flex; justify-content:center; gap:6px;">
+          <span class="pill pill-red">R. Marín</span>
+          <span class="pill pill-red">Ángel Sepúlveda</span>
+        </div>
+      </div>
+      <div class="trap-box" style="margin-top:12px; padding:10px 12px;">
+        <div class="trap-icon" style="font-size:14px;">⚕️</div>
+        <div class="trap-text" style="font-size:12px;"><strong>Dudas:</strong> Ledezma y Álvarez salieron tocados de la ida. Aguirre fuera. Si uno falla, entra Miguel Tapias / Hugo Camberos.</div>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(21,101,192,0.25);">
+      <span class="card-label" style="color:var(--azul-vivo);">Cruz Azul · 4-4-2 / 4-3-3</span>
+      <div style="margin-top:10px; font-size:13px; line-height:2;">
+        <div style="text-align:center; color:var(--texto-dim); letter-spacing:1px; font-size:11px; margin-bottom:8px;">— PORTERO —</div>
+        <div style="text-align:center;"><span class="pill pill-blue">Kevin Mier</span></div>
+        <div style="text-align:center; color:var(--texto-dim); letter-spacing:1px; font-size:11px; margin:6px 0;">— DEFENSA (4) —</div>
+        <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+          <span class="pill pill-blue">Campos</span>
+          <span class="pill pill-blue">Ditta</span>
+          <span class="pill pill-blue">Piovi</span>
+          <span class="pill pill-blue">Rodarte</span>
+        </div>
+        <div style="text-align:center; color:var(--texto-dim); letter-spacing:1px; font-size:11px; margin:6px 0;">— MEDIOCAMPO —</div>
+        <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+          <span class="pill pill-blue">Amaury García</span>
+          <span class="pill pill-blue">Palavecino</span>
+          <span class="pill pill-blue">Charly Rodríguez</span>
+          <span class="pill pill-blue">Rotondi</span>
+        </div>
+        <div style="text-align:center; color:var(--texto-dim); letter-spacing:1px; font-size:11px; margin:6px 0;">— DELANTEROS —</div>
+        <div style="display:flex; justify-content:center; gap:6px;">
+          <span class="pill pill-blue">Paradela</span>
+          <span class="pill pill-blue">Ebere</span>
+        </div>
+      </div>
+      <div class="trap-box" style="margin-top:12px; padding:10px 12px; border-color:rgba(21,101,192,0.3); background:rgba(21,101,192,0.05);">
+        <div class="trap-icon" style="font-size:14px;">⚕️</div>
+        <div class="trap-text" style="font-size:12px;"><strong>Bajas confirmadas:</strong> Nico Ibáñez, Toro Fernández, Erik Lira. Tres piezas importantes fuera del partido.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       GOLES PRONOSTICADOS
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon green">⚽</div>
+    <div class="section-title">Goles Pronosticados · Minutos y Autor</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="card">
+    <span class="card-label">Desarrollo esperado del marcador</span>
+    <div class="timeline" style="margin-top:14px;">
+
+      <div class="timeline-item neutral">
+        <div class="tl-time">MIN 01–25 · Primera fase</div>
+        <div class="tl-event">Inicio equilibrado · Cruz Azul empuja</div>
+        <div class="tl-detail">Cruz Azul sale con intensidad buscando el gol temprano. Chivas defiende en bloque con los 3 centrales + 2 carrileros replegados. Pocos remates claros. Ambiente encendido en el Jalisco.</div>
+      </div>
+
+      <div class="timeline-item azul">
+        <div class="tl-time">MIN 28–38 · ⚽ GOL ESPERADO</div>
+        <div class="tl-event">Cruz Azul 1 – 0 Chivas</div>
+        <div class="tl-detail"><strong>Candidatos:</strong> Charly Rodríguez (delicadeza desde fuera del área, ya marcó en la ida con golazo) o Christian Ebere (físico, penal o cabezazo). Cruz Azul ataca por bandas — Rotondi o Campos generan el gol. <span class="hl-blue">Necesidad de ganar = intensidad máxima en primer tiempo.</span></div>
+      </div>
+
+      <div class="timeline-item neutral">
+        <div class="tl-time">MIN 45–55 · Respuesta Chivas</div>
+        <div class="tl-event">Reacción del Rebaño · Presión alta rojiblanca</div>
+        <div class="tl-detail">Con el 0-1, Chivas está obligado a reaccionar (pierden la serie). Milito sube líneas, mete más presión. El Jalisco empuja. Cruz Azul se repliega levemente.</div>
+      </div>
+
+      <div class="timeline-item chivas">
+        <div class="tl-time">MIN 55–70 · ⚽ GOL ESPERADO</div>
+        <div class="tl-event">Chivas 1 – 1 Cruz Azul</div>
+        <div class="tl-detail"><strong>Candidatos:</strong> Ángel Sepúlveda (la ley del ex volvió a funcionar en la ida — fue el 2-2 con cabezazo) o Santiago Sandoval (marcó el 1-0 en la ida, dinámico entre líneas). <span class="hl-red">Con el empate, Chivas ya clasifica</span> — el gol desata el Jalisco.</div>
+      </div>
+
+      <div class="timeline-item neutral">
+        <div class="tl-time">MIN 70–90 · Cierre</div>
+        <div class="tl-event">Chivas administra · Cruz Azul desesperado</div>
+        <div class="tl-detail">Chivas bajará el ritmo, cometerá faltas tácticas, usará cambios para enfriar el partido. Cruz Azul arriesgará más pero sin los espacios necesarios. <strong>Ramos amarillará a varios de ambos bandos.</strong> Final 1-1.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:12px;">
+    <div class="card">
+      <span class="card-label">⚽ Goles Chivas (pronóstico)</span>
+      <div style="margin-top:10px;">
+        <div class="stat-row"><span class="stat-label">Total goles esperados</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:50%; background:var(--rojo-vivo);"></div></div><span class="stat-val" style="color:var(--rojo-vivo);">1</span></div>
+        <div style="font-size:12px; color:var(--texto-dim); margin-top:8px;">
+          <strong style="color:var(--texto);">Goleador favorito:</strong> Ángel Sepúlveda (ley del ex vs Cruz Azul, cabezazo en la ida).<br>
+          <strong style="color:var(--texto);">Alternativa:</strong> Santiago Sandoval (dinámico, llegó al gol en la ida).<br>
+          <strong style="color:var(--texto);">Minuto estimado:</strong> 55–70'
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-label">⚽ Goles Cruz Azul (pronóstico)</span>
+      <div style="margin-top:10px;">
+        <div class="stat-row"><span class="stat-label">Total goles esperados</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:50%; background:var(--azul-vivo);"></div></div><span class="stat-val" style="color:var(--azul-vivo);">1</span></div>
+        <div style="font-size:12px; color:var(--texto-dim); margin-top:8px;">
+          <strong style="color:var(--texto);">Goleador favorito:</strong> Charly Rodríguez (golazo en la ida, creatividad desde mediocampo).<br>
+          <strong style="color:var(--texto);">Alternativa:</strong> Christian Ebere (presencia física, penal potencial).<br>
+          <strong style="color:var(--texto);">Minuto estimado:</strong> 28–38'
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TIROS DE ESQUINA
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon blue">📐</div>
+    <div class="section-title">Tiros de Esquina · Proyección</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-red">5–7</span>
+      <span class="stat-grid-label">CORNERS<br>Chivas</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-blue">4–5</span>
+      <span class="stat-grid-label">CORNERS<br>Cruz Azul</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-gold">9–12</span>
+      <span class="stat-grid-label">TOTAL<br>CORNERS</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="card-label">Razonamiento</span>
+    <div class="card-body" style="margin-top:8px;">
+      <p>El sistema de <strong>3 centrales de Chivas</strong> es muy compacto en el área, lo que suele generar rebotes y desvíos hacia corners. Cruz Azul atacará por las bandas (el planteamiento de Huiqui fue "meter juego por fuera"), lo que naturalmente genera más corners del lado visitante. Chivas, en sus transiciones ofensivas, también generará corners por los saques de banda tácticos de Milito y por los centros al área. Total esperado: <strong class="hl-gold">9–12 corners</strong>, con ventaja leve para Chivas como local con más posesión.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TARJETAS DETALLADAS
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon orange">🟡🟥</div>
+    <div class="section-title">Pronóstico de Tarjetas Detallado</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-gold">6–8</span>
+      <span class="stat-grid-label">AMARILLAS<br>totales</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-orange">30%</span>
+      <span class="stat-grid-label">PROB<br>tarjeta roja</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-blue">3–4</span>
+      <span class="stat-grid-label">AMARILLAS<br>Cruz Azul</span>
+    </div>
+    <div class="stat-grid-item">
+      <span class="stat-grid-num num-red">3–4</span>
+      <span class="stat-grid-label">AMARILLAS<br>Chivas</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <span class="card-label">Jugadores en riesgo de amarilla · Chivas</span>
+      <div style="margin-top:8px; font-size:13px; color:var(--texto-dim); line-height:1.8;">
+        🟡 <strong style="color:var(--texto);">Omar Govea</strong> — mediocampista combativo, muchos duelos aéreos<br>
+        🟡 <strong style="color:var(--texto);">Efraín Álvarez</strong> — ya amonestado en la ida (vs Ledezma)<br>
+        🟡 <strong style="color:var(--texto);">Fernando "Oso" González</strong> — recuperador, falta táctica<br>
+        🟡 <strong style="color:var(--texto);">Diego Campillo</strong> — defensa central vs Ebere físico
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-label">Jugadores en riesgo de amarilla · Cruz Azul</span>
+      <div style="margin-top:8px; font-size:13px; color:var(--texto-dim); line-height:1.8;">
+        🟡 <strong style="color:var(--texto);">Agustín Palavecino</strong> — ya amarilla en la ida<br>
+        🟡 <strong style="color:var(--texto);">Willer Ditta</strong> — defensa central agresivo<br>
+        🟡 <strong style="color:var(--texto);">Amaury García</strong> — mediocampista de recuperación<br>
+        🟡 <strong style="color:var(--texto);">Andrés Montaño</strong> — amarilla en la ida (min 77) por falta a Govea
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       H2H ANTECEDENTES
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon gold">📊</div>
+    <div class="section-title">Antecedentes H2H Recientes</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="card">
+    <table class="h2h-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Competencia</th>
+          <th>Resultado</th>
+          <th>Sede</th>
+          <th>Chivas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--texto);">13 May 2026</td>
+          <td>Semifinal IDA Cl26</td>
+          <td><strong style="color:var(--texto);">Cruz Azul 2–2 Chivas</strong></td>
+          <td><span class="tag-a">Banorte</span></td>
+          <td class="res-d">E</td>
+        </tr>
+        <tr>
+          <td>21 Feb 2026</td>
+          <td>Jornada 7 Cl26</td>
+          <td>Cruz Azul 2–1 Chivas</td>
+          <td><span class="tag-a">Banorte</span></td>
+          <td class="res-l">D</td>
+        </tr>
+        <tr>
+          <td>30 Nov 2025</td>
+          <td>Q. Final Vuelta Ap25</td>
+          <td>Cruz Azul 3–2 Chivas</td>
+          <td><span class="tag-a">Azteca</span></td>
+          <td class="res-l">D</td>
+        </tr>
+        <tr>
+          <td>27 Nov 2025</td>
+          <td>Q. Final Ida Ap25</td>
+          <td>Chivas 0–0 Cruz Azul</td>
+          <td><span class="tag-c">Akron</span></td>
+          <td class="res-d">E</td>
+        </tr>
+        <tr>
+          <td>30 Ago 2025</td>
+          <td>Jornada 7 Ap25</td>
+          <td>Chivas 1–2 Cruz Azul</td>
+          <td><span class="tag-c">Akron</span></td>
+          <td class="res-l">D</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <span style="font-size:12px; color:var(--texto-dim);">Con Milito en Chivas:</span>
+      <span class="pill pill-gold">0 victorias vs Cruz Azul</span>
+      <span class="pill pill-gray">1 empate</span>
+      <span class="pill pill-red">4 derrotas</span>
+    </div>
+    <div class="trap-box" style="margin-top:12px; padding:10px 12px; border-color:rgba(255,109,0,0.25);">
+      <div class="trap-icon" style="font-size:14px;">⚠️</div>
+      <div class="trap-text" style="font-size:12px;"><strong>Trampa:</strong> A pesar de la racha negativa de Milito vs Cruz Azul en liga/liguilla, <strong>hoy Chivas solo necesita NO perder</strong>. La presión cambia completamente la dinámica — Chivas no busca ganar, gestiona. Cruz Azul sí necesita ganar y eso los puede exponer.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FACTORES CLAVE
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon green">⚡</div>
+    <div class="section-title">Factores Clave · A Favor y En Contra</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card" style="border-top:3px solid var(--rojo-vivo);">
+      <span class="card-label" style="color:var(--rojo-vivo);">✅ Chivas · A Favor</span>
+      <div style="font-size:13px; color:var(--texto-dim); margin-top:8px; line-height:2;">
+        ✅ Avanza con el empate — <strong>psicología superior</strong><br>
+        ✅ Mejor equipo del torneo en fase regular (2° lugar)<br>
+        ✅ Milito: mejor técnico del Clausura 2026<br>
+        ✅ El Jalisco los apoya (tradición histórica 1960–2010)<br>
+        ✅ Sepúlveda en racha vs Cruz Azul (ley del ex)<br>
+        ✅ Sistema defensivo sólido (3 centrales)<br>
+        ✅ Ramos conoce bien a Chivas este torneo
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--azul-vivo);">
+      <span class="card-label" style="color:var(--azul-vivo);">❌ Chivas · En Contra</span>
+      <div style="font-size:13px; color:var(--texto-dim); margin-top:8px; line-height:2;">
+        ❌ Milito nunca ha ganado a Cruz Azul (0-1-4)<br>
+        ❌ Ledezma y Álvarez tocados de la ida<br>
+        ❌ El Jalisco NO es el Akron (sin la ventaja del volcán)<br>
+        ❌ Cruz Azul tiene mucha calidad individual<br>
+        ❌ Charly Rodríguez puede aparecer en cualquier momento<br>
+        ❌ Riesgo de especular y recibir gol temprano<br>
+        ❌ Cancha más lenta — puede limitar las transiciones
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card" style="border-top:3px solid var(--azul-vivo);">
+      <span class="card-label" style="color:var(--azul-vivo);">✅ Cruz Azul · A Favor</span>
+      <div style="font-size:13px; color:var(--texto-dim); margin-top:8px; line-height:2;">
+        ✅ Racha reciente: 4-1-0 vs Chivas con Milito<br>
+        ✅ Huiqui revitalizó el equipo (3 decisiones clave)<br>
+        ✅ Charly Rodríguez en un momento estelar<br>
+        ✅ Ebere físico y peligroso en área<br>
+        ✅ Tienen con qué anotar 1 gol<br>
+        ✅ Ninguna presión añadida: vinieron a ganar o irse
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--azul-vivo);">
+      <span class="card-label" style="color:var(--naranja);">❌ Cruz Azul · En Contra</span>
+      <div style="font-size:13px; color:var(--texto-dim); margin-top:8px; line-height:2;">
+        ❌ Necesitan ganar — presión máxima sobre el equipo<br>
+        ❌ Baja de Erik Lira (pieza clave del mediocampo)<br>
+        ❌ Baja de Ibáñez y Toro Fernández<br>
+        ❌ Huiqui: 0 experiencia en Primera División<br>
+        ❌ Jugar en Guadalajara + Jalisco: ambiente hostil<br>
+        ❌ Primera vez de Ramos con Cruz Azul (factor adaptación)<br>
+        ❌ Si se adelantan, Chivas los expone en contragolpe
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       OPCIONES DE PARLAY
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon green">💰</div>
+    <div class="section-title">Opciones de Parlay · Tres Niveles</div>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- TIER 1: Seguro -->
+  <div class="parlay-tier">
+    <div class="parlay-head tier1">
+      <span class="parlay-tier-name">🔒 TIER 1 · Conservador (Alta confianza)</span>
+      <span class="parlay-odds-tag">~2.8x – 3.5x</span>
+    </div>
+    <div class="parlay-body">
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Más de 1.5 goles totales</div>
+          <div class="pick-meta">Ambos equipos tienen con qué anotar · Ida fue 2-2</div>
+        </div>
+        <div class="pick-odd"><span class="dec">1.45</span><span class="ame">-220</span></div>
+      </div>
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Más de 5.5 tarjetas amarillas</div>
+          <div class="pick-meta">Ramos promedia 5.75/partido · Tensión de semifinal</div>
+        </div>
+        <div class="pick-odd"><span class="dec">1.65</span><span class="ame">-152</span></div>
+      </div>
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Más de 8.5 tiros de esquina totales</div>
+          <div class="pick-meta">Ataques de ambos bandos + sistema de Chivas genera corners</div>
+        </div>
+        <div class="pick-odd"><span class="dec">1.75</span><span class="ame">-133</span></div>
+      </div>
+      <div class="confidence-block" style="margin-top:12px;">
+        <span class="conf-label">Confianza</span>
+        <div class="conf-bar"><div class="conf-fill" style="width:78%"></div></div>
+        <span class="conf-val" style="color:var(--verde);">78%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER 2: Intermedio -->
+  <div class="parlay-tier">
+    <div class="parlay-head tier2">
+      <span class="parlay-tier-name">⚡ TIER 2 · Intermedio (Riesgo calculado)</span>
+      <span class="parlay-odds-tag">~5x – 8x</span>
+    </div>
+    <div class="parlay-body">
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Chivas avanza a la final (no pierde la serie)</div>
+          <div class="pick-meta">Empate o victoria = clasificación. Ventaja deportiva real.</div>
+        </div>
+        <div class="pick-odd"><span class="dec">1.55</span><span class="ame">-182</span></div>
+      </div>
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Ambos equipos marcan (BTTS)</div>
+          <div class="pick-meta">Ida fue 2-2. Cruz Azul necesita golear. Chivas responde.</div>
+        </div>
+        <div class="pick-odd"><span class="dec">1.80</span><span class="ame">-125</span></div>
+      </div>
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Ángel Sepúlveda anota en cualquier momento</div>
+          <div class="pick-meta">La ley del ex ya cobró en la ida (cabezazo). En forma vs Cruz Azul.</div>
+        </div>
+        <div class="pick-odd"><span class="dec">2.80</span><span class="ame">+180</span></div>
+      </div>
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Más de 24.5 faltas totales</div>
+          <div class="pick-meta">Promedio histórico Ramos: 25.52 faltas/partido</div>
+        </div>
+        <div class="pick-odd"><span class="dec">1.70</span><span class="ame">-143</span></div>
+      </div>
+      <div class="confidence-block" style="margin-top:12px;">
+        <span class="conf-label">Confianza</span>
+        <div class="conf-bar"><div class="conf-fill" style="width:63%"></div></div>
+        <span class="conf-val" style="color:var(--dorado);">63%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER 3: Arriesgado -->
+  <div class="parlay-tier">
+    <div class="parlay-head tier3">
+      <span class="parlay-tier-name">🔥 TIER 3 · Agresivo (Alta recompensa)</span>
+      <span class="parlay-odds-tag">~12x – 20x</span>
+    </div>
+    <div class="parlay-body">
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Resultado exacto: Chivas 1–1 Cruz Azul</div>
+          <div class="pick-meta">Empate que clasifica. Escenario más probable según análisis.</div>
+        </div>
+        <div class="pick-odd"><span class="dec">5.50</span><span class="ame">+450</span></div>
+      </div>
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Cruz Azul anota el primer gol</div>
+          <div class="pick-meta">Sale a atacar, necesita ganar, Ramos puede marcar penal</div>
+        </div>
+        <div class="pick-odd"><span class="dec">2.20</span><span class="ame">+120</span></div>
+      </div>
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Tarjeta roja en el partido</div>
+          <div class="pick-meta">Ramos la muestra en 35% de partidos · Tensión alta</div>
+        </div>
+        <div class="pick-odd"><span class="dec">2.50</span><span class="ame">+150</span></div>
+      </div>
+      <div class="parlay-pick">
+        <div>
+          <div class="pick-desc">Charly Rodríguez anota o asiste</div>
+          <div class="pick-meta">En racha, golazo en la ida, creatividad insuperable</div>
+        </div>
+        <div class="pick-odd"><span class="dec">2.40</span><span class="ame">+140</span></div>
+      </div>
+      <div class="confidence-block" style="margin-top:12px;">
+        <span class="conf-label">Confianza</span>
+        <div class="conf-bar"><div class="conf-fill" style="width:38%; background: linear-gradient(90deg, var(--naranja), #FF3D00);"></div></div>
+        <span class="conf-val" style="color:var(--naranja);">38%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       RESUMEN ESTADÍSTICO FINAL
+  ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon gold">📈</div>
+    <div class="section-title">Resumen Estadístico Final</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="card" style="background: linear-gradient(135deg, rgba(211,47,47,0.06), rgba(21,101,192,0.06)); border-color: var(--borde);">
+    <div class="three-col">
+      <div style="text-align:center; padding:10px 0;">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px;">Resultado</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:28px; color:var(--dorado);">1 – 1</div>
+        <div style="font-size:11px; color:var(--verde); margin-top:4px;">Chivas clasifica</div>
+      </div>
+      <div style="text-align:center; padding:10px 0; border-left:1px solid var(--borde); border-right:1px solid var(--borde);">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px;">Goles</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:28px; color:var(--texto);">2 total</div>
+        <div style="font-size:11px; color:var(--texto-dim); margin-top:4px;">1 Chivas · 1 Cruz Azul</div>
+      </div>
+      <div style="text-align:center; padding:10px 0;">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px;">Finalista</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:28px; color:var(--rojo-vivo);">CHIVAS</div>
+        <div style="font-size:11px; color:var(--texto-dim); margin-top:4px;">vs Pachuca en Final</div>
+      </div>
+    </div>
+    <div class="divider" style="margin: 16px 0;"></div>
+    <div class="three-col">
+      <div style="text-align:center;">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); margin-bottom:4px;">AMARILLAS</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; color:var(--dorado);">6–8</div>
+      </div>
+      <div style="text-align:center; border-left:1px solid var(--borde); border-right:1px solid var(--borde);">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); margin-bottom:4px;">CORNERS</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; color:var(--azul-vivo);">9–12</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); margin-bottom:4px;">FALTAS</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; color:var(--texto);">26–30</div>
+      </div>
+    </div>
+    <div class="divider" style="margin: 16px 0;"></div>
+    <div class="three-col">
+      <div style="text-align:center;">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); margin-bottom:4px;">PROB. ROJA</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; color:var(--naranja);">30%</div>
+      </div>
+      <div style="text-align:center; border-left:1px solid var(--borde); border-right:1px solid var(--borde);">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); margin-bottom:4px;">PROB. PENAL</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; color:var(--verde);">40%</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:var(--texto-dimmer); margin-bottom:4px;">GOL DESPUÉS 60'</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; color:var(--rojo-vivo);">70%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTA FINAL -->
+  <div class="trap-box" style="margin-top:24px; border-color: rgba(255,179,0,0.3); background:rgba(255,179,0,0.05);">
+    <div class="trap-icon">📌</div>
+    <div class="trap-text">
+      <strong style="color:var(--dorado);">Nota de responsabilidad:</strong> Este análisis es <strong>puramente informativo y de pronóstico analítico</strong> basado en datos reales verificados (árbitro confirmado, marcador de ida, estadísticas de Ramos, antecedentes H2H reales). Las predicciones de goles, minutos y resultados son proyecciones analíticas, <strong>no resultados confirmados</strong>. El fútbol siempre puede sorprender. Apuesta con responsabilidad.
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /container -->
+
+<div class="footer">
+  ANÁLISIS GENERADO: SÁBADO 16 MAYO 2026 · CHIVAS VS CRUZ AZUL · SEMIFINAL VUELTA CLAUSURA 2026<br>
+  ÁRBITRO CONFIRMADO: CÉSAR ARTURO RAMOS PALAZUELOS · ESTADIO JALISCO · 19:07 HRS CDT<br>
+  DATOS VERIFICADOS VÍA: EL INFORMADOR · TUDN · FOX SPORTS · CLARO SPORTS · KICKOFFSCORE · VALUESTATS
+</div>
+
+</body>
+</html>

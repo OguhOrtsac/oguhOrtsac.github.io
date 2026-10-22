@@ -124,6 +124,11 @@ main.show-in{animation:appear .9s ease}
 .rz:first-child{transform:rotate(-18deg)}.rz:last-child{transform:rotate(18deg)}
 .dia{font:italic 1.3rem Georgia,serif;color:#a34d71;margin:18px 0 0}
 .mini-sun svg{width:48px;height:53px;display:block;margin:2px auto 14px}
+section[aria-labelledby="letter-title"]{background:linear-gradient(160deg,#fff4f8,#f3eaff 60%,#fff1e2)}
+.letter-content{scroll-margin-top:70px;border:2px solid #f0b6cd;background:linear-gradient(90deg,#d93668,#f6a6c1,#b79be0,#f4c86a) top/100% 8px no-repeat,linear-gradient(160deg,#fff0f6 0%,#f5ebff 55%,#fff2e2 100%);box-shadow:0 14px 36px #d9366826}
+.letter-content p{margin:0 0 14px}
+.letter-content p:first-child{font-size:1.3rem;color:#d93668;margin-top:8px}
+.letter-content p:nth-child(2){color:#a72c68;font-style:italic}
 </style>
 </head>
 <body class="locked">
@@ -289,6 +294,7 @@ function toggleLetter(){
  const opened=envelope.classList.toggle("open");
  envelope.setAttribute("aria-expanded",String(opened));
  document.getElementById("letterContent").classList.toggle("show",opened);
+ if(opened)setTimeout(()=>document.getElementById("letterContent").scrollIntoView({behavior:"smooth",block:"start"}),350);
  document.getElementById("envelopeHint").textContent=opened?"TOCA EL SOBRE PARA CERRAR":"TOCA EL SOBRE PARA ABRIR";
 }
 envelope.addEventListener("click",toggleLetter);

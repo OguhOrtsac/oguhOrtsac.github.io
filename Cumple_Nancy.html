@@ -1,0 +1,676 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff1f6">
+<title>Para Nancy, con cariño 🌹</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+:root{
+  --rosa:#e94f8a;
+  --rosa-oscuro:#c82d6b;
+  --vino:#7e2449;
+  --texto:#69495a;
+  --suave:#fff4f8;
+  --borde:#f4d4e1;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:25px}
+body{
+  margin:0;color:var(--texto);
+  font-family:"DM Sans",sans-serif;
+  background:linear-gradient(180deg,#fffafd,#fff0f6 55%,#fffaf8);
+  overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background-image:radial-gradient(#ed9dbb .7px,transparent .7px);
+  background-size:22px 22px;opacity:.25;
+}
+h1,h2,.firma{font-family:"Playfair Display",serif}
+h1{font-size:clamp(3.2rem,8vw,6rem);line-height:1;letter-spacing:-.04em;color:var(--vino)}
+h1 em,h2 em{color:var(--rosa);font-weight:500}
+h2{font-size:clamp(2.3rem,5vw,4rem);line-height:1.1;color:var(--vino)}
+p{line-height:1.85}
+a{color:inherit}
+.header{
+  max-width:1160px;margin:auto;padding:22px 24px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.brand{color:var(--rosa-oscuro);font-weight:700;text-decoration:none}
+.brand span{font-size:.8rem;color:#a37c90}
+.header small{color:#a37c90}
+.section{
+  max-width:1100px;margin:auto;padding:85px 25px;
+  position:relative;
+}
+.eyebrow,.kicker{
+  color:var(--rosa-oscuro);text-transform:uppercase;
+  font-size:.72rem;font-weight:700;letter-spacing:.15em;
+}
+.eyebrow{margin-bottom:22px}
+.hero{
+  min-height:calc(100svh - 65px);
+  display:grid;grid-template-columns:1fr 1fr;gap:35px;
+  align-items:center;padding-top:30px;padding-bottom:75px;
+}
+.hero-copy{max-width:560px}
+.hero-copy p{color:#967387;font-size:1.05rem}
+.btn-rose{
+  color:white;background:linear-gradient(135deg,#f47ca9,#d83f7c);
+  border:0;border-radius:999px;padding:14px 24px;
+  font-weight:700;box-shadow:0 10px 25px #d94d862c;
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-rose:hover{color:white;transform:translateY(-3px);box-shadow:0 14px 30px #d94d8645}
+.note{font-size:.78rem!important;margin-top:15px}
+
+/* Enfermera ilustrada, creada sin imágenes */
+.nurse-scene{
+  min-height:475px;display:grid;place-items:center;position:relative;
+}
+.nurse-halo{
+  position:absolute;width:min(95%,420px);aspect-ratio:1;
+  border-radius:50%;background:radial-gradient(circle,#ffe1ed,#fff0f600 70%);
+  border:1px solid #f3c9da;
+}
+.nurse{
+  width:280px;height:390px;position:relative;z-index:1;
+  animation:flotar 4s ease-in-out infinite;
+  filter:drop-shadow(0 18px 18px #a23c6520);
+}
+.hair{
+  position:absolute;top:25px;left:44px;width:190px;height:220px;
+  border-radius:48% 48% 35% 35%;
+  background:linear-gradient(120deg,#512735,#2d1b25 60%,#754052);
+}
+.face{
+  position:absolute;z-index:2;top:55px;left:74px;width:135px;height:165px;
+  border-radius:47%;background:linear-gradient(110deg,#ffe1d1,#f8c3b6);
+}
+.fringe{
+  position:absolute;top:7px;left:-5px;width:145px;height:43px;
+  border-radius:50% 50% 20% 20%;background:#482533;
+}
+.eye{position:absolute;top:83px;width:8px;height:12px;border-radius:50%;background:#482533}
+.eye.left{left:35px}.eye.right{right:35px}
+.blush{position:absolute;top:105px;width:22px;height:10px;border-radius:50%;background:#ee8e9c;opacity:.55}
+.blush.left{left:12px}.blush.right{right:12px}
+.smile{
+  position:absolute;top:112px;left:55px;width:26px;height:12px;
+  border-bottom:3px solid #ad4c62;border-radius:0 0 50% 50%;
+}
+.cap{
+  position:absolute;z-index:4;top:35px;left:108px;width:90px;height:42px;
+  background:#fff;border:2px solid #f3c2d2;border-radius:50% 50% 8px 8px;
+  display:grid;place-items:center;color:#e34b82;font-size:1.3rem;
+  transform:rotate(-6deg);
+}
+.neck{position:absolute;top:200px;left:124px;width:42px;height:43px;background:#f4b6a6}
+.uniform{
+  position:absolute;top:228px;left:40px;width:200px;height:165px;z-index:3;
+  border:2px solid #fff0f5;border-radius:58px 58px 22px 22px;
+  background:linear-gradient(100deg,#f6a9c5,#ffcee0 48%,#ed91b6);
+  overflow:hidden;
+}
+.uniform:before{
+  content:"";position:absolute;left:76px;top:-8px;width:46px;height:75px;
+  background:white;clip-path:polygon(0 0,100% 0,50% 100%);
+}
+.pocket{position:absolute;right:24px;top:76px;border:1px solid white;border-radius:5px;padding:4px 7px;color:#d8447a}
+.stetho{
+  position:absolute;top:45px;left:60px;width:58px;height:78px;
+  border:4px solid #5c526e;border-top:0;border-radius:0 0 28px 28px;
+}
+.stetho:after{
+  content:"";position:absolute;bottom:-11px;left:19px;width:13px;height:13px;
+  border-radius:50%;background:#5c526e;
+}
+.arm{
+  position:absolute;z-index:4;top:250px;width:43px;height:120px;
+  border-radius:24px;background:#f7c7b8;
+}
+.arm.left{left:23px;transform:rotate(13deg)}
+.arm.right{right:23px;transform:rotate(-15deg)}
+.floating{position:absolute;z-index:4;color:#e95d91;animation:flotar 3.5s infinite}
+.floating.one{top:60px;right:8%;font-size:2.7rem}
+.floating.two{left:3%;bottom:90px;font-size:3rem;animation-delay:-1.5s}
+.flower-cluster{position:absolute;bottom:15px;font-size:2.2rem;z-index:5}
+.flower-cluster.left{left:0;transform:rotate(-15deg)}
+.flower-cluster.right{right:0;transform:rotate(15deg)}
+.art-caption{
+  position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);
+  white-space:nowrap;background:#fff9fbdd;border:1px solid var(--borde);
+  border-radius:30px;padding:10px 14px;font-size:.75rem;color:#a37c90;
+}
+.art-caption span{color:var(--rosa)}
+
+/* Secciones */
+.card-section{
+  text-align:center;background:linear-gradient(135deg,#fff5f9,#ffebf3);
+  border:1px solid #f9d5e3;border-radius:30px;
+  max-width:900px;margin:25px auto;padding:65px 22px;
+}
+.intro{max-width:640px;margin:0 auto 30px;color:#967387}
+.gift-button{
+  display:flex;flex-direction:column;align-items:center;gap:28px;
+  border:0;background:transparent;margin:30px auto 0;
+}
+.gift-box{
+  position:relative;width:180px;height:145px;border-radius:8px;
+  background:linear-gradient(135deg,#ffc9dd,#ed77a7);
+  box-shadow:0 20px 30px #cb4d8040;transition:transform .5s;
+}
+.gift-lid{
+  position:absolute;top:-19px;left:-9px;width:198px;height:34px;
+  border-radius:7px;background:linear-gradient(135deg,#fba6c6,#d94580);
+  border:2px solid #ffdce8;transition:transform .6s;z-index:3;
+}
+.gift-v{
+  position:absolute;left:74px;top:0;height:100%;width:32px;
+  background:#fff0b9aa;border-inline:2px solid #fff5d5;
+}
+.gift-h{
+  position:absolute;top:43px;left:0;width:100%;height:24px;
+  background:#ffe8a7b0;border-block:2px solid #fff5d5;
+}
+.bow{
+  position:absolute;top:-43px;width:45px;height:34px;z-index:4;
+  border:8px solid #ffe4a4;border-radius:70% 20% 70% 20%;
+}
+.bow.left{left:53px;transform:rotate(18deg)}
+.bow.right{right:53px;transform:scaleX(-1) rotate(18deg)}
+.gift-tag{
+  position:absolute;right:-35px;bottom:12px;background:#fff9fb;
+  padding:7px 10px;color:var(--rosa-oscuro);font-size:.8rem;
+  transform:rotate(8deg);box-shadow:0 5px 10px #96365b25;
+}
+.gift-label{
+  background:var(--rosa-oscuro);color:white;border-radius:99px;
+  padding:12px 22px;font-weight:700;font-size:.9rem;
+}
+.gift-button.opened .gift-lid{transform:translate(12px,-35px) rotate(13deg)}
+.gift-button.opened .gift-box{transform:translateY(-5px) scale(1.04)}
+.legend{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;font-size:.8rem;margin:25px 0;color:#967387}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e66e9b;margin-right:6px}
+.legend .special-dot{background:#9b6bc4;box-shadow:0 0 0 4px #eee0f6}
+
+/* Jardín interactivo */
+.garden{
+  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:12px;max-width:900px;margin:25px auto;
+}
+.rose{
+  min-width:0;min-height:115px;padding:10px 4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  border:1px solid #f5d6e2;border-radius:16px;background:#fffafc;
+  color:var(--vino);cursor:pointer;transition:transform .2s,box-shadow .2s;
+}
+.rose:hover,.rose:focus-visible{
+  transform:translateY(-5px);box-shadow:0 12px 24px #bd54801e;outline:2px solid #efb1ca;
+}
+.rose .flower{font-size:2rem;filter:drop-shadow(0 4px 4px #a54c5a22)}
+.rose .number{font-size:.6rem;letter-spacing:.1em;color:#b78ba0}
+.rose .name{font-size:.7rem;font-weight:700;line-height:1.2}
+.rose.special{
+  background:linear-gradient(145deg,#fff8fc,#f5e9fb);
+  border-color:#d8b7e9;box-shadow:inset 0 0 0 1px white;
+}
+.rose.special .flower{font-size:2.5rem}
+.rose.special:before{content:"✦";color:#b48bca;font-size:.7rem}
+.rose.discovered{background:#fff0f6;border-color:#e7a0bc}
+.progress-wrap{max-width:450px;margin:20px auto;color:#967387;font-size:.82rem}
+.progress{height:6px;background:#f8dce7;margin-top:9px}
+.progress-bar{background:linear-gradient(90deg,#ee8eb2,#bd6bc3)}
+.quality{
+  max-width:560px;margin:25px auto;padding:18px;
+  display:flex;align-items:center;gap:15px;text-align:left;
+  background:#fffafc;border:1px solid var(--borde);border-radius:18px;
+}
+.quality .icon{font-size:2rem}
+.quality strong{font-family:"Playfair Display",serif;color:var(--rosa-oscuro);font-size:1.1rem}
+.quality p{margin:4px 0 0;font-size:.86rem;color:#967387;line-height:1.6}
+
+/* Carta */
+.letter{max-width:760px;margin:30px auto 0;text-align:left;padding:clamp(25px,5vw,55px);
+  background:linear-gradient(145deg,#fffefa,#fff4f7);
+  border:1px solid #f1d6df;border-radius:5px 25px;
+  box-shadow:0 22px 70px #9b3a651f;line-height:1.9;position:relative;
+}
+.letter:before{content:"";position:absolute;inset:10px;border:1px solid #f4dfe6;pointer-events:none}
+.letter p{position:relative;margin-bottom:18px}
+.letter strong{color:#b9346a}
+.stamp{
+  float:right;border:1px solid #e7a5bc;border-radius:50%;width:75px;height:75px;
+  display:grid;place-content:center;text-align:center;font-family:"Playfair Display",serif;
+  color:#c44878;font-size:.8rem;line-height:1.2;margin:0 0 15px 18px;
+}
+.signature{font-family:"Playfair Display",serif;color:var(--rosa-oscuro);font-size:1.35rem;font-style:italic}
+.letter-footer{margin-top:20px;text-align:center;color:#b58ca0;font-size:.75rem}
+
+/* Vocación y final */
+.nurse-section{display:grid;grid-template-columns:.85fr 1.15fr;gap:55px;align-items:center}
+.nurse-panel{
+  min-height:300px;border-radius:30px;background:linear-gradient(145deg,#ffe3ee,#fff5f8);
+  border:1px solid #f8d2e1;display:grid;place-items:center;position:relative;overflow:hidden;
+}
+.nurse-emoji{font-size:8rem;filter:drop-shadow(0 18px 14px #b24e7b24);animation:flotar 4s infinite}
+.nurse-deco{position:absolute;font-size:2.5rem;color:#e88aab}
+.nurse-deco.a{top:20px;left:25px}.nurse-deco.b{right:25px;bottom:20px}
+.nurse-copy p{color:#967387}
+.pills{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.pills span{background:#fff5f9;border:1px solid var(--borde);border-radius:99px;padding:8px 13px;color:#b84878;font-size:.8rem}
+.final{
+  max-width:1000px;text-align:center;border-radius:35px;
+  background:radial-gradient(circle at 50% 10%,#a44a78,#6f2e55 48%,#3c203b);
+  color:#fff4fa;padding:85px 25px;overflow:hidden;
+  box-shadow:0 25px 65px #5c254522;margin-bottom:40px;
+}
+.final h2{color:#fff4fa;position:relative}
+.final p{max-width:650px;margin:20px auto 28px;color:#f6dce7;position:relative}
+.final .eyebrow{color:#f4c5d8}
+.final:before,.final:after{content:"♡";position:absolute;color:#ffc7dd;opacity:.16;font-size:12rem}
+.final:before{top:-50px;left:-20px}.final:after{right:-15px;bottom:-85px}
+.btn-light-rose{background:#fff4f8;color:#9c315f;border:0;border-radius:99px;padding:13px 24px;font-weight:700;position:relative}
+.btn-light-rose:hover{background:#ffe0ec;color:#8b2854}
+.wish-result{min-height:28px;margin-top:22px;color:#ffd6e6;font-family:"Playfair Display",serif;font-style:italic}
+.firma{font-size:1.4rem;margin-top:25px;position:relative}
+footer{
+  max-width:1100px;margin:auto;padding:20px 25px 30px;
+  display:flex;justify-content:space-between;gap:15px;color:#b18a9d;font-size:.75rem;
+}
+
+/* Modal de las cualidades */
+.quality-modal{
+  border:1px solid #f4ccdc;border-radius:26px;
+  background:linear-gradient(145deg,#fffafd,#fff0f6);
+  text-align:center;padding:35px 25px;
+}
+.quality-modal h3{font-family:"Playfair Display",serif;color:var(--vino);font-size:2.3rem}
+.modal-rose{font-size:3.5rem;margin-bottom:12px}
+.quality-modal p{color:#967387;line-height:1.8;margin:15px auto 25px}
+
+/* Animaciones */
+.petal{
+  position:fixed;top:-35px;z-index:1000;pointer-events:none;
+  animation:caer linear forwards;will-change:transform,opacity;
+}
+.burst{
+  position:fixed;z-index:1100;pointer-events:none;
+  animation:explosion 1.7s ease-out forwards;font-size:1.2rem;
+}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes caer{0%{transform:translateY(-5vh) rotate(0);opacity:0}10%{opacity:.95}100%{transform:translate(var(--drift),110vh) rotate(var(--spin));opacity:0}}
+@keyframes explosion{0%{transform:translate(0,0) scale(.4);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1.5) rotate(40deg);opacity:0}}
+
+@media(max-width:767px){
+  .header{padding:17px}.header small{font-size:.7rem}
+  .section{padding:65px 18px}
+  .hero{grid-template-columns:1fr;text-align:center;gap:0;padding-top:45px}
+  .hero-copy{margin:auto}.hero-copy .eyebrow{justify-content:center;font-size:.62rem}
+  .hero-copy p{font-size:.96rem}
+  .nurse-scene{min-height:380px;transform:scale(.92)}
+  .card-section{margin:15px 10px;padding:50px 15px;border-radius:25px}
+  .garden{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .rose{min-height:100px;border-radius:13px}
+  .rose .flower{font-size:1.8rem}.rose.special .flower{font-size:2.2rem}
+  .rose .name{font-size:.64rem}
+  .nurse-section{grid-template-columns:1fr;gap:30px}
+  .nurse-copy{text-align:center}.nurse-copy .kicker{text-align:center}
+  .pills{justify-content:center}
+  .final{padding:65px 20px;margin-inline:10px;border-radius:25px}
+  .final p{font-size:.92rem}
+  footer{flex-direction:column;text-align:center;gap:6px}
+}
+@media(max-width:380px){
+  .header small{display:none}
+  .garden{gap:5px}
+  .rose{min-height:90px;padding:7px 2px}
+  .rose .name{font-size:.58rem}
+  .nurse-scene{transform:scale(.85);margin:-20px -15px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+
+<body>
+<div id="particles" aria-hidden="true"></div>
+
+<header class="header">
+  <a class="brand" href="#inicio">♡ <span>Un detalle para Nancy</span></a>
+  <small>Hecho con mucho cariño ✦</small>
+</header>
+
+<main>
+<section id="inicio" class="section hero">
+  <div class="hero-copy">
+    <div class="eyebrow">✦ Hoy celebramos a alguien increíble ✦</div>
+    <h1>¡Feliz cumpleaños,<br><em>Nancy</em>! ♡</h1>
+    <p>Una pequeña sorpresa para una enfermera con un corazón enorme y una sonrisa que ilumina a quienes la rodean.</p>
+    <button class="btn btn-rose" id="start">♥ Toca para comenzar</button>
+    <p class="note">Toca, descubre y disfruta cada detalle. 🌹</p>
+  </div>
+
+  <div class="nurse-scene" aria-label="Ilustración decorativa de una enfermera">
+    <div class="nurse-halo"></div>
+    <span class="floating one">♥</span><span class="floating two">♡</span>
+    <div class="nurse">
+      <div class="hair"></div>
+      <div class="face">
+        <div class="fringe"></div>
+        <span class="eye left"></span><span class="eye right"></span>
+        <span class="blush left"></span><span class="blush right"></span>
+        <span class="smile"></span>
+      </div>
+      <div class="cap">✚</div>
+      <div class="neck"></div>
+      <div class="uniform"><span class="pocket">✚</span><div class="stetho"></div></div>
+      <div class="arm left"></div><div class="arm right"></div>
+    </div>
+    <div class="flower-cluster left">🌹🌷🌹</div>
+    <div class="flower-cluster right">🌸🌹</div>
+    <div class="art-caption">♡ Una persona que hace la diferencia ♡</div>
+  </div>
+</section>
+
+<section id="regalo" class="section card-section reveal">
+  <div class="kicker">01 · Una sorpresa para ti</div>
+  <h2>Hay algo bonito<br><em>esperándote…</em></h2>
+  <p class="intro">Porque las personas que regalan alegría también merecen recibirla.</p>
+
+  <button id="gift" class="gift-button" aria-label="Abrir la caja de regalo">
+    <span class="gift-box">
+      <span class="gift-lid"></span>
+      <span class="gift-v"></span><span class="gift-h"></span>
+      <span class="bow left"></span><span class="bow right"></span>
+      <span class="gift-tag">Para Nancy ♡</span>
+    </span>
+    <span class="gift-label">Abrir mi sorpresa ↗</span>
+  </button>
+  <p id="gift-hint" class="note">Toca la caja para descubrir lo que hay dentro.</p>
+</section>
+
+<section id="rosas" class="section reveal text-center">
+  <div class="kicker">02 · Un jardín de cualidades</div>
+  <h2>31 razones para<br><em>celebrar cómo eres</em></h2>
+  <p class="intro">Cada rosa guarda una cualidad tuya. Toca una para descubrir su mensaje. Hay tres rosas especiales que brillan un poquito más.</p>
+
+  <div class="legend">
+    <span><i></i> Una cualidad bonita</span>
+    <span><i class="special-dot"></i> Una cualidad especial</span>
+  </div>
+
+  <div id="garden" class="garden" aria-label="Jardín de 31 cualidades"></div>
+
+  <div class="progress-wrap">
+    <span id="count">0</span> de 31 rosas descubiertas
+    <div class="progress" role="progressbar" aria-label="Progreso de rosas" aria-valuemin="0" aria-valuemax="31" aria-valuenow="0">
+      <div id="progress" class="progress-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div id="quality" class="quality" aria-live="polite">
+    <span class="icon">🌹</span>
+    <div><strong>Tu jardín te espera</strong><p>Toca cualquier rosa y descubre lo que representa.</p></div>
+  </div>
+</section>
+
+<section id="carta" class="section reveal text-center">
+  <div class="kicker">03 · Unas palabras para ti</div>
+  <h2>Querida <em>Nancy…</em></h2>
+
+  <article class="letter">
+    <div class="stamp">Para ti<br><small>con cariño</small></div>
+    <p>Hoy quiero celebrar a una persona que hace más bonito el mundo con su forma de ser. Gracias por esa amistad tan especial, por tu gran corazón y por esa manera tan tuya de compartir alegría.</p>
+    <p>Quiero pedirte un favor: <strong>¡sigue sonriendo!</strong> Tu sonrisa proyecta y contagia felicidad, entusiasmo y buenas vibras. No dejes que se apague esa luz que alegra a quienes tienen la suerte de conocerte.</p>
+    <p>Sigue siendo esa tía amorosa, esa persona bondadosa y solidaria, y esa enfermera que cuida con el corazón. Y, por favor, <strong>¡nunca te conviertas en una enfermera amargada!</strong> 🤭😅</p>
+    <p class="signature">Eres inefable. 😊</p>
+    <div class="firma">¡Feliz cumpleaños, Nancy! ♡</div>
+  </article>
+  <p class="note">Escrito con cariño, especialmente para ti ✦</p>
+</section>
+
+<section id="vocacion" class="section nurse-section reveal">
+  <div class="nurse-panel">
+    <span class="nurse-deco a">✚</span>
+    <span class="nurse-emoji">👩🏻‍⚕️</span>
+    <span class="nurse-deco b">🌹</span>
+  </div>
+  <div class="nurse-copy">
+    <div class="kicker">04 · Una enfermera con corazón</div>
+    <h2>Tu vocación cuida.<br><em>Tu sonrisa también.</em></h2>
+    <p>Hay personas que alivian con sus manos, acompañan con sus palabras y dan tranquilidad con su presencia. Ojalá nunca olvides todo lo bueno que llevas contigo.</p>
+    <div class="pills"><span>♡ Bondad</span><span>♡ Vocación</span><span>♡ Alegría</span></div>
+  </div>
+</section>
+
+<section id="final" class="section final reveal">
+  <div class="eyebrow">Y antes de terminar…</div>
+  <h2>Que la vida te devuelva<br>todo lo bonito que das.</h2>
+  <p>Que nunca te falten motivos para reír, personas que te quieran bonito y sueños que te emocionen. Sigue siendo esa luz tan tuya, Nancy. El mundo necesita más personas como tú.</p>
+  <button id="wish" class="btn btn-light-rose">✧ Pedir un deseo ✧</button>
+  <div id="wish-result" class="wish-result" aria-live="polite">Cierra los ojos un momento y pide algo bonito para ti. 💗</div>
+  <div class="firma">Con mucho cariño, <em>para Nancy</em> ♡</div>
+</section>
+</main>
+
+<footer>
+  <span>Hecho con cariño y muchas rosas 🌹</span>
+  <span>Una sorpresa solo para Nancy</span>
+</footer>
+
+<!-- Ventana de cada rosa -->
+<div class="modal fade" id="roseModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content quality-modal">
+      <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div id="modalFlower" class="modal-rose">🌹</div>
+      <div class="kicker">Una cualidad tuya</div>
+      <h3 id="modalTitle">Bondadosa</h3>
+      <p id="modalText"></p>
+      <button id="nextRose" class="btn btn-rose">Descubrir otra rosa ♥</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(() => {
+"use strict";
+
+const qualities = [
+  {name:"Bondadosa",text:"Tu corazón siempre encuentra una manera de hacer el bien.",special:true,flower:"🌹"},
+  {name:"Solidaria",text:"Estás dispuesta a tender una mano y acompañar a quien lo necesita.",special:true,flower:"🤍"},
+  {name:"Carismática",text:"Tienes esa luz especial que conquista corazones sin intentarlo.",special:true,flower:"🌹"},
+  {name:"Alegre",text:"Tu alegría hace más luminosos hasta los días más sencillos."},
+  {name:"Generosa",text:"Das de ti con cariño, sin necesitar aplausos a cambio."},
+  {name:"Empática",text:"Sabes escuchar y hacer que los demás se sientan comprendidos."},
+  {name:"Valiente",text:"Sigues adelante incluso cuando las cosas se ponen difíciles."},
+  {name:"Responsable",text:"Pueden confiar en ti porque haces las cosas con compromiso."},
+  {name:"Respetuosa",text:"Tratas a cada persona con consideración y dignidad."},
+  {name:"Honesta",text:"Tu sinceridad es una forma de demostrar cariño y respeto."},
+  {name:"Sincera",text:"Tu forma auténtica de ser hace que tu compañía se sienta real."},
+  {name:"Paciente",text:"Sabes dar tiempo, atención y calma cuando más se necesitan."},
+  {name:"Fuerte",text:"Tienes más fortaleza de la que a veces imaginas."},
+  {name:"Creativa",text:"Siempre puedes encontrar una manera especial de hacer las cosas."},
+  {name:"Inteligente",text:"Tu criterio y tus ideas aportan mucho a quienes te rodean."},
+  {name:"Amable",text:"Tus pequeños gestos pueden mejorarle el día a alguien."},
+  {name:"Cariñosa",text:"Haces sentir a las personas queridas con tu manera de tratarlas."},
+  {name:"Divertida",text:"Contigo siempre hay espacio para una risa y un buen momento."},
+  {name:"Noble",text:"Tu intención de hacer el bien habla bonito de tu corazón."},
+  {name:"Trabajadora",text:"Pones esfuerzo y dedicación en aquello que es importante para ti."},
+  {name:"Perseverante",text:"No te rindes fácilmente cuando algo merece la pena."},
+  {name:"Leal",text:"Sabes estar presente para las personas que quieres."},
+  {name:"Detallista",text:"Entiendes que los detalles pequeños pueden significarlo todo."},
+  {name:"Positiva",text:"Tu manera de mirar la vida ayuda a encontrar nuevas posibilidades."},
+  {name:"Inspiradora",text:"Tu ejemplo anima a otros a dar lo mejor de sí mismos."},
+  {name:"Humilde",text:"Tu grandeza no necesita presumirse; se nota en tus acciones."},
+  {name:"Auténtica",text:"Lo más bonito de ti es que eres tú, sin tener que fingir."},
+  {name:"Especial",text:"No hay otra persona exactamente como tú, y eso es un regalo."},
+  {name:"Única",text:"Tu forma de querer, reír y acompañar no se puede reemplazar."},
+  {name:"Increíble",text:"Tienes muchas razones para sentir orgullo de la persona que eres."},
+  {name:"Sonriente",text:"Tu sonrisa contagia felicidad, entusiasmo y buenas vibras. ¡No dejes de compartirla!"}
+];
+
+const $ = s => document.querySelector(s);
+const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const discovered = new Set();
+let currentIndex = 0;
+let giftOpened = false;
+
+function petals(amount=25){
+  if(reduced)return;
+  const symbols=["🌸","♡","✿","♥","🌹"];
+  for(let i=0;i<amount;i++){
+    const el=document.createElement("span");
+    el.className="petal";
+    el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.left=Math.random()*100+"%";
+    el.style.fontSize=(12+Math.random()*15)+"px";
+    el.style.animationDuration=(5+Math.random()*5)+"s";
+    el.style.animationDelay=(Math.random()*1.2)+"s";
+    el.style.setProperty("--drift",(Math.random()*180-90)+"px");
+    el.style.setProperty("--spin",(Math.random()*800-400)+"deg");
+    $("#particles").appendChild(el);
+    el.addEventListener("animationend",()=>el.remove(),{once:true});
+  }
+}
+
+function hearts(amount=30){
+  if(reduced)return;
+  const symbols=["♥","♡","✦","🌸"];
+  for(let i=0;i<amount;i++){
+    const el=document.createElement("span");
+    el.className="burst";
+    el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.left=(45+Math.random()*10)+"%";
+    el.style.top=(42+Math.random()*15)+"%";
+    el.style.color=["#f15b96","#ffb6d0","#e7b45e","#b78bd2"][i%4];
+    el.style.setProperty("--x",(Math.random()*520-260)+"px");
+    el.style.setProperty("--y",(Math.random()*-460-60)+"px");
+    document.body.appendChild(el);
+    el.addEventListener("animationend",()=>el.remove(),{once:true});
+  }
+}
+
+function updateProgress(){
+  $("#count").textContent=discovered.size;
+  $("#progress").style.width=(discovered.size/qualities.length*100)+"%";
+  $(".progress").setAttribute("aria-valuenow",discovered.size);
+}
+
+function showQuality(index){
+  const q=qualities[index];
+  currentIndex=index;
+  discovered.add(index);
+  const card=$(`.rose[data-index="${index}"]`);
+  if(card)card.classList.add("discovered");
+
+  $("#modalFlower").textContent=q.flower||["🌹","🌷","🌸"][index%3];
+  $("#modalTitle").textContent=q.name;
+  $("#modalText").textContent=q.text;
+  bootstrap.Modal.getOrCreateInstance($("#roseModal")).show();
+
+  $("#quality").innerHTML=
+    `<span class="icon">${q.flower||"🌹"}</span>
+     <div><strong>${q.name}${q.special?" · Una rosa especial":""}</strong>
+     <p>${q.text}</p></div>`;
+  updateProgress();
+}
+
+function renderGarden(){
+  const garden=$("#garden");
+  const flowers=["🌹","🌷","🌹","🌸"];
+  qualities.forEach((q,i)=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="rose"+(q.special?" special":"");
+    button.dataset.index=i;
+    button.setAttribute("aria-label",`Rosa ${i+1}: ${q.name}`);
+    button.innerHTML=
+      `<span class="number">${String(i+1).padStart(2,"0")}</span>
+       <span class="flower">${q.flower||flowers[i%flowers.length]}</span>
+       <span class="name">${q.name}</span>`;
+    button.addEventListener("click",()=>showQuality(i));
+    garden.appendChild(button);
+  });
+}
+
+function nextRose(){
+  let next=-1;
+  for(let offset=1;offset<=qualities.length;offset++){
+    const candidate=(currentIndex+offset)%qualities.length;
+    if(!discovered.has(candidate)){next=candidate;break}
+  }
+  if(next===-1){
+    bootstrap.Modal.getOrCreateInstance($("#roseModal")).hide();
+    $("#quality").innerHTML=
+      "<span class='icon'>💐</span><div><strong>¡Descubriste todo tu jardín!</strong><p>31 rosas, 31 cualidades y una persona que merece muchas cosas bonitas.</p></div>";
+    hearts(25);
+    return;
+  }
+  showQuality(next);
+}
+
+function initReveal(){
+  const sections=document.querySelectorAll(".reveal");
+  if(!("IntersectionObserver" in window)||reduced){
+    sections.forEach(s=>s.classList.add("visible"));return;
+  }
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:.12});
+  sections.forEach(s=>observer.observe(s));
+}
+
+$("#start").addEventListener("click",()=>{
+  petals(20);
+  $("#regalo").scrollIntoView({behavior:reduced?"auto":"smooth"});
+});
+
+$("#gift").addEventListener("click",()=>{
+  giftOpened=!giftOpened;
+  $("#gift").classList.toggle("opened",giftOpened);
+  $("#gift-hint").textContent=giftOpened
+    ?"¡Sorpresa! Hay 31 rosas con cualidades esperando que las descubras. 🌹"
+    :"Toca la caja para descubrir lo que hay dentro.";
+  if(giftOpened){
+    petals(35);hearts(18);
+    setTimeout(()=>$("#rosas").scrollIntoView({behavior:reduced?"auto":"smooth"}),750);
+  }
+});
+
+$("#nextRose").addEventListener("click",nextRose);
+
+$("#wish").addEventListener("click",()=>{
+  $("#wish-result").textContent=
+    "Que nunca te falten amor, salud, risas y motivos para seguir brillando. ¡Feliz cumpleaños, Nancy! 💗";
+  hearts(45);petals(30);
+  $("#wish").textContent="♡ Deseo enviado ♡";
+  $("#wish").disabled=true;
+});
+
+renderGarden();
+initReveal();
+if(!reduced)setTimeout(()=>petals(12),900);
+})();
+</script>
+</body>
+</html>

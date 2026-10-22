@@ -118,6 +118,12 @@ main.show-in{animation:appear .9s ease}
 .flower-note{position:sticky;bottom:12px;z-index:6;box-shadow:0 8px 24px #81234a22;margin-top:24px}
 .tia{max-width:440px;margin:0 auto;transform:rotate(1deg)}
 .tia img{height:auto;max-height:560px}
+.hb{display:flex;align-items:center;justify-content:center;gap:10px}
+.hb-t{font:400 clamp(2.2rem,8vw,3.4rem)/1.1 'Great Vibes','Brush Script MT',cursive;color:#a72c68}
+.rz svg{width:38px;height:44px;display:block}
+.rz:first-child{transform:rotate(-18deg)}.rz:last-child{transform:rotate(18deg)}
+.dia{font:italic 1.3rem Georgia,serif;color:#a34d71;margin:18px 0 0}
+.mini-sun svg{width:48px;height:53px;display:block;margin:2px auto 14px}
 </style>
 </head>
 <body class="locked">
@@ -127,7 +133,7 @@ main.show-in{animation:appear .9s ease}
     <div class="sign-top">Felicidades, Nancy</div>
     <div class="sign-title">Feliz Cumpleaños</div>
     <div class="sign-name">Nancy</div>
-    <p>Por tus 31 años. Eres una persona muy especial.</p>
+    <p>Eres una persona muy especial.</p>
   </div>
   <button class="bear-wrap" id="bear" aria-label="Reventar el globo de osito">
     <div class="bear-svg"><svg viewBox="0 0 200 270" aria-hidden="true"><defs><radialGradient id="bg" cx="35%" cy="30%"><stop offset="0" stop-color="#ffd0e0"/><stop offset="1" stop-color="#e8628c"/></radialGradient></defs><path d="M100 188 Q88 220 104 242 T100 268" fill="none" stroke="#b88a8a" stroke-width="2.5"/><circle cx="42" cy="48" r="30" fill="url(#bg)"/><circle cx="158" cy="48" r="30" fill="url(#bg)"/><circle cx="42" cy="48" r="15" fill="#ffb3cb"/><circle cx="158" cy="48" r="15" fill="#ffb3cb"/><ellipse cx="100" cy="100" rx="76" ry="80" fill="url(#bg)"/><path d="M100 176 L88 192 L112 192Z" fill="#d94f7c"/><ellipse cx="100" cy="122" rx="32" ry="24" fill="#fff0f5"/><ellipse cx="100" cy="112" rx="10" ry="7" fill="#81234a"/><path d="M100 119 V128 M88 130 Q100 140 112 130" fill="none" stroke="#81234a" stroke-width="3" stroke-linecap="round"/><circle cx="72" cy="88" r="7" fill="#4a1d33"/><circle cx="128" cy="88" r="7" fill="#4a1d33"/><circle cx="70" cy="86" r="2.2" fill="#fff"/><circle cx="126" cy="86" r="2.2" fill="#fff"/><ellipse cx="56" cy="112" rx="10" ry="6" fill="#ff8fb1" opacity=".7"/><ellipse cx="144" cy="112" rx="10" ry="6" fill="#ff8fb1" opacity=".7"/><ellipse cx="68" cy="52" rx="16" ry="9" fill="#fff" opacity=".35" transform="rotate(-30 68 52)"/></svg></div>
@@ -138,8 +144,8 @@ main.show-in{animation:appear .9s ease}
 
 <main id="site" class="hide">
 <header class="hero">
-  <div class="eyebrow">Feliz cumpleaños · una sorpresa hecha con cariño</div>
-  <h1>Para Nancy <span>con todo mi corazón 🌷</span></h1>
+  <div class="hb"><span class="rz"></span><span class="hb-t">Feliz cumpleaños</span><span class="rz"></span></div>
+  <h1>Para Nancy Narváez <span>con todo mi cariño 🌷</span></h1>
   <p class="lead">Hay personas que hacen más bonito el mundo con su forma de cuidar, su sonrisa y esa luz que llevan a donde van. Hoy esta pequeña sorpresa es para ti.</p>
   <span class="pill">Un jardín de flores, recuerdos y cariño</span>
 </header>
@@ -162,10 +168,10 @@ main.show-in{animation:appear .9s ease}
 </section>
 
 <section class="section" aria-labelledby="garden-title">
-  <h2 id="garden-title">Tus 31 años en flores 🌹🌻</h2>
+  <h2 id="garden-title">Una flor por cada vuelta al sol 🌹🌻</h2>
   <p class="sub">Tres ramos de diez rosas, cada una con una cualidad tuya, y un girasol aparte para hoy. Toca las flores para descubrir lo que significan.</p>
   <div class="bouquets" id="bouquets"></div>
-  <div class="today"><div class="today-label">Y el girasol de hoy ☀️</div><button class="flower sun31" id="sun" aria-label="Girasol número 31"></button></div>
+  <div class="today"><div class="today-label">Y el girasol de hoy ☀️</div><button class="flower sun31" id="sun" aria-label="Girasol de hoy"></button></div>
   <div class="flower-note" id="flowerNote" aria-live="polite">🌹 Toca una rosa para descubrir lo que significa. El girasol de hoy guarda algo muy especial.</div>
 </section>
 
@@ -196,15 +202,15 @@ main.show-in{animation:appear .9s ease}
     <div class="envelope-hint" id="envelopeHint">TOCA EL SOBRE PARA ABRIR</div>
   </div>
   <article class="letter-content" id="letterContent">
-    <p><strong>Nancy 🌹</strong></p>
-    <p>Hoy quiero recordarte algo muy sencillo: qué bonito es que existas y que seas tú, con tu sonrisa, tu energía y esa manera tan tuya de hacer que los momentos se sientan más alegres.</p>
-    <p>No dejes de sonreír, porque tu sonrisa se contagia, transmite entusiasmo y levanta el ánimo de quienes tienen la suerte de coincidir contigo. Sigue siendo esa persona cariñosa, bondadosa y solidaria que deja algo bueno en los demás.</p>
-    <p>También se nota el amor tan grande que les tienes a tus sobrinos y la forma en que los cuidas. Ojalá la vida te regrese multiplicado todo ese cariño que das, y que nunca te falten momentos para apapacharlos y verlos felices. 💕</p>
-    <p>Admiro la dedicación con la que haces tu trabajo como enfermera quirúrgica: tus manos ayudan, acompañan y hacen la diferencia. Y qué bonito que también puedas ayudar a otras personas a sentirse más seguras y bonitas. Pero recuerda que tú también mereces cuidado, descanso, alegría y mucho amor.</p>
-    <p>Y una petición muy importante: sigue siendo una enfermera de gran corazón… ¡pero nunca una enfermera amargada! 🤭😅 Que el estrés del día no te robe esa chispa tan tuya.</p>
-    <p>Que esta nueva vuelta al sol te traiga salud, paz, oportunidades, risas sinceras y muchísimas razones para sentirte orgullosa de ti. No necesitas cambiar tu esencia para brillar: sigue siendo tú.</p>
-    <p><em>Eres inefable 😊</em>; hay cosas bonitas de ti que simplemente no caben en palabras.</p>
-    <p class="signature">Con mucho cariño, para ti. 🌻💗</p>
+    <p><strong>¡Felicidades, Nancy! 🥳🎈🎉✨</strong></p>
+    <p>Para ti, Gloria bonita 😊... ¡aaah no vdd! 🤭 ¡Nancy! 🌸</p>
+    <p>Qué bonito es que existas y que seas tal cual eres. Tienes esa chispa inigualable, tu energía es hermosa incluso en días de desvelo 🥱⚡ y ay, esa manera tan única tuya de hacer que los días se sientan más alegres y luminosos cuando platicamos 😊</p>
+    <p>Disfruta mucho tu día, relájate, vete a un spa 💆‍♀️, a gritar, o andar en bici y gritar. 😁 ¡Nuevo añito, nuevas aventuras y mayor felicidad! 🚴‍♀️💥</p>
+    <p>Eso sí... ¡¡¡NUNCA cambies a ser una enfermera amargadilla con esas caras que hacen!!! 🥶😅 🩺 Sigue siendo esa persona cariñosa, bondadosa y solidaria que siempre deja una huella linda en los demás.</p>
+    <p>💕 También se nota el amor tan grande que les tienes a tus sobrinos y cómo los cuidas 🧸; ojalá la vida te regrese multiplicado todo ese cariño. ✨</p>
+    <p>Admiro mucho tu trabajo en quirófano y cómo haces sentir seguras y bonitas a otras personas. 💕 Pero recuerda que tú también mereces cuidado, descanso y mucho amor. 🛋️☕</p>
+    <p>Eres totalmente inefable 😊; hay cosas tan hermosas en ti que simplemente no caben en palabras.</p>
+    <p class="signature">¡Te mando un abrazo enorme! 🌻💗</p>
   </article>
 </section>
 
@@ -212,7 +218,8 @@ main.show-in{animation:appear .9s ease}
   <div class="big-heart">💗</div>
   <h2 style="color:#81234a;font-size:clamp(1.8rem,5vw,2.7rem)">Mi respeto, mi cariño y mi admiración por ti son enormes</h2>
   <p style="max-width:650px;margin:12px auto;line-height:1.8;color:#87546a">Eres una persona digna de admirar y de seguir, Nancy. Gracias por ser como eres. Feliz cumpleaños, y que la vida te florezca bonito. 🌻</p>
-  <p style="font-size:1.4rem">🌻 🌹 🌷 💐 🌹 🌻</p>
+  <p class="dia">Y recuerda: un día a la vez.</p><div class="mini-sun" id="miniSun"></div>
+  <div class="hb"><span class="rz"></span><span class="hb-t">Feliz cumpleaños</span><span class="rz"></span></div>
   <button class="small-btn" id="restartAll">↻ Volver a empezar la sorpresa</button>
 </footer>
 </main>
@@ -250,11 +257,11 @@ const qualities = [
 ["Especial","No hay otra persona exactamente como tú, y eso es parte de tu magia."],
 ["Inigualable","Todo lo que eres, con tus matices y tu esencia, te hace única."]
 ];
-const palette=["#d92f5d","#ed6689","#f4e3dc","#f6a78b","#a07bd0","#f2c14e","#ee7b3a","#c2338f","#ff6f6f","#f7b6cc"];
+const palette=["#b3173a","#e8668c","#f3e6d8","#f2a07b","#a98bd0","#f0c14b","#e8743b","#b92f83","#f26b6b","#f4b8c9"];
 const bTitles=["Ramo 1 · Tu corazón","Ramo 2 · Tu carácter","Ramo 3 · Tu esencia"];
 const note=document.getElementById("flowerNote");
 const NOTE0="🌹 Toca una rosa para descubrir lo que significa. El girasol de hoy guarda algo muy especial.";
-const roseSVG=c=>`<svg viewBox="0 0 100 110" aria-hidden="true"><path d="M50 52 Q44 80 51 106" stroke="#397c49" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M49 82 Q26 64 22 82 Q34 95 49 87" fill="#4b9a59"/><path d="M52 94 Q73 72 80 89 Q70 103 52 98" fill="#3d874e"/><g transform="translate(50 36)"><g fill="${c}" stroke="#0002" stroke-width="1.5">${[0,1,2,3,4].map(i=>`<ellipse cy="-15" rx="15" ry="16" transform="rotate(${i*72})"/>`).join("")}</g><circle r="14" fill="${c}" stroke="#0003" stroke-width="1.5"/><path d="M-8 3Q-9 -9 2 -8Q11 -6 8 3Q5 10 -3 8" fill="none" stroke="#0005" stroke-width="2" stroke-linecap="round"/><path d="M-3 0Q0 -4 4 0" fill="none" stroke="#0004" stroke-width="1.6"/></g></svg>`;
+const roseSVG=c=>`<svg viewBox="0 0 100 110" aria-hidden="true"><path d="M50 56 Q45 82 51 106" stroke="#2f6b3e" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M49 84 Q27 66 22 83 Q34 96 49 88Z" fill="#3f8a4f"/><path d="M52 95 Q73 74 80 90 Q70 104 52 99Z" fill="#337a45"/><path d="M48 86 Q36 80 27 80M54 96 Q66 88 75 88" stroke="#2a6038" stroke-width="1" fill="none"/><path d="M36 50 Q50 64 64 50 Q55 58 50 68 Q45 58 36 50Z" fill="#3a7d4b"/><g transform="translate(50 34)"><ellipse cx="-17" cy="4" rx="13" ry="17" fill="${c}"/><ellipse cx="17" cy="4" rx="13" ry="17" fill="${c}"/><ellipse cx="-17" cy="4" rx="13" ry="17" fill="#000" opacity=".16"/><ellipse cx="17" cy="4" rx="13" ry="17" fill="#000" opacity=".16"/><path d="M-23 -2Q-24 -25 0 -26Q24 -25 23 -2Q21 19 0 22Q-21 19 -23 -2Z" fill="${c}"/><path d="M-23 -2Q-21 19 0 22Q21 19 23 -2Q12 8 0 8Q-12 8 -23 -2Z" fill="#000" opacity=".13"/><g fill="none" stroke="#000" stroke-opacity=".24" stroke-width="1.6" stroke-linecap="round"><path d="M-20 -8Q-8 -2 0 -10Q8 -2 20 -8"/><path d="M-14 5Q-2 13 10 5"/><path d="M-9 -10Q0 -17 9 -10Q12 0 2 3Q-7 3 -6 -5Q-3 -10 3 -8" stroke-width="1.8"/></g><path d="M-16 -17Q-6 -24 6 -22" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/></g></svg>`;
 const sunSVG=`<svg viewBox="0 0 100 110" aria-hidden="true"><g transform="translate(50 40)">${Array.from({length:12},(_,i)=>`<ellipse cy="-23" rx="8" ry="18" fill="#f8c928" stroke="#e9a91b" transform="rotate(${i*30})"/>`).join("")}<circle r="17" fill="#6d3d26"/><circle r="12" fill="#86502b"/></g><path d="M50 58 Q46 82 51 105" fill="none" stroke="#397c49" stroke-width="5" stroke-linecap="round"/><path d="M49 83 Q25 65 23 83 Q35 96 49 87" fill="#4b9a59"/><path d="M51 94 Q73 72 79 89 Q70 103 51 98" fill="#3d874e"/></svg>`;
 function renderGarden(){
  const box=document.getElementById("bouquets");box.innerHTML="";
@@ -273,8 +280,8 @@ function renderGarden(){
  });
  const s=document.getElementById("sun");
  s.className="flower sun31";s.style.setProperty("--i",3);
- s.innerHTML=sunSVG+`<span class="name">31 · Hoy</span>`;
- s.onclick=()=>{document.querySelectorAll(".flower.on").forEach(x=>x.classList.remove("on"));s.classList.add("on","seen");note.innerHTML=`<strong>🌻 Hoy es un día especial</strong><br>Tu carisma y tu sonrisa son de las más bellas que he visto. Hoy este girasol florece por ti, Nancy. Feliz cumpleaños 31. 💛`};
+ s.innerHTML=sunSVG+`<span class="name">Hoy</span>`;
+ s.onclick=()=>{document.querySelectorAll(".flower.on").forEach(x=>x.classList.remove("on"));s.classList.add("on","seen");note.innerHTML=`<strong>🌻 Hoy es un día especial</strong><br>Tu sonrisa y tu carisma son lo más hermoso que he visto. Irradian felicidad, contagian alegría y, la verdad, me llenan de entusiasmo. Hoy este girasol florece por ti, Nancy. Feliz cumpleaños. 💛`};
 }
 document.getElementById("fingerHeart").addEventListener("click",()=>document.getElementById("heartMessage").classList.toggle("show"));
 const envelope=document.getElementById("envelope");
@@ -309,7 +316,7 @@ const HINT0="🎈 Revienta el globo · tócalo 3 veces";
 const bcols=["#f06292","#ba68c8","#ffb74d","#4fc3f7","#81c784","#ff8a80","#ffd54f","#9575cd"];
 let pops=0;
 (function(){const bl=document.getElementById("balloons");
- for(let i=0;i<16;i++){const b=document.createElement("span"),d=9+Math.random()*8;b.className="balloon";
+ for(let i=0;i<34;i++){const b=document.createElement("span"),d=9+Math.random()*8;b.className="balloon";
   b.style.cssText=`left:${Math.random()*94}%;--w:${34+Math.random()*30}px;--c:${bcols[i%8]};--d:${d}s;--dl:${-Math.random()*d}s;--x:${Math.random()*80-40}px`;bl.appendChild(b);}
 })();
 function say(t){boom.textContent=t;boom.classList.remove("go");void boom.offsetWidth;boom.classList.add("go");}
@@ -340,6 +347,8 @@ function resetCover(){
  cover.classList.remove("out");site.classList.add("hide");site.classList.remove("show-in");
  document.body.classList.add("locked");window.scrollTo(0,0);
 }
+document.querySelectorAll(".rz").forEach(e=>e.innerHTML=roseSVG("#d92f5d"));
+document.getElementById("miniSun").innerHTML=sunSVG;
 </script>
 </body>
 </html>

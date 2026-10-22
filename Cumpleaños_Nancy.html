@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff0f5">
+<title>Una sorpresa para Nancy 🌷</title>
+<style>
+:root{--rose:#d93668;--deep:#81234a;--pink:#fff0f5;--cream:#fffaf4;--lilac:#f0e8ff;--ink:#593746}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 15% 5%,#ffe0ec 0,transparent 32%),radial-gradient(circle at 90% 40%,#eee4ff 0,transparent 28%),var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
+button{font:inherit}
+.petal{position:fixed;top:-35px;z-index:0;pointer-events:none;animation:fall linear forwards;opacity:.72}
+@keyframes fall{to{transform:translate3d(var(--drift),110vh,0) rotate(680deg);opacity:.08}}
+main{position:relative;z-index:1;max-width:1040px;margin:auto;padding:20px}
+.hero{text-align:center;padding:56px 16px 32px}
+.eyebrow{letter-spacing:.22em;text-transform:uppercase;color:#a34d71;font:700 .72rem Arial,sans-serif}
+h1{font-size:clamp(2.6rem,8vw,5.4rem);line-height:.98;color:var(--deep);margin:16px 0}
+h1 span{display:block;font-style:italic;color:var(--rose);font-size:.7em;margin-top:12px}
+.lead{max-width:650px;margin:18px auto;color:#7b5264;font-size:1.13rem;line-height:1.8}
+.pill{display:inline-block;border:1px solid #f2b7cc;background:#fff9fc;border-radius:99px;padding:9px 15px;color:#9a3e62;font:600 .78rem Arial,sans-serif}
+.section{margin:28px 0 42px;padding:clamp(20px,4vw,38px);border:1px solid #f5d4e0;border-radius:28px;background:rgba(255,255,255,.76);box-shadow:0 15px 45px #9d426411}
+.section h2{text-align:center;color:var(--deep);font-size:clamp(1.65rem,4vw,2.45rem);margin:0 0 10px}
+.sub{text-align:center;color:#98677b;line-height:1.65;max-width:690px;margin:0 auto 24px}
+.photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.photo-card{background:#fff;border-radius:22px;padding:12px;box-shadow:0 10px 28px #81234a19;transform:rotate(-1deg);transition:transform .3s}
+.photo-card:nth-child(2){transform:rotate(1deg)}
+.photo-card:hover{transform:translateY(-5px) rotate(0)}
+.photo-card img{width:100%;height:clamp(260px,48vw,470px);object-fit:cover;object-position:center;border-radius:15px;display:block}
+.photo-card p{text-align:center;margin:12px 4px 6px;line-height:1.5;color:#87546a}
+.caption{font:italic 1rem Georgia,serif}
+.heart-button{display:block;margin:22px auto 0;border:0;border-radius:99px;padding:13px 22px;color:white;background:linear-gradient(135deg,#d93668,#a72c68);box-shadow:0 8px 18px #d9366840;cursor:pointer;transition:transform .2s}
+.heart-button:hover{transform:translateY(-2px) scale(1.02)}
+.message-pop{display:none;margin:18px auto 0;max-width:650px;text-align:center;padding:20px;border-radius:20px;background:#fff0f5;line-height:1.8;animation:appear .45s ease}
+.message-pop.show{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.flower-garden{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;align-items:end}
+.flower{position:relative;min-height:116px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:4px 1px;animation:sway 3s ease-in-out infinite;animation-delay:calc(var(--i)*-.12s);transition:opacity .3s,transform .3s}
+.flower:hover{transform:translateY(-7px) scale(1.05)}
+.flower svg{width:100%;max-width:78px;height:82px;overflow:visible;filter:drop-shadow(0 4px 3px #4a21351c)}
+.flower .name{font:600 .65rem Arial,sans-serif;color:#97647a;margin-top:4px}
+.flower.special{grid-row:span 1;min-height:142px}
+.flower.special svg{max-width:100px;height:105px}
+.flower.gone{opacity:0;transform:scale(.25) rotate(30deg);pointer-events:none}
+@keyframes sway{0%,100%{translate:0 0;rotate:-2deg}50%{translate:0 -5px;rotate:2deg}}
+.flower-note{margin:22px auto 0;max-width:650px;min-height:72px;text-align:center;line-height:1.75;color:#805367;padding:16px;background:#fff8fb;border:1px dashed #edb2c8;border-radius:18px}
+.flower-note strong{color:#b12f60}
+.garden-actions{text-align:center;margin-top:15px}
+.small-btn{border:1px solid #e7a9bf;border-radius:99px;padding:10px 16px;background:white;color:#9a315d;cursor:pointer}
+.envelope-wrap{text-align:center;padding:14px 0 5px}
+.envelope{position:relative;width:min(290px,82vw);height:185px;margin:35px auto 18px;cursor:pointer;perspective:800px;filter:drop-shadow(0 12px 12px #a83e6120)}
+.env-body{position:absolute;inset:20px 0 0;background:#f5b6cb;border-radius:8px;overflow:hidden}
+.env-body:before,.env-body:after{content:"";position:absolute;bottom:0;width:0;height:0;border-style:solid}
+.env-body:before{left:0;border-width:0 0 145px 145px;border-color:transparent transparent #f9d2df transparent}
+.env-body:after{right:0;border-width:145px 0 0 145px;border-color:transparent transparent transparent #f7c5d6}
+.env-flap{position:absolute;top:20px;left:0;width:0;height:0;border-left:145px solid transparent;border-right:145px solid transparent;border-top:105px solid #e994b2;transform-origin:top;transition:transform .75s ease;z-index:4}
+.letter{position:absolute;z-index:2;left:8%;width:84%;height:145px;bottom:7px;background:#fffdf8;border-radius:7px;padding:16px 12px;color:#a33762;font-size:1rem;transition:transform .8s ease;box-shadow:0 2px 8px #a337621a}
+.bow{position:absolute;z-index:5;left:50%;top:62px;transform:translateX(-50%);font-size:2.8rem;filter:drop-shadow(0 2px 2px #8b294322);transition:opacity .3s,transform .5s}
+.envelope.open .env-flap{transform:rotateX(180deg);z-index:0}
+.envelope.open .letter{transform:translateY(-112px);height:auto;min-height:170px}
+.envelope.open .bow{opacity:0;transform:translateX(-50%) scale(.3) rotate(25deg)}
+.envelope-hint{font:600 .8rem Arial,sans-serif;color:#a04b70;letter-spacing:.06em}
+.letter-content{display:none;max-width:720px;margin:25px auto 0;text-align:left;background:#fffdf9;border:1px solid #f1d4df;border-radius:22px;padding:clamp(20px,5vw,36px);box-shadow:0 12px 35px #8d2e4d12;line-height:1.9;font-size:1.06rem}
+.letter-content.show{display:block;animation:appear .7s ease}
+.signature{color:#bd3a68;font-size:1.35rem;font-style:italic;margin-top:22px}
+.final{text-align:center;padding:30px 15px 55px}
+.final .big-heart{font-size:3rem;animation:heartbeat 1.5s infinite;display:inline-block}
+@keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.13)}30%{transform:scale(1)}45%{transform:scale(1.09)}}
+@media(max-width:650px){main{padding:12px}.hero{padding-top:38px}.photo-grid{grid-template-columns:1fr;max-width:440px;margin:auto}.photo-card img{height:auto;max-height:550px;object-fit:cover}.flower-garden{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.flower{min-height:106px}.flower.special{min-height:126px}.section{border-radius:22px;padding:20px 14px}.photo-card:nth-child(2){transform:rotate(1deg)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<main>
+<header class="hero">
+  <div class="eyebrow">Una sorpresa hecha con cariño</div>
+  <h1>Para Nancy <span>con todo mi corazón 🌷</span></h1>
+  <p class="lead">Hay personas que hacen más bonito el mundo con su forma de cuidar, su sonrisa y esa luz que llevan a donde van. Hoy esta pequeña sorpresa es para ti.</p>
+  <span class="pill">Un jardín de flores, recuerdos y cariño</span>
+</header>
+
+<section class="section" aria-labelledby="fotos-title">
+  <h2 id="fotos-title">Una mujer con manos que cuidan 🩷</h2>
+  <p class="sub">Detrás del uniforme hay una persona especial: profesional, fuerte, alegre y con un corazón enorme.</p>
+  <div class="photo-grid">
+    <article class="photo-card">
+      <img id="photo1" src="Nan.jpg" alt="Nancy con uniforme quirúrgico en el quirófano, haciendo un gesto con la mano">
+      <p class="caption">Entre batas, guantes y momentos importantes… siempre hay espacio para tu chispa ✨</p>
+    </article>
+    <article class="photo-card">
+      <img id="photo2" src="Nan2.jpg" alt="Nancy concentrada durante su trabajo como enfermera quirúrgica">
+      <p class="caption">Precisión en tus manos, fuerza en tu mirada y vocación en todo lo que haces. 🩺</p>
+    </article>
+  </div>
+  <button class="heart-button" id="fingerHeart">🫶 Toca aquí para recibir un corazón</button>
+  <div class="message-pop" id="heartMessage">¡Un corazón hecho con los dedos para ti, Nancy! 🫰💗<br>Que nunca te falten motivos para sonreír, ni personas que te devuelvan todo el cariño que das.</div>
+</section>
+
+<section class="section" aria-labelledby="garden-title">
+  <h2 id="garden-title">Tu jardín de 31 flores 🌻🌹</h2>
+  <p class="sub">Tres girasoles especiales están en el centro; las demás flores guardan pequeñas razones por las que eres alguien tan bonita. Toca cada flor para descubrir su mensaje. Cuando la leas, vuelve a tocar el mensaje para cerrarlo: esa flor se irá del jardín y no regresará hasta que reinicies la sorpresa. 💐</p>
+  <div class="flower-garden" id="garden" aria-label="Jardín interactivo de flores"></div>
+  <div class="flower-note" id="flowerNote" aria-live="polite">🌸 Elige una flor para descubrir lo que guarda. Las tres flores doradas del centro tienen un significado muy especial.</div>
+  <div class="garden-actions"><button class="small-btn" id="resetGarden">↻ Reiniciar el jardín</button></div>
+</section>
+
+<section class="section" aria-labelledby="vocation-title">
+  <h2 id="vocation-title">Tu vocación también deja huella 💗</h2>
+  <p class="sub">Como enfermera quirúrgica, acompañas momentos que requieren concentración, paciencia y muchísimo cuidado. Y también ayudas a que muchas personas se sientan más seguras y bonitas en sus procesos de cambio.</p>
+  <p style="text-align:center;line-height:1.9;max-width:730px;margin:0 auto">Gracias por poner dedicación en lo que haces, por cuidar los detalles y por aportar confianza. Que siempre recuerdes que tu valor no está solamente en lo que haces por los demás, sino también en la persona increíble que eres fuera del quirófano. 🌷</p>
+</section>
+
+<section class="section" aria-labelledby="letter-title">
+  <h2 id="letter-title">Hay algo más para ti… 💌</h2>
+  <p class="sub">Un pequeño sobre con una cartita que puedes abrir cuando quieras.</p>
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Abrir la carta para Nancy" aria-expanded="false">
+      <div class="env-body"></div>
+      <div class="letter">Una cartita para ti<br><span style="font-size:1.7rem">🌹</span></div>
+      <div class="env-flap"></div>
+      <div class="bow">🎀</div>
+    </div>
+    <div class="envelope-hint" id="envelopeHint">TOCA EL SOBRE PARA ABRIR</div>
+  </div>
+  <article class="letter-content" id="letterContent">
+    <p><strong>Nancy 🌹</strong></p>
+    <p>Hoy quiero recordarte algo muy sencillo: qué bonito es que existas y que seas tú, con tu sonrisa, tu energía y esa manera tan tuya de hacer que los momentos se sientan más alegres.</p>
+    <p>No dejes de sonreír, porque tu sonrisa se contagia, transmite entusiasmo y levanta el ánimo de quienes tienen la suerte de coincidir contigo. Sigue siendo esa persona cariñosa, bondadosa y solidaria que deja algo bueno en los demás.</p>
+    <p>También se nota el amor tan grande que les tienes a tus sobrinos y la forma en que los cuidas. Ojalá la vida te regrese multiplicado todo ese cariño que das, y que nunca te falten momentos para apapacharlos y verlos felices. 💕</p>
+    <p>Admiro la dedicación con la que haces tu trabajo como enfermera quirúrgica: tus manos ayudan, acompañan y hacen la diferencia. Y qué bonito que también puedas ayudar a otras personas a sentirse más seguras y bonitas. Pero recuerda que tú también mereces cuidado, descanso, alegría y mucho amor.</p>
+    <p>Y una petición muy importante: sigue siendo una enfermera de gran corazón… ¡pero nunca una enfermera amargada! 🤭😅 Que el estrés del día no te robe esa chispa tan tuya.</p>
+    <p>Que esta nueva vuelta al sol te traiga salud, paz, oportunidades, risas sinceras y muchísimas razones para sentirte orgullosa de ti. No necesitas cambiar tu esencia para brillar: sigue siendo tú.</p>
+    <p><em>Eres inefable 😊</em>; hay cosas bonitas de ti que simplemente no caben en palabras.</p>
+    <p class="signature">Con mucho cariño, para ti. 🌻💗</p>
+  </article>
+</section>
+
+<footer class="final">
+  <div class="big-heart">💗</div>
+  <h2 style="color:#81234a;font-size:clamp(1.8rem,5vw,2.7rem)">Que la vida te florezca bonito, Nancy</h2>
+  <p style="max-width:650px;margin:12px auto;line-height:1.8;color:#87546a">Que nunca se apaguen tu alegría, tu bondad ni esa forma tan especial que tienes de cuidar a los demás… sin olvidarte de cuidarte tú.</p>
+  <p style="font-size:1.4rem">🌻 🌹 🌷 💐 🌹 🌻</p>
+  <button class="small-btn" id="restartAll">↻ Volver a empezar la sorpresa</button>
+</footer>
+</main>
+<script>
+const qualities = [
+["Bondadosa","Tu bondad se nota en los pequeños detalles y hace que los demás se sientan importantes."],
+["Solidaria","Cuando alguien necesita una mano, sabes estar presente con el corazón abierto."],
+["Carismática","Tienes una luz propia que hace que la gente disfrute estar cerca de ti."],
+["Sonriente","Tu sonrisa contagia alegría y puede cambiar el ánimo de un día entero."],
+["Cariñosa","Sabes demostrar afecto de una manera que se siente sincera."],
+["Buena tía","El amor con el que cuidas a tus sobrinos habla precioso de ti."],
+["Protectora","Quienes amas encuentran en ti apoyo, atención y un lugar seguro."],
+["Profesional","Te esfuerzas por hacer bien tu trabajo, incluso cuando exige muchísimo."],
+["Valiente","Te enfrentas a situaciones difíciles con decisión y fortaleza."],
+["Dedicada","Cuando algo importa, le pones empeño y corazón."],
+["Paciente","Sabes que cuidar también requiere calma, escucha y delicadeza."],
+["Atenta","Notas detalles que otras personas podrían pasar por alto."],
+["Generosa","Compartes tu tiempo, tu ayuda y tu cariño sin hacer ruido."],
+["Auténtica","Tu manera de ser tiene una chispa que no se puede copiar."],
+["Alegre","Llevas contigo una energía que hace más ligeros muchos momentos."],
+["Empática","Puedes mirar más allá de lo evidente y comprender cómo se siente alguien."],
+["Responsable","Las personas pueden confiar en tu compromiso."],
+["Fuerte","Has aprendido a sostener mucho, y aun así sigues dando cariño."],
+["Ingeniosa","Tienes esa capacidad de encontrar la manera de resolver las cosas."],
+["Dulce","Hay ternura en tu forma de hablar y de tratar a quienes quieres."],
+["Entusiasta","Cuando algo te ilusiona, esa emoción se nota."],
+["Cuidadosa","Tus manos y tu atención hacen que los demás se sientan acompañados."],
+["Trabajadora","Tu esfuerzo merece reconocimiento, descanso y orgullo."],
+["Leal","Sabes estar cerca de las personas que son importantes para ti."],
+["Divertida","Contigo también hay espacio para bromear, reír y no tomarse todo tan en serio."],
+["Inspiradora","Tu dedicación puede animar a otras personas a dar lo mejor de sí."],
+["Humana","Detrás de tu profesionalismo hay sensibilidad y un gran corazón."],
+["Creativa","Tienes tu propia forma de hacer especiales las cosas."],
+["Resiliente","Incluso después de días pesados, encuentras cómo continuar."],
+["Especial","No hay otra persona exactamente como tú, y eso es parte de tu magia."],
+["Inigualable","Todo lo que eres, con tus matices y tu esencia, te hace única."]
+];
+const colors = ["#d92f5d","#9a55bc","#ed6689","#ba315f","#a94d91","#e84b43","#8d5db3","#d83b78","#c94d4d","#a13c78"];
+const garden=document.getElementById("garden");
+const note=document.getElementById("flowerNote");
+const specialMeanings={0:"Bondadosa",1:"Solidaria",2:"Carismática"};
+let flowerButtons=[];
+function flowerSVG(type,color){
+ if(type==="sun") return `<svg viewBox="0 0 100 110" aria-hidden="true"><g transform="translate(50 40)">${Array.from({length:12},(_,i)=>`<ellipse cx="0" cy="-23" rx="8" ry="18" fill="#f8c928" stroke="#e9a91b" stroke-width="1" transform="rotate(${i*30})"/>`).join("")}<circle r="17" fill="#6d3d26"/><circle r="12" fill="#86502b"/><g fill="#d6a05b">${Array.from({length:14},(_,i)=>`<circle cx="${Math.cos(i*2.4)*10}" cy="${Math.sin(i*2.4)*10}" r="1.5"/>`).join("")}</g></g><path d="M50 58 Q46 82 51 105" fill="none" stroke="#397c49" stroke-width="5" stroke-linecap="round"/><path d="M49 83 Q25 65 23 83 Q35 96 49 87" fill="#4b9a59"/><path d="M51 94 Q73 72 79 89 Q70 103 51 98" fill="#3d874e"/></svg>`;
+ return `<svg viewBox="0 0 100 110" aria-hidden="true"><path d="M50 55 Q44 80 51 106" stroke="#397c49" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M49 82 Q26 64 22 82 Q34 95 49 87" fill="#4b9a59"/><path d="M52 94 Q73 72 80 89 Q70 103 52 98" fill="#3d874e"/><g transform="translate(50 38)"><g fill="${color}" stroke="${color}" stroke-width="1.5">${Array.from({length:9},(_,i)=>`<ellipse cx="0" cy="-17" rx="9" ry="19" transform="rotate(${i*40})"/>`).join("")}</g><circle r="13" fill="#f3b64b"/><circle r="8" fill="#7a412a"/><path d="M-7 -2 Q0 -12 7 -2 Q0 7 -7 -2" fill="#a85b35"/></g></svg>`;
+}
+function renderGarden(){
+ garden.innerHTML="";flowerButtons=[];
+ qualities.forEach((q,i)=>{
+  const special=i<3;
+  const b=document.createElement("button");
+  b.className="flower"+(special?" special":"");
+  b.style.setProperty("--i",i);
+  b.setAttribute("aria-label",`Flor ${i+1}: descubrir una cualidad`);
+  const color=colors[i%colors.length];
+  b.innerHTML=flowerSVG(special?"sun":"rose",color)+`<span class="name">${special?["Bondadosa","Solidaria","Carismática"][i]:"Flor "+(i+1)}</span>`;
+  b.addEventListener("click",()=>showQuality(i,b));
+  garden.appendChild(b);flowerButtons.push(b);
+ });
+}
+function showQuality(i,b){
+ if(b.classList.contains("gone"))return;
+ const q=qualities[i];
+ note.innerHTML=`<strong>${i<3?"🌻 Girasol especial":"🌹 Una flor para ti"} · ${q[0]}</strong><br>${q[1]}<br><button class="small-btn" style="margin-top:12px" id="closeFlower">Cerrar mensaje y dejar volar la flor ✨</button>`;
+ document.getElementById("closeFlower").addEventListener("click",()=>{
+   b.classList.add("gone");
+   b.disabled=true;
+   note.innerHTML=`<strong>🌸 Una flor menos, un mensaje que se queda.</strong><br>Ya descubriste «${q[0]}». Elige otra flor cuando quieras.`;
+ });
+}
+document.getElementById("resetGarden").addEventListener("click",()=>{renderGarden();note.textContent="🌸 El jardín volvió a florecer. Toca una flor para descubrir su mensaje.";});
+document.getElementById("fingerHeart").addEventListener("click",()=>document.getElementById("heartMessage").classList.toggle("show"));
+const envelope=document.getElementById("envelope");
+function toggleLetter(){
+ const opened=envelope.classList.toggle("open");
+ envelope.setAttribute("aria-expanded",String(opened));
+ document.getElementById("letterContent").classList.toggle("show",opened);
+ document.getElementById("envelopeHint").textContent=opened?"TOCA EL SOBRE PARA CERRAR":"TOCA EL SOBRE PARA ABRIR";
+}
+envelope.addEventListener("click",toggleLetter);
+envelope.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggleLetter();}});
+document.getElementById("restartAll").addEventListener("click",()=>{
+ renderGarden();note.textContent="🌸 Elige una flor para descubrir lo que guarda. Las tres flores doradas del centro tienen un significado muy especial.";
+ envelope.classList.remove("open");envelope.setAttribute("aria-expanded","false");
+ document.getElementById("letterContent").classList.remove("show");
+ document.getElementById("envelopeHint").textContent="TOCA EL SOBRE PARA ABRIR";
+ document.getElementById("heartMessage").classList.remove("show");
+ window.scrollTo({top:0,behavior:"smooth"});
+});
+function makePetal(){
+ const p=document.createElement("span");p.className="petal";
+ const glyphs=["♥","✿","❀","♡"];p.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+ p.style.left=Math.random()*100+"vw";p.style.color=["#e65d8b","#bd78ba","#d94c68","#e8a2bd"][Math.floor(Math.random()*4)];
+ p.style.fontSize=(10+Math.random()*16)+"px";p.style.animationDuration=(8+Math.random()*9)+"s";
+ p.style.setProperty("--drift",(Math.random()*180-90)+"px");document.body.appendChild(p);
+ setTimeout(()=>p.remove(),18000);
+}
+setInterval(makePetal,850);
+renderGarden();
+</script>
+</body>
+</html>

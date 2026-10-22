@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff0f5">
 <title>Una sorpresa para Nancy 🌷</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 <style>
 :root{--rose:#d93668;--deep:#81234a;--pink:#fff0f5;--cream:#fffaf4;--lilac:#f0e8ff;--ink:#593746}
 *{box-sizing:border-box}
@@ -69,12 +70,75 @@ h1 span{display:block;font-style:italic;color:var(--rose);font-size:.7em;margin-
 @keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.13)}30%{transform:scale(1)}45%{transform:scale(1.09)}}
 @media(max-width:650px){main{padding:12px}.hero{padding-top:38px}.photo-grid{grid-template-columns:1fr;max-width:440px;margin:auto}.photo-card img{height:auto;max-height:550px;object-fit:cover}.flower-garden{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.flower{min-height:106px}.flower.special{min-height:126px}.section{border-radius:22px;padding:20px 14px}.photo-card:nth-child(2){transform:rotate(1deg)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+body.locked{overflow:hidden;height:100vh}
+main.hide{display:none}
+main.show-in{animation:appear .9s ease}
+#cover{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:50px 16px 18px;overflow:hidden;background:radial-gradient(circle at 18% 12%,#ffe0ec 0,transparent 42%),radial-gradient(circle at 88% 82%,#e9ddff 0,transparent 44%),linear-gradient(160deg,#fff8fa,#fff1e6);transition:opacity .9s,visibility .9s}
+#cover.out{opacity:0;visibility:hidden;pointer-events:none}
+#balloons{position:absolute;inset:0;pointer-events:none;z-index:1}
+.balloon{position:absolute;bottom:-130px;width:var(--w);height:calc(var(--w)*1.25);border-radius:50% 50% 48% 48%;background:radial-gradient(circle at 32% 26%,#fff9 0,transparent 26%),var(--c);opacity:.9;animation:rise var(--d) linear infinite;animation-delay:var(--dl)}
+.balloon:after{content:"";position:absolute;left:50%;top:100%;width:1.5px;height:64px;background:#0002}
+@keyframes rise{to{transform:translate3d(var(--x),-130vh,0) rotate(8deg)}}
+.sign{position:relative;z-index:3;width:100%;max-width:500px;text-align:center;padding:24px 16px 20px;background:linear-gradient(#fffdf8,#fff3f7);border:3px double #c9a24d;border-radius:20px;box-shadow:0 0 0 6px #fffdf8,0 0 0 8px #e5c987,0 18px 40px #81234a30}
+.sign:before,.sign:after{content:"";position:absolute;top:-40px;width:2px;height:40px;background:#c9a24d}
+.sign:before{left:22%}.sign:after{right:22%}
+.sign-top{font:italic 600 1.05rem 'Playfair Display',Georgia,serif;color:#b88a2c}
+.sign-title{font:400 clamp(2.9rem,13vw,4.6rem)/1.05 'Great Vibes','Brush Script MT',cursive;margin:6px 0 0;background:linear-gradient(90deg,#a72c68,#d93668 50%,#b88a2c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sign-name{font:italic 600 clamp(1.7rem,7vw,2.3rem) 'Playfair Display',Georgia,serif;color:var(--deep)}
+.sign p{margin:8px 0 0;color:#8a5a6d;font-style:italic;line-height:1.5}
+.bear-wrap{position:relative;z-index:3;width:min(44vw,180px,26vh);padding:0;border:0;background:none;cursor:pointer;transform:scale(var(--s,1));transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.bear-svg{display:block;animation:puff 1.2s ease-in-out infinite;filter:drop-shadow(0 10px 10px #a8355c30)}
+.bear-svg svg{width:100%;display:block}
+@keyframes puff{50%{transform:scale(1.06) rotate(2deg)}}
+.bear-wrap.hit .bear-svg{animation:shake .45s}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg) scale(1.08)}75%{transform:rotate(9deg) scale(1.08)}}
+.bear-wrap.gone{transform:scale(2.4);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s}
+#bearHint{position:relative;z-index:3;min-height:1.5em;text-align:center;font:600 .95rem Arial,sans-serif;color:#9a3e62;letter-spacing:.03em}
+#boom{position:absolute;left:50%;top:60%;z-index:5;opacity:0;pointer-events:none;transform:translate(-50%,-50%);font:900 clamp(2rem,9vw,3.4rem) Arial,sans-serif;color:#d93668;text-shadow:0 3px 0 #fff,0 6px 16px #d9366855;white-space:nowrap}
+#boom.go{animation:pop .85s ease-out}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.25)}100%{opacity:0;transform:translate(-50%,-95%) scale(1)}}
+.bit{position:absolute;z-index:4;width:9px;height:14px;border-radius:2px;pointer-events:none;animation:burst 1.2s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
+.bouquets{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.bouquet{background:linear-gradient(#fff,#fff6fa);border:1px solid #f2cddb;border-radius:22px;padding:14px 8px 10px;text-align:center}
+.bouquet h3{margin:0 0 8px;color:var(--deep);font:italic 600 1.05rem Georgia,serif}
+.rose-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px 4px}
+.rose-grid .flower{min-height:104px}
+.rose-grid .flower svg{max-width:62px;height:72px}
+.ribbon{font-size:1.5rem;margin-top:4px}
+.flower.on{transform:translateY(-6px) scale(1.12)}
+.flower.on svg{filter:drop-shadow(0 0 8px #f09bbd)}
+.flower.seen .name{color:#b12f60}
+.today{text-align:center;margin-top:28px}
+.today-label{font:italic 1.1rem Georgia,serif;color:#a34d71}
+.sun31{margin:6px auto 0;width:150px;min-height:170px}
+.sun31 svg{max-width:130px;height:140px;filter:drop-shadow(0 0 14px #f8c92899)}
+.sun31 .name{font-size:.85rem;color:#b98300}
+.flower-note{position:sticky;bottom:12px;z-index:6;box-shadow:0 8px 24px #81234a22;margin-top:24px}
+.tia{max-width:440px;margin:0 auto;transform:rotate(1deg)}
+.tia img{height:auto;max-height:560px}
 </style>
 </head>
-<body>
-<main>
+<body class="locked">
+<section id="cover" aria-label="Portada">
+  <div id="balloons" aria-hidden="true"></div>
+  <div class="sign">
+    <div class="sign-top">Felicidades, Nancy</div>
+    <div class="sign-title">Feliz Cumpleaños</div>
+    <div class="sign-name">Nancy</div>
+    <p>Por tus 31 años. Eres una persona muy especial.</p>
+  </div>
+  <button class="bear-wrap" id="bear" aria-label="Reventar el globo de osito">
+    <div class="bear-svg"><svg viewBox="0 0 200 270" aria-hidden="true"><defs><radialGradient id="bg" cx="35%" cy="30%"><stop offset="0" stop-color="#ffd0e0"/><stop offset="1" stop-color="#e8628c"/></radialGradient></defs><path d="M100 188 Q88 220 104 242 T100 268" fill="none" stroke="#b88a8a" stroke-width="2.5"/><circle cx="42" cy="48" r="30" fill="url(#bg)"/><circle cx="158" cy="48" r="30" fill="url(#bg)"/><circle cx="42" cy="48" r="15" fill="#ffb3cb"/><circle cx="158" cy="48" r="15" fill="#ffb3cb"/><ellipse cx="100" cy="100" rx="76" ry="80" fill="url(#bg)"/><path d="M100 176 L88 192 L112 192Z" fill="#d94f7c"/><ellipse cx="100" cy="122" rx="32" ry="24" fill="#fff0f5"/><ellipse cx="100" cy="112" rx="10" ry="7" fill="#81234a"/><path d="M100 119 V128 M88 130 Q100 140 112 130" fill="none" stroke="#81234a" stroke-width="3" stroke-linecap="round"/><circle cx="72" cy="88" r="7" fill="#4a1d33"/><circle cx="128" cy="88" r="7" fill="#4a1d33"/><circle cx="70" cy="86" r="2.2" fill="#fff"/><circle cx="126" cy="86" r="2.2" fill="#fff"/><ellipse cx="56" cy="112" rx="10" ry="6" fill="#ff8fb1" opacity=".7"/><ellipse cx="144" cy="112" rx="10" ry="6" fill="#ff8fb1" opacity=".7"/><ellipse cx="68" cy="52" rx="16" ry="9" fill="#fff" opacity=".35" transform="rotate(-30 68 52)"/></svg></div>
+  </button>
+  <div id="bearHint">🎈 Revienta el globo · tócalo 3 veces</div>
+  <div id="boom"></div>
+</section>
+
+<main id="site" class="hide">
 <header class="hero">
-  <div class="eyebrow">Una sorpresa hecha con cariño</div>
+  <div class="eyebrow">Feliz cumpleaños · una sorpresa hecha con cariño</div>
   <h1>Para Nancy <span>con todo mi corazón 🌷</span></h1>
   <p class="lead">Hay personas que hacen más bonito el mundo con su forma de cuidar, su sonrisa y esa luz que llevan a donde van. Hoy esta pequeña sorpresa es para ti.</p>
   <span class="pill">Un jardín de flores, recuerdos y cariño</span>
@@ -98,17 +162,25 @@ h1 span{display:block;font-style:italic;color:var(--rose);font-size:.7em;margin-
 </section>
 
 <section class="section" aria-labelledby="garden-title">
-  <h2 id="garden-title">Tu jardín de 31 flores 🌻🌹</h2>
-  <p class="sub">Tres girasoles especiales están en el centro; las demás flores guardan pequeñas razones por las que eres alguien tan bonita. Toca cada flor para descubrir su mensaje. Cuando la leas, vuelve a tocar el mensaje para cerrarlo: esa flor se irá del jardín y no regresará hasta que reinicies la sorpresa. 💐</p>
-  <div class="flower-garden" id="garden" aria-label="Jardín interactivo de flores"></div>
-  <div class="flower-note" id="flowerNote" aria-live="polite">🌸 Elige una flor para descubrir lo que guarda. Las tres flores doradas del centro tienen un significado muy especial.</div>
-  <div class="garden-actions"><button class="small-btn" id="resetGarden">↻ Reiniciar el jardín</button></div>
+  <h2 id="garden-title">Tus 31 años en flores 🌹🌻</h2>
+  <p class="sub">Tres ramos de diez rosas, cada una con una cualidad tuya, y un girasol aparte para hoy. Toca las flores para descubrir lo que significan.</p>
+  <div class="bouquets" id="bouquets"></div>
+  <div class="today"><div class="today-label">Y el girasol de hoy ☀️</div><button class="flower sun31" id="sun" aria-label="Girasol número 31"></button></div>
+  <div class="flower-note" id="flowerNote" aria-live="polite">🌹 Toca una rosa para descubrir lo que significa. El girasol de hoy guarda algo muy especial.</div>
 </section>
 
 <section class="section" aria-labelledby="vocation-title">
   <h2 id="vocation-title">Tu vocación también deja huella 💗</h2>
   <p class="sub">Como enfermera quirúrgica, acompañas momentos que requieren concentración, paciencia y muchísimo cuidado. Y también ayudas a que muchas personas se sientan más seguras y bonitas en sus procesos de cambio.</p>
   <p style="text-align:center;line-height:1.9;max-width:730px;margin:0 auto">Gracias por poner dedicación en lo que haces, por cuidar los detalles y por aportar confianza. Que siempre recuerdes que tu valor no está solamente en lo que haces por los demás, sino también en la persona increíble que eres fuera del quirófano. 🌷</p>
+</section>
+
+<section class="section" aria-labelledby="tia-title">
+  <h2 id="tia-title">Una tía con un corazón enorme 💕</h2>
+  <article class="photo-card tia">
+    <img id="photo3" src="tia.jpg" alt="Nancy con sus sobrinos">
+    <p class="caption">Realmente admiro lo amorosa que eres y cuánto quieres a tus sobrinos.</p>
+  </article>
 </section>
 
 <section class="section" aria-labelledby="letter-title">
@@ -138,8 +210,8 @@ h1 span{display:block;font-style:italic;color:var(--rose);font-size:.7em;margin-
 
 <footer class="final">
   <div class="big-heart">💗</div>
-  <h2 style="color:#81234a;font-size:clamp(1.8rem,5vw,2.7rem)">Que la vida te florezca bonito, Nancy</h2>
-  <p style="max-width:650px;margin:12px auto;line-height:1.8;color:#87546a">Que nunca se apaguen tu alegría, tu bondad ni esa forma tan especial que tienes de cuidar a los demás… sin olvidarte de cuidarte tú.</p>
+  <h2 style="color:#81234a;font-size:clamp(1.8rem,5vw,2.7rem)">Mi respeto, mi cariño y mi admiración por ti son enormes</h2>
+  <p style="max-width:650px;margin:12px auto;line-height:1.8;color:#87546a">Eres una persona digna de admirar y de seguir, Nancy. Gracias por ser como eres. Feliz cumpleaños, y que la vida te florezca bonito. 🌻</p>
   <p style="font-size:1.4rem">🌻 🌹 🌷 💐 🌹 🌻</p>
   <button class="small-btn" id="restartAll">↻ Volver a empezar la sorpresa</button>
 </footer>
@@ -178,40 +250,32 @@ const qualities = [
 ["Especial","No hay otra persona exactamente como tú, y eso es parte de tu magia."],
 ["Inigualable","Todo lo que eres, con tus matices y tu esencia, te hace única."]
 ];
-const colors = ["#d92f5d","#9a55bc","#ed6689","#ba315f","#a94d91","#e84b43","#8d5db3","#d83b78","#c94d4d","#a13c78"];
-const garden=document.getElementById("garden");
+const palette=["#d92f5d","#ed6689","#f4e3dc","#f6a78b","#a07bd0","#f2c14e","#ee7b3a","#c2338f","#ff6f6f","#f7b6cc"];
+const bTitles=["Ramo 1 · Tu corazón","Ramo 2 · Tu carácter","Ramo 3 · Tu esencia"];
 const note=document.getElementById("flowerNote");
-const specialMeanings={0:"Bondadosa",1:"Solidaria",2:"Carismática"};
-let flowerButtons=[];
-function flowerSVG(type,color){
- if(type==="sun") return `<svg viewBox="0 0 100 110" aria-hidden="true"><g transform="translate(50 40)">${Array.from({length:12},(_,i)=>`<ellipse cx="0" cy="-23" rx="8" ry="18" fill="#f8c928" stroke="#e9a91b" stroke-width="1" transform="rotate(${i*30})"/>`).join("")}<circle r="17" fill="#6d3d26"/><circle r="12" fill="#86502b"/><g fill="#d6a05b">${Array.from({length:14},(_,i)=>`<circle cx="${Math.cos(i*2.4)*10}" cy="${Math.sin(i*2.4)*10}" r="1.5"/>`).join("")}</g></g><path d="M50 58 Q46 82 51 105" fill="none" stroke="#397c49" stroke-width="5" stroke-linecap="round"/><path d="M49 83 Q25 65 23 83 Q35 96 49 87" fill="#4b9a59"/><path d="M51 94 Q73 72 79 89 Q70 103 51 98" fill="#3d874e"/></svg>`;
- return `<svg viewBox="0 0 100 110" aria-hidden="true"><path d="M50 55 Q44 80 51 106" stroke="#397c49" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M49 82 Q26 64 22 82 Q34 95 49 87" fill="#4b9a59"/><path d="M52 94 Q73 72 80 89 Q70 103 52 98" fill="#3d874e"/><g transform="translate(50 38)"><g fill="${color}" stroke="${color}" stroke-width="1.5">${Array.from({length:9},(_,i)=>`<ellipse cx="0" cy="-17" rx="9" ry="19" transform="rotate(${i*40})"/>`).join("")}</g><circle r="13" fill="#f3b64b"/><circle r="8" fill="#7a412a"/><path d="M-7 -2 Q0 -12 7 -2 Q0 7 -7 -2" fill="#a85b35"/></g></svg>`;
-}
+const NOTE0="🌹 Toca una rosa para descubrir lo que significa. El girasol de hoy guarda algo muy especial.";
+const roseSVG=c=>`<svg viewBox="0 0 100 110" aria-hidden="true"><path d="M50 52 Q44 80 51 106" stroke="#397c49" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M49 82 Q26 64 22 82 Q34 95 49 87" fill="#4b9a59"/><path d="M52 94 Q73 72 80 89 Q70 103 52 98" fill="#3d874e"/><g transform="translate(50 36)"><g fill="${c}" stroke="#0002" stroke-width="1.5">${[0,1,2,3,4].map(i=>`<ellipse cy="-15" rx="15" ry="16" transform="rotate(${i*72})"/>`).join("")}</g><circle r="14" fill="${c}" stroke="#0003" stroke-width="1.5"/><path d="M-8 3Q-9 -9 2 -8Q11 -6 8 3Q5 10 -3 8" fill="none" stroke="#0005" stroke-width="2" stroke-linecap="round"/><path d="M-3 0Q0 -4 4 0" fill="none" stroke="#0004" stroke-width="1.6"/></g></svg>`;
+const sunSVG=`<svg viewBox="0 0 100 110" aria-hidden="true"><g transform="translate(50 40)">${Array.from({length:12},(_,i)=>`<ellipse cy="-23" rx="8" ry="18" fill="#f8c928" stroke="#e9a91b" transform="rotate(${i*30})"/>`).join("")}<circle r="17" fill="#6d3d26"/><circle r="12" fill="#86502b"/></g><path d="M50 58 Q46 82 51 105" fill="none" stroke="#397c49" stroke-width="5" stroke-linecap="round"/><path d="M49 83 Q25 65 23 83 Q35 96 49 87" fill="#4b9a59"/><path d="M51 94 Q73 72 79 89 Q70 103 51 98" fill="#3d874e"/></svg>`;
 function renderGarden(){
- garden.innerHTML="";flowerButtons=[];
- qualities.forEach((q,i)=>{
-  const special=i<3;
-  const b=document.createElement("button");
-  b.className="flower"+(special?" special":"");
-  b.style.setProperty("--i",i);
-  b.setAttribute("aria-label",`Flor ${i+1}: descubrir una cualidad`);
-  const color=colors[i%colors.length];
-  b.innerHTML=flowerSVG(special?"sun":"rose",color)+`<span class="name">${special?["Bondadosa","Solidaria","Carismática"][i]:"Flor "+(i+1)}</span>`;
-  b.addEventListener("click",()=>showQuality(i,b));
-  garden.appendChild(b);flowerButtons.push(b);
+ const box=document.getElementById("bouquets");box.innerHTML="";
+ bTitles.forEach((t,k)=>{
+  const card=document.createElement("div");card.className="bouquet";
+  card.innerHTML=`<h3>${t}</h3><div class="rose-grid"></div><div class="ribbon">🎀</div>`;
+  const grid=card.querySelector(".rose-grid");
+  for(let j=0;j<10;j++){
+   const i=k*10+j,q=qualities[i],b=document.createElement("button");
+   b.className="flower";b.style.setProperty("--i",i);b.setAttribute("aria-label","Rosa: "+q[0]);
+   b.innerHTML=roseSVG(palette[(j+k*3)%10])+`<span class="name">${q[0]}</span>`;
+   b.addEventListener("click",()=>{document.querySelectorAll(".flower.on").forEach(x=>x.classList.remove("on"));b.classList.add("on","seen");note.innerHTML=`<strong>🌹 ${q[0]}</strong><br>${q[1]}`});
+   grid.appendChild(b);
+  }
+  box.appendChild(card);
  });
+ const s=document.getElementById("sun");
+ s.className="flower sun31";s.style.setProperty("--i",3);
+ s.innerHTML=sunSVG+`<span class="name">31 · Hoy</span>`;
+ s.onclick=()=>{document.querySelectorAll(".flower.on").forEach(x=>x.classList.remove("on"));s.classList.add("on","seen");note.innerHTML=`<strong>🌻 Hoy es un día especial</strong><br>Tu carisma y tu sonrisa son de las más bellas que he visto. Hoy este girasol florece por ti, Nancy. Feliz cumpleaños 31. 💛`};
 }
-function showQuality(i,b){
- if(b.classList.contains("gone"))return;
- const q=qualities[i];
- note.innerHTML=`<strong>${i<3?"🌻 Girasol especial":"🌹 Una flor para ti"} · ${q[0]}</strong><br>${q[1]}<br><button class="small-btn" style="margin-top:12px" id="closeFlower">Cerrar mensaje y dejar volar la flor ✨</button>`;
- document.getElementById("closeFlower").addEventListener("click",()=>{
-   b.classList.add("gone");
-   b.disabled=true;
-   note.innerHTML=`<strong>🌸 Una flor menos, un mensaje que se queda.</strong><br>Ya descubriste «${q[0]}». Elige otra flor cuando quieras.`;
- });
-}
-document.getElementById("resetGarden").addEventListener("click",()=>{renderGarden();note.textContent="🌸 El jardín volvió a florecer. Toca una flor para descubrir su mensaje.";});
 document.getElementById("fingerHeart").addEventListener("click",()=>document.getElementById("heartMessage").classList.toggle("show"));
 const envelope=document.getElementById("envelope");
 function toggleLetter(){
@@ -223,12 +287,12 @@ function toggleLetter(){
 envelope.addEventListener("click",toggleLetter);
 envelope.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggleLetter();}});
 document.getElementById("restartAll").addEventListener("click",()=>{
- renderGarden();note.textContent="🌸 Elige una flor para descubrir lo que guarda. Las tres flores doradas del centro tienen un significado muy especial.";
+ renderGarden();note.textContent=NOTE0;
  envelope.classList.remove("open");envelope.setAttribute("aria-expanded","false");
  document.getElementById("letterContent").classList.remove("show");
  document.getElementById("envelopeHint").textContent="TOCA EL SOBRE PARA ABRIR";
  document.getElementById("heartMessage").classList.remove("show");
- window.scrollTo({top:0,behavior:"smooth"});
+ resetCover();
 });
 function makePetal(){
  const p=document.createElement("span");p.className="petal";
@@ -240,6 +304,42 @@ function makePetal(){
 }
 setInterval(makePetal,850);
 renderGarden();
+const cover=document.getElementById("cover"),site=document.getElementById("site"),bear=document.getElementById("bear"),hint=document.getElementById("bearHint"),boom=document.getElementById("boom");
+const HINT0="🎈 Revienta el globo · tócalo 3 veces";
+const bcols=["#f06292","#ba68c8","#ffb74d","#4fc3f7","#81c784","#ff8a80","#ffd54f","#9575cd"];
+let pops=0;
+(function(){const bl=document.getElementById("balloons");
+ for(let i=0;i<16;i++){const b=document.createElement("span"),d=9+Math.random()*8;b.className="balloon";
+  b.style.cssText=`left:${Math.random()*94}%;--w:${34+Math.random()*30}px;--c:${bcols[i%8]};--d:${d}s;--dl:${-Math.random()*d}s;--x:${Math.random()*80-40}px`;bl.appendChild(b);}
+})();
+function say(t){boom.textContent=t;boom.classList.remove("go");void boom.offsetWidth;boom.classList.add("go");}
+function burst(x,y){
+ for(let i=0;i<46;i++){const e=document.createElement("span"),a=Math.random()*6.283,r=90+Math.random()*220,c=bcols[i%8];
+  e.className="bit";e.style.cssText=`left:${x}px;top:${y}px;--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r+60}px;--rot:${Math.random()*720}deg;background:${c}`;
+  if(i%3===0){e.textContent="♥";e.style.background="none";e.style.color=c;e.style.fontSize="18px";}
+  cover.appendChild(e);setTimeout(()=>e.remove(),1500);}
+}
+bear.addEventListener("click",()=>{
+ if(pops>=3)return;
+ pops++;
+ const r=bear.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+ boom.style.top=cy+"px";
+ if(pops<3){
+  bear.style.setProperty("--s",1+pops*.15);
+  bear.classList.remove("hit");void bear.offsetWidth;bear.classList.add("hit");
+  say(pops===1?"¡Pum!":"¡Pum, pum!");
+  hint.textContent=pops===1?"¡Pum! 💥 Otra vez…":"¡Pum, pum! 💥 ¡Una más!";
+  try{navigator.vibrate&&navigator.vibrate(40);}catch(e){}
+ }else{
+  bear.classList.add("gone");say("¡PUM!");burst(cx,cy);hint.textContent="🎉 ¡Felicidades, Nancy! 🎉";
+  setTimeout(()=>{cover.classList.add("out");site.classList.remove("hide");site.classList.add("show-in");document.body.classList.remove("locked");window.scrollTo(0,0);},1500);
+ }
+});
+function resetCover(){
+ pops=0;bear.style.setProperty("--s",1);bear.classList.remove("gone","hit");hint.textContent=HINT0;
+ cover.classList.remove("out");site.classList.add("hide");site.classList.remove("show-in");
+ document.body.classList.add("locked");window.scrollTo(0,0);
+}
 </script>
 </body>
 </html>
